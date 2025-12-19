@@ -1,0 +1,81 @@
+=== Utility Bills Processing Run @ 2025-10-07_09-28-36 ===
+Python: 3.12.11  PID: 919792
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 10 PDF file(s) in inbox folder:
+  1. UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+  2. UBM-3022-Cycle 9 - 2025 - 8283840000 082520250714.pdf
+  3. UBM-3025-Cycle 6 - 2025 - 3807640000 082620250203.pdf
+  4. UBM-3031-Cycle 9 - 2025 - 2371460731 082220255309.pdf
+  5. UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+  6. UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+  7. UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+  8. UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+  9. UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+  10. UBM-3015-Cycle 7 - 2025 - 220013010065 082820254216.pdf
+
+Processing: UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+✓ Moved PDF to processed/pdf/UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+✓ Saved JSON to processed/json/UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.json
+✓ Successfully processed UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+
+Processing: UBM-3022-Cycle 9 - 2025 - 8283840000 082520250714.pdf
+✓ Moved PDF to processed/pdf/UBM-3022-Cycle 9 - 2025 - 8283840000 082520250714.pdf
+✓ Saved JSON to processed/json/UBM-3022-Cycle 9 - 2025 - 8283840000 082520250714.json
+✓ Successfully processed UBM-3022-Cycle 9 - 2025 - 8283840000 082520250714.pdf
+
+Processing: UBM-3025-Cycle 6 - 2025 - 3807640000 082620250203.pdf
+✓ Moved PDF to processed/pdf/UBM-3025-Cycle 6 - 2025 - 3807640000 082620250203.pdf
+✓ Saved JSON to processed/json/UBM-3025-Cycle 6 - 2025 - 3807640000 082620250203.json
+✓ Successfully processed UBM-3025-Cycle 6 - 2025 - 3807640000 082620250203.pdf
+
+Processing: UBM-3031-Cycle 9 - 2025 - 2371460731 082220255309.pdf
+✓ Moved PDF to processed/pdf/UBM-3031-Cycle 9 - 2025 - 2371460731 082220255309.pdf
+✓ Saved JSON to processed/json/UBM-3031-Cycle 9 - 2025 - 2371460731 082220255309.json
+✓ Successfully processed UBM-3031-Cycle 9 - 2025 - 2371460731 082220255309.pdf
+
+Processing: UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+✓ Moved PDF to processed/pdf/UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+✓ Saved JSON to processed/json/UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.json
+✓ Successfully processed UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+
+Processing: UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+✓ Moved PDF to processed/pdf/UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+✓ Saved JSON to processed/json/UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.json
+✓ Successfully processed UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+
+Processing: UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+✓ Moved PDF to processed/pdf/UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+✓ Saved JSON to processed/json/UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.json
+✓ Successfully processed UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+
+Processing: UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+✓ Moved PDF to processed/pdf/UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+✓ Saved JSON to processed/json/UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.json
+✓ Successfully processed UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+
+Processing: UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+Traceback (most recent call last):
+  File "C:\Users\tejas\Documents\Utility Bills Project\version_1\main.py", line 683, in main
+    result = extract_account_number_via_llm(pdf_file)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tejas\Documents\Utility Bills Project\version_1\main.py", line 327, in extract_account_number_via_llm
+    raise RuntimeError("Could not extract any useful information from the PDF")
+RuntimeError: Could not extract any useful information from the PDF
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\tejas\Documents\Utility Bills Project\version_1\main.py", line 739, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "C:\Users\tejas\Documents\Utility Bills Project\version_1\main.py", line 718, in main
+    organize_files(pdf_file, error_result, filename)
+  File "C:\Users\tejas\Documents\Utility Bills Project\version_1\main.py", line 529, in organize_files
+    extraction_successful = is_extraction_successful(result)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tejas\Documents\Utility Bills Project\version_1\main.py", line 521, in is_extraction_successful
+    success_count = sum([has_customer_info, has_billing_info, has_address_info, has_service_info, has_tax_info])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unsupported operand type(s) for +: 'int' and 'list'

@@ -1,0 +1,52 @@
+=== Utility Bills Processing Run @ 2025-11-03_12-17-02 ===
+Python: 3.12.11  PID: 67320
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. EVERETT PUBLIC WORKS.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: EVERETT PUBLIC WORKS.pdf
+Detected company: Everett Public Works - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'everett_contact_info', 'everett_account_info', 'everett_bill_details', 'everett_current_charges', 'everett_totals', 'everett_consumption', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/EVERETT PUBLIC WORKS.pdf
+Saved JSON to processed/json/EVERETT PUBLIC WORKS.json
+Successfully processed EVERETT PUBLIC WORKS.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

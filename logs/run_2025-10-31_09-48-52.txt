@@ -1,0 +1,88 @@
+=== Utility Bills Processing Run @ 2025-10-31_09-48-52 ===
+Python: 3.12.11  PID: 609820
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 5 PDF file(s) in inbox folder:
+  1. UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+  2. UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+  3. UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+  4. UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+  5. UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 5
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (5 files)
+============================================================
+
+[1.1] Processing: UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+No specific template detected - Using default template
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+✓ Saved JSON to processed/json/UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.json
+✓ Successfully processed UBM-3018-Cycle 8 - 2025 - 6326750000 080520250735.pdf
+
+[1.2] Processing: UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+No specific template detected - Using default template
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+✓ Saved JSON to processed/json/UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.json
+✓ Successfully processed UBM-3009-Cycle 10 - 2025 - 1799133259 082220255447.pdf
+
+[1.3] Processing: UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+No specific template detected - Using default template
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+✓ Saved JSON to processed/json/UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.json
+✓ Successfully processed UBM-3009-Cycle 9 - 2025 - 1799133259 080420250327.pdf
+
+[1.4] Processing: UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+No specific template detected - Using default template
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+✓ Saved JSON to processed/json/UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.json
+✓ Successfully processed UBM-3010-Cycle 7 - 2025 - 1410840000 082220254741.pdf
+
+[1.5] Processing: UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+No specific template detected - Using default template
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+✓ Saved JSON to processed/json/UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.json
+✓ Successfully processed UBM-3013-Cycle 9 - 2025 - 0506840000 082020254919.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 5
+Successfully processed: 5
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 5
+Successfully extracted: 5
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 5 files
+  - processed/json: 5 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

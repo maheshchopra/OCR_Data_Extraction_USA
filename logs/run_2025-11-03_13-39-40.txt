@@ -1,0 +1,156 @@
+=== Utility Bills Processing Run @ 2025-11-03_13-39-40 ===
+Python: 3.12.11  PID: 93680
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. Kent Utility.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: Kent Utility.pdf
+Detected company: Kent Utility - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+
+TEXT RESPONSE
+{
+  "account_number": "80114303",
+  "customer_name": "MERIDIAN GREEN APTS",
+  "service_address": "11305 SE KENT KANGLEY RD BDG1",
+  "billing_address": "11305 SE KENT KANGLEY RD KENT WA 98030-7759",
+  "previous_balance": "0.00",
+  "current_billing": "484.43",
+  "current_adjustments": null,
+  "total_amount_due": "484.43",
+  "total_amount_due_date": "October 15 2025",
+  "bill_date": "September 30 2025",
+  "number_of_days": null,
+  "payments_applied": [
+    {
+      "payment_date": "09/25/2025",
+      "payment_amount": "430.13"
+    }
+  ],
+  "adjustments": [],
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  },
+  "service_types": [
+    {
+      "service_name": "Water Usage",
+      "current_service": "130.01",
+      "service_from_date": "September 01 2025",
+      "service_to_date": "September 30 2025",
+      "previous_reading": "483",
+      "current_reading": "508",
+      "line_item_charges": []
+    },
+    {
+      "service_name": "Access",
+      "current_service": "55.17",
+      "service_from_date": "September 01 2025",
+      "service_to_date": "September 30 2025",
+      "line_item_charges": []
+    },
+    {
+      "service_name": "Sewer",
+      "current_service": "298.25",
+      "service_from_date": "September 01 2025",
+      "service_to_date": "September 30 2025",
+      "line_item_charges": []
+    },
+    {
+      "service_name": "Technology Fee",
+      "current_service": "1.00",
+      "service_from_date": "September 01 2025",
+      "service_to_date": "September 30 2025",
+      "line_item_charges": []
+    }
+  ],
+  "kent_remit_payment_to": "CITY OF KENT - UTILITY BILLING P.O. BOX 84665 SEATTLE, WA 98124-5965",
+  "kent_payment_website": "Pay.KentWA.gov",
+  "kent_previous_amount_due": "430.13",
+  "kent_current_usage": {
+    "previous_reading": "483",
+    "current_reading": "508",
+    "usage": "25 CCF"
+  },
+  "kent_account_info": {
+    "account_number": "80114303",
+    "customer_name": "MERIDIAN GREEN APTS",
+    "service_address": "11305 SE KENT KANGLEY RD BDG1"
+  },
+  "kent_bill_details": {
+    "bill_date": "September 30 2025",
+    "due_date": "October 15 2025"
+  },
+  "kent_current_charges": [
+    {
+      "type": "Water",
+      "amount": "130.01"
+    },
+    {
+      "type": "Access",
+      "amount": "55.17"
+    },
+    {
+      "type": "Sewer",
+      "amount": "298.25"
+    },
+    {
+      "type": "Technology Fee",
+      "amount": "1.00"
+    }
+  ],
+  "kent_totals": {
+    "total_current_charges": "484.43",
+    "total_due": "484.43"
+  }
+}
+
+END OF TEXT RESPONSE
+
+DATA
+{'account_number': '80114303', 'customer_name': 'MERIDIAN GREEN APTS', 'service_address': '11305 SE KENT KANGLEY RD BDG1', 'billing_address': '11305 SE KENT KANGLEY RD KENT WA 98030-7759', 'previous_balance': '0.00', 'current_billing': '484.43', 'current_adjustments': None, 'total_amount_due': '484.43', 'total_amount_due_date': 'October 15 2025', 'bill_date': 'September 30 2025', 'number_of_days': None, 'payments_applied': [{'payment_date': '09/25/2025', 'payment_amount': '430.13'}], 'adjustments': [], 'taxes': {'per_service_taxes': [], 'global_taxes': []}, 'service_types': [{'service_name': 'Water Usage', 'current_service': '130.01', 'service_from_date': 'September 01 2025', 'service_to_date': 'September 30 2025', 'previous_reading': '483', 'current_reading': '508', 'line_item_charges': []}, {'service_name': 'Access', 'current_service': '55.17', 'service_from_date': 'September 01 2025', 'service_to_date': 'September 30 2025', 'line_item_charges': []}, {'service_name': 'Sewer', 'current_service': '298.25', 'service_from_date': 'September 01 2025', 'service_to_date': 'September 30 2025', 'line_item_charges': []}, {'service_name': 'Technology Fee', 'current_service': '1.00', 'service_from_date': 'September 01 2025', 'service_to_date': 'September 30 2025', 'line_item_charges': []}], 'kent_remit_payment_to': 'CITY OF KENT - UTILITY BILLING P.O. BOX 84665 SEATTLE, WA 98124-5965', 'kent_payment_website': 'Pay.KentWA.gov', 'kent_previous_amount_due': '430.13', 'kent_current_usage': {'previous_reading': '483', 'current_reading': '508', 'usage': '25 CCF'}, 'kent_account_info': {'account_number': '80114303', 'customer_name': 'MERIDIAN GREEN APTS', 'service_address': '11305 SE KENT KANGLEY RD BDG1'}, 'kent_bill_details': {'bill_date': 'September 30 2025', 'due_date': 'October 15 2025'}, 'kent_current_charges': [{'type': 'Water', 'amount': '130.01'}, {'type': 'Access', 'amount': '55.17'}, {'type': 'Sewer', 'amount': '298.25'}, {'type': 'Technology Fee', 'amount': '1.00'}], 'kent_totals': {'total_current_charges': '484.43', 'total_due': '484.43'}}
+
+END OF DATA
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'kent_remit_payment_to', 'kent_payment_website', 'kent_previous_amount_due', 'kent_current_usage', 'kent_account_info', 'kent_bill_details', 'kent_current_charges', 'kent_totals', 'payment_information', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/Kent Utility.pdf
+Saved JSON to processed/json/Kent Utility.json
+Successfully processed Kent Utility.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

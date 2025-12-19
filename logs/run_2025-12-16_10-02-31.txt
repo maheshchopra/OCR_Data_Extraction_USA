@@ -1,0 +1,55 @@
+=== Utility Bills Processing Run @ 2025-12-16_10-02-31 ===
+Python: 3.12.11  PID: 184848
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\first_phase\version_2
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. 200024377190_12_15_2025.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: 200024377190_12_15_2025.pdf
+Filename detection failed. Attempting AI-based detection from PDF content...
+AI detected company: Puget Sound Energy - Gas
+Detected company: Puget Sound Energy - Gas - Using specialized template
+Converting PDF to images...
+Processing 2 page(s) with GPT-4o Vision...
+  Encoding page 1/2...
+  Encoding page 2/2...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 2 page(s)
+Debug - organize_files called with result keys: ['source_file', 'error', 'account_number', 'account_type', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation']
+Debug - success_indicators: [False, False, False, False, False]
+ Moved PDF to unprocessed/pdf/200024377190_12_15_2025.pdf
+Saved JSON to unprocessed/json/200024377190_12_15_2025.json
+Error processing 200024377190_12_15_2025.pdf: 'NoneType' object has no attribute 'get'
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 0
+Failed/Incomplete: 1
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 0
+Incomplete/Failed: 1
+
+Files organized into:
+  - processed/pdf: 0 files
+  - processed/json: 0 files
+  - unprocessed/pdf: 1 files
+  - unprocessed/json: 1 files

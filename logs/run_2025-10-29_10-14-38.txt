@@ -1,0 +1,93 @@
+=== Utility Bills Processing Run @ 2025-10-29_10-14-38 ===
+Python: 3.12.11  PID: 610704
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Detected company: City of Redmond - Using specialized template
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'agency_information', 'account_information', 'bill_details', 'current_charges', 'bill_summary', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/Redmond_Final_Test.pdf
+✓ Saved JSON to processed/json/Redmond_Final_Test.json
+
+Extraction successful
+{
+  "account_number": "035212000",
+  "customer_name": "LJ JOHNSON FAMILY PARTNERSHIP",
+  "service_address": "6719700235",
+  "billing_address": "6719700235",
+  "previous_balance": "$62.11",
+  "current_billing": "$62.11",
+  "current_adjustments": "$0.00",
+  "total_amount_due": "$62.11",
+  "total_amount_due_date": "October 27 2025",
+  "bill_date": "October 07 2025",
+  "number_of_days": "35",
+  "payment_information": {
+    "payment_date": null,
+    "payment_amount": null
+  },
+  "payments_applied": [
+    {
+      "payment_date": null,
+      "payment_amount": "$62.11"
+    }
+  ],
+  "adjustments": [],
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  },
+  "service_types": [
+    {
+      "service_name": "Stormwater",
+      "current_service": "$62.11",
+      "service_from_date": "September 03 2025",
+      "service_to_date": "October 07 2025",
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": []
+    }
+  ],
+  "billing_validation": {
+    "is_valid": true,
+    "current_billing_amount": 62.11,
+    "service_total": 62.11,
+    "current_adjustments": 0.0,
+    "total_with_adjustments": 62.11,
+    "difference": 0.0,
+    "services": [
+      {
+        "service_name": "Stormwater",
+        "amount": 62.11
+      }
+    ],
+    "reason": "Valid: Services ($62.11) + Adjustments ($0.00) = $62.11 matches Current Billing ($62.11)"
+  },
+  "agency_information": "City of Redmond, PO Box 97010, Redmond, WA 98073",
+  "account_information": {
+    "account_number": "035212000",
+    "customer_name": "LJ JOHNSON FAMILY PARTNERSHIP",
+    "service_address": "6719700235",
+    "billing_address": "6719700235"
+  },
+  "bill_details": {
+    "service_period": "September 03 2025 to October 07 2025 (35 days)",
+    "billing_date": "October 07 2025",
+    "due_date": "October 27 2025"
+  },
+  "current_charges": [
+    {
+      "type": "Stormwater",
+      "amount": "$62.11"
+    }
+  ],
+  "bill_summary": {
+    "payments_received": "$62.11",
+    "previous_balance": "$62.11",
+    "current_charges": "$62.11",
+    "adjustments": "$0.00",
+    "total_amount_due": "$62.11"
+  },
+  "source_file": "Redmond_Final_Test.pdf"
+}

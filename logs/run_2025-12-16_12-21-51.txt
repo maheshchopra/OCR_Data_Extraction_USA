@@ -1,0 +1,175 @@
+=== Utility Bills Processing Run @ 2025-12-16_12-21-51 ===
+Python: 3.12.11  PID: 160728
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\first_phase\version_2
+===============================================
+
+Filename detection failed. Attempting AI-based detection from PDF content...
+AI detected company: Puget Sound Energy - Gas
+Detected company: Puget Sound Energy - Gas - Using specialized template
+Converting PDF to images...
+Processing 2 page(s) with GPT-4o Vision...
+  Encoding page 1/2...
+  Encoding page 2/2...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 2 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'bill_number', 'bill_type', 'total_amount_due_date', 'number_of_days', 'service_days', 'description', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'contact_info', 'late_payment_fee', 'late_fee_info', 'meters', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, False, False]
+ Moved PDF to processed/pdf/200024377190_12_15_2025.pdf
+Saved JSON to processed/json/200024377190_12_15_2025.json
+
+Extraction successful
+{
+  "provider_name": "Puget Sound Energy",
+  "provider_website": "pse.com",
+  "provider_customer_service_phone": "1-888-225-5773",
+  "provider_customer_service_email": "customercare@pse.com",
+  "provider_address": null,
+  "provider_return_address": "P.O. BOX 91269 Bellevue, WA 98009-9269",
+  "account_number": "200024377190",
+  "account_type": "Electric",
+  "customer_name": "HOLWAY FAMILY LLC",
+  "service_address": "425 10TH AVE E, Seattle",
+  "billing_address": "2633 EASTLAKE AVE E STE 307 SEATTLE WA 98102-3231",
+  "bill_date": "December 12, 2025",
+  "bill_number": null,
+  "bill_type": null,
+  "total_amount_due_date": "January 5, 2026",
+  "number_of_days": "29",
+  "service_days": "29",
+  "description": null,
+  "previous_balance": "650.34",
+  "current_billing": "618.41",
+  "total_amount_due": "1268.75",
+  "balance": null,
+  "payments_applied": [],
+  "contact_info": {
+    "website": "pse.com",
+    "email": "customercare@pse.com",
+    "phone_number": "1-888-225-5773"
+  },
+  "late_payment_fee": {
+    "percentage": "1%",
+    "description": "A late payment fee of 1% per month will apply to past due charges, if any, and amounts unpaid more than 10 business days after the statement due date."
+  },
+  "late_fee_info": {
+    "latefee_applied": null,
+    "latefee_date": null,
+    "latefee_amount": null,
+    "latefee_by_duedate_percentage": null,
+    "latefee_by_duedate": null,
+    "total_amount_with_latefee_by_duedate": null
+  },
+  "meters": [
+    {
+      "meter_number": "854263",
+      "service_type": "Electric",
+      "start_date": "11/6/2025",
+      "service_from_date": "11/6/2025",
+      "start_read": "14453",
+      "previous_reading": "14453",
+      "previous_reading_type": "Actual",
+      "end_date": "12/5/2025",
+      "service_to_date": "12/5/2025",
+      "end_read": "14840",
+      "current_reading": "14840",
+      "current_reading_type": "Actual",
+      "multiplier": "1",
+      "usage": "387",
+      "uom": "kWh",
+      "meter_read_type": "Actual",
+      "charge_details": [
+        {
+          "category": "Basic Charge",
+          "description": "Basic Charge",
+          "rate": null,
+          "rate_x_unit": null,
+          "charge": "50.56",
+          "amount": "50.56"
+        },
+        {
+          "category": "Delivery Charge",
+          "description": "Delivery Charge",
+          "rate": "0.913190",
+          "rate_x_unit": "433.453 Therms",
+          "charge": "395.82",
+          "amount": "395.82"
+        },
+        {
+          "category": "Gas Cost",
+          "description": "Gas Cost",
+          "rate": "0.425310",
+          "rate_x_unit": "433.453 Therms",
+          "charge": "184.35",
+          "amount": "184.35"
+        },
+        {
+          "category": "Gas Cons. Program Charge",
+          "description": "Gas Cons. Program Charge",
+          "rate": "0.042960",
+          "rate_x_unit": "433.453 Therms",
+          "charge": "18.62",
+          "amount": "18.62"
+        }
+      ],
+      "other_charges_and_credits": [
+        {
+          "category": "Merger Credit",
+          "description": "Merger Credit",
+          "rate": null,
+          "rate_x_unit": "433.453 Therms",
+          "charge": "0.00",
+          "amount": "0.00"
+        },
+        {
+          "category": "State Carbon Reduction Credit",
+          "description": "State Carbon Reduction Credit",
+          "rate": null,
+          "rate_x_unit": "1",
+          "charge": "-69.85",
+          "amount": "-69.85"
+        }
+      ],
+      "taxes": [
+        {
+          "description": "Effect of Seattle City Tax",
+          "rate": "6.714%",
+          "charge": "38.91"
+        },
+        {
+          "description": "State Utility Tax",
+          "rate": "3.852%",
+          "charge": "0.00"
+        }
+      ],
+      "total_current_electric_charges": "618.41",
+      "meter_location": null,
+      "read_date": null,
+      "read_type": null
+    }
+  ],
+  "service_types": [],
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  },
+  "current_adjustments": null,
+  "payment_information": {
+    "payment_date": null,
+    "payment_amount": null
+  },
+  "adjustments": [],
+  "billing_validation": {
+    "is_valid": true,
+    "total_amount_due": 1268.75,
+    "meters_total": 618.41,
+    "difference": 650.34,
+    "meters": [
+      {
+        "meter_number": "854263",
+        "amount": 618.41
+      }
+    ],
+    "reason": "Sum of all meters ($618.41) + previous balance ($650.34) matches Total Amount Due ($1268.75)"
+  },
+  "source_file": "200024377190_12_15_2025.pdf"
+}

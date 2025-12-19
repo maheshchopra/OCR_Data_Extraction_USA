@@ -1,0 +1,31 @@
+=== Utility Bills Processing Run @ 2025-10-07_09-41-54 ===
+Python: 3.12.11  PID: 925608
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 2 PDF file(s) in inbox folder:
+  1. UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+  2. UBM-3015-Cycle 7 - 2025 - 220013010065 082820254216.pdf
+
+Processing: UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+Warning: Could not extract any useful information from the PDF. Returning partial data.
+Warning: Could not organize failed file UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf: unsupported operand type(s) for +: 'int' and 'list'
+✗ Error processing UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf: unsupported operand type(s) for +: 'int' and 'list'
+
+Processing: UBM-3015-Cycle 7 - 2025 - 220013010065 082820254216.pdf
+✓ Moved PDF to processed/pdf/UBM-3015-Cycle 7 - 2025 - 220013010065 082820254216.pdf
+✓ Saved JSON to processed/json/UBM-3015-Cycle 7 - 2025 - 220013010065 082820254216.json
+✓ Successfully processed UBM-3015-Cycle 7 - 2025 - 220013010065 082820254216.pdf
+
+==================================================
+PROCESSING SUMMARY
+==================================================
+Total files processed: 2
+Successfully extracted: 1
+Incomplete/Failed: 1
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 1 files
+  - unprocessed/json: 1 files

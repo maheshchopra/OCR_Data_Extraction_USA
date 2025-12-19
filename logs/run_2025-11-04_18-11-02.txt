@@ -1,0 +1,152 @@
+=== Utility Bills Processing Run @ 2025-11-04_18-11-02 ===
+Python: 3.12.11  PID: 321932
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. Seattle City Light.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: Seattle City Light.pdf
+No specific template detected - Using default template
+Converting PDF to images...
+Processing 4 page(s) with GPT-4o Vision...
+  Encoding page 1/4...
+  Encoding page 2/4...
+  Encoding page 3/4...
+  Encoding page 4/4...
+Sending images to GPT-4o Vision API...
+
+TEXT RESPONSE
+{
+  "account_number": "4163538069",
+  "customer_name": "12TH & YESLER OWNER LLC",
+  "service_address": "104 12TH AVE",
+  "billing_address": "308 OCCIDENTAL AVE S, C/O BLANTON TURNER LLC, SEATTLE WA 98104-3884",
+  "previous_balance": "$4,335.91",
+  "current_billing": "$5,091.94",
+  "current_adjustments": null,
+  "total_amount_due": "$5,091.94",
+  "total_amount_due_date": "October 03 2025",
+  "bill_date": "September 12 2025",
+  "number_of_days": "62",
+  "payment_information": {
+    "payment_date": "July 29 2025",
+    "payment_amount": "$4,335.91"
+  },
+  "payments_applied": [
+    {
+      "payment_date": "July 29 2025",
+      "payment_amount": "$4,335.91"
+    }
+  ],
+  "adjustments": [],
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  },
+  "service_types": [
+    {
+      "service_name": "Electric Service",
+      "current_service": "$5,091.94",
+      "service_from_date": "July 03 2025",
+      "service_to_date": "September 03 2025",
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "Base Service Charge",
+          "amount": "$39.68",
+          "meter_number": "2207880",
+          "ccf_usage": "2012.62",
+          "previous_reading": "875.55",
+          "current_reading": "976.18"
+        },
+        {
+          "category": "Small General Energy",
+          "amount": "$249.77",
+          "meter_number": "2207880",
+          "ccf_usage": "2012.62",
+          "previous_reading": "875.55",
+          "current_reading": "976.18"
+        },
+        {
+          "category": "Power Factor Penalty",
+          "amount": "$444.08",
+          "meter_number": "2207880",
+          "ccf_usage": "444.08",
+          "previous_reading": "210.31",
+          "current_reading": "232.52"
+        },
+        {
+          "category": "Base Service Charge",
+          "amount": "$39.68",
+          "meter_number": "2207881",
+          "ccf_usage": "453.92",
+          "previous_reading": "2.56",
+          "current_reading": "7.10"
+        },
+        {
+          "category": "Small General Energy",
+          "amount": "$4,762.81",
+          "meter_number": "2207881",
+          "ccf_usage": "38378.84",
+          "previous_reading": "3915.15",
+          "current_reading": "4298.94"
+        },
+        {
+          "category": "Power Factor Penalty",
+          "amount": "$453.92",
+          "meter_number": "2207881",
+          "ccf_usage": "453.92",
+          "previous_reading": "2.56",
+          "current_reading": "7.10"
+        }
+      ]
+    }
+  ]
+}
+
+END OF TEXT RESPONSE
+
+DATA
+{'account_number': '4163538069', 'customer_name': '12TH & YESLER OWNER LLC', 'service_address': '104 12TH AVE', 'billing_address': '308 OCCIDENTAL AVE S, C/O BLANTON TURNER LLC, SEATTLE WA 98104-3884', 'previous_balance': '$4,335.91', 'current_billing': '$5,091.94', 'current_adjustments': None, 'total_amount_due': '$5,091.94', 'total_amount_due_date': 'October 03 2025', 'bill_date': 'September 12 2025', 'number_of_days': '62', 'payment_information': {'payment_date': 'July 29 2025', 'payment_amount': '$4,335.91'}, 'payments_applied': [{'payment_date': 'July 29 2025', 'payment_amount': '$4,335.91'}], 'adjustments': [], 'taxes': {'per_service_taxes': [], 'global_taxes': []}, 'service_types': [{'service_name': 'Electric Service', 'current_service': '$5,091.94', 'service_from_date': 'July 03 2025', 'service_to_date': 'September 03 2025', 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': 'Base Service Charge', 'amount': '$39.68', 'meter_number': '2207880', 'ccf_usage': '2012.62', 'previous_reading': '875.55', 'current_reading': '976.18'}, {'category': 'Small General Energy', 'amount': '$249.77', 'meter_number': '2207880', 'ccf_usage': '2012.62', 'previous_reading': '875.55', 'current_reading': '976.18'}, {'category': 'Power Factor Penalty', 'amount': '$444.08', 'meter_number': '2207880', 'ccf_usage': '444.08', 'previous_reading': '210.31', 'current_reading': '232.52'}, {'category': 'Base Service Charge', 'amount': '$39.68', 'meter_number': '2207881', 'ccf_usage': '453.92', 'previous_reading': '2.56', 'current_reading': '7.10'}, {'category': 'Small General Energy', 'amount': '$4,762.81', 'meter_number': '2207881', 'ccf_usage': '38378.84', 'previous_reading': '3915.15', 'current_reading': '4298.94'}, {'category': 'Power Factor Penalty', 'amount': '$453.92', 'meter_number': '2207881', 'ccf_usage': '453.92', 'previous_reading': '2.56', 'current_reading': '7.10'}]}]}
+
+END OF DATA
+Successfully extracted data from 4 page(s)
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/Seattle City Light.pdf
+Saved JSON to processed/json/Seattle City Light.json
+Successfully processed Seattle City Light.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

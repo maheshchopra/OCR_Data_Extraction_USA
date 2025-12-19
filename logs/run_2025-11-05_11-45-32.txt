@@ -1,0 +1,241 @@
+=== Utility Bills Processing Run @ 2025-11-05_11-45-32 ===
+Python: 3.12.11  PID: 453568
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. WASTE MANAGEMENT OF WASHINGTON.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: WASTE MANAGEMENT OF WASHINGTON.pdf
+Detected company: Waste Management of Washington - Using specialized template
+Converting PDF to images...
+Processing 3 page(s) with GPT-4o Vision...
+  Encoding page 1/3...
+  Encoding page 2/3...
+  Encoding page 3/3...
+Sending images to GPT-4o Vision API...
+
+TEXT RESPONSE
+{
+  "account_number": "26430355005",
+  "customer_name": "LE BONNE MAISON",
+  "service_address": "LA Bonne Maison, 6601 210th St SW, Lynnwood WA 98036-7347",
+  "billing_address": "LE BONNE MAISON, 303 5TH AVE S # 209, EDMONDS WA 98020-3626",
+  "bill_date": "August 01 2025",
+  "total_amount_due_date": "August 31 2025",
+  "number_of_days": null,
+  "previous_balance": "1224.81",
+  "current_billing": "1224.81",
+  "current_adjustments": "0.00",
+  "total_amount_due": "1224.81",
+  "payment_information": {
+    "payment_date": null,
+    "payment_amount": null
+  },
+  "payments_applied": [
+    {
+      "payment_date": "July 15 2025",
+      "payment_amount": "1224.81"
+    }
+  ],
+  "adjustments": [],
+  "wm_service_period": "07/01/25-07/31/25",
+  "wm_contact_info": {
+    "website": "wm.com/MyWM",
+    "phone_number": "(425) 481-6205"
+  },
+  "wm_late_payment_fee": {
+    "percentage": "1%",
+    "description": "If full payment of the invoiced amount is not received on or before the delinquent date, you will be charged a monthly late charge of 1% of the unpaid amount, with a minimum monthly charge of $1, or such lesser late charge allowed under applicable law, regulation or contract."
+  },
+  "service_types": [
+    {
+      "service_name": "Administrative Fee",
+      "current_service": "0.25",
+      "service_from_date": "July 01 2025",
+      "service_to_date": null,
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "Administrative Fee",
+          "amount": "0.25",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    },
+    {
+      "service_name": "Gate Fee 3 Times Per Week",
+      "current_service": "34.05",
+      "service_from_date": "July 01 2025",
+      "service_to_date": null,
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "Gate Fee 3 Times Per Week",
+          "amount": "34.05",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    },
+    {
+      "service_name": "Rebate 8 Yard",
+      "current_service": "-10.70",
+      "service_from_date": "July 01 2025",
+      "service_to_date": null,
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "Rebate 8 Yard",
+          "amount": "-10.70",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    },
+    {
+      "service_name": "Rent 8 Yard Dumpster",
+      "current_service": "16.09",
+      "service_from_date": "July 01 2025",
+      "service_to_date": null,
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "Rent 8 Yard Dumpster",
+          "amount": "16.09",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    },
+    {
+      "service_name": "1-8 Yard Dumpster 3 Times Per Week",
+      "current_service": "1069.68",
+      "service_from_date": "July 01 2025",
+      "service_to_date": null,
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "1-8 Yard Dumpster 3 Times Per Week",
+          "amount": "1069.68",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    },
+    {
+      "service_name": "8 Yard Dumpster Recycle 2 Times Per Week",
+      "current_service": "0.00",
+      "service_from_date": "July 01 2025",
+      "service_to_date": null,
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "8 Yard Dumpster Recycle 2 Times Per Week",
+          "amount": "0.00",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    },
+    {
+      "service_name": "Refuse Tax",
+      "current_service": "42.28",
+      "service_from_date": "July 01 2025",
+      "service_to_date": null,
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "Refuse Tax - 3.60%",
+          "amount": "42.28",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    }
+  ],
+  "taxes": {
+    "per_service_taxes": [
+      {
+        "service_name": null,
+        "tax_name": "Utility Tax",
+        "tax_rate": "6.38%",
+        "tax_amount": "71.45"
+      }
+    ],
+    "global_taxes": [
+      {
+        "tax_name": "Sales Tax",
+        "tax_rate": "10.6%",
+        "tax_amount": "1.71"
+      }
+    ]
+  }
+}
+
+END OF TEXT RESPONSE
+
+DATA
+{'account_number': '26430355005', 'customer_name': 'LE BONNE MAISON', 'service_address': 'LA Bonne Maison, 6601 210th St SW, Lynnwood WA 98036-7347', 'billing_address': 'LE BONNE MAISON, 303 5TH AVE S # 209, EDMONDS WA 98020-3626', 'bill_date': 'August 01 2025', 'total_amount_due_date': 'August 31 2025', 'number_of_days': None, 'previous_balance': '1224.81', 'current_billing': '1224.81', 'current_adjustments': '0.00', 'total_amount_due': '1224.81', 'payment_information': {'payment_date': None, 'payment_amount': None}, 'payments_applied': [{'payment_date': 'July 15 2025', 'payment_amount': '1224.81'}], 'adjustments': [], 'wm_service_period': '07/01/25-07/31/25', 'wm_contact_info': {'website': 'wm.com/MyWM', 'phone_number': '(425) 481-6205'}, 'wm_late_payment_fee': {'percentage': '1%', 'description': 'If full payment of the invoiced amount is not received on or before the delinquent date, you will be charged a monthly late charge of 1% of the unpaid amount, with a minimum monthly charge of $1, or such lesser late charge allowed under applicable law, regulation or contract.'}, 'service_types': [{'service_name': 'Administrative Fee', 'current_service': '0.25', 'service_from_date': 'July 01 2025', 'service_to_date': None, 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': 'Administrative Fee', 'amount': '0.25', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}, {'service_name': 'Gate Fee 3 Times Per Week', 'current_service': '34.05', 'service_from_date': 'July 01 2025', 'service_to_date': None, 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': 'Gate Fee 3 Times Per Week', 'amount': '34.05', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}, {'service_name': 'Rebate 8 Yard', 'current_service': '-10.70', 'service_from_date': 'July 01 2025', 'service_to_date': None, 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': 'Rebate 8 Yard', 'amount': '-10.70', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}, {'service_name': 'Rent 8 Yard Dumpster', 'current_service': '16.09', 'service_from_date': 'July 01 2025', 'service_to_date': None, 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': 'Rent 8 Yard Dumpster', 'amount': '16.09', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}, {'service_name': '1-8 Yard Dumpster 3 Times Per Week', 'current_service': '1069.68', 'service_from_date': 'July 01 2025', 'service_to_date': None, 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': '1-8 Yard Dumpster 3 Times Per Week', 'amount': '1069.68', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}, {'service_name': '8 Yard Dumpster Recycle 2 Times Per Week', 'current_service': '0.00', 'service_from_date': 'July 01 2025', 'service_to_date': None, 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': '8 Yard Dumpster Recycle 2 Times Per Week', 'amount': '0.00', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}, {'service_name': 'Refuse Tax', 'current_service': '42.28', 'service_from_date': 'July 01 2025', 'service_to_date': None, 'previous_reading': None, 'current_reading': None, 'line_item_charges': [{'category': 'Refuse Tax - 3.60%', 'amount': '42.28', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}], 'taxes': {'per_service_taxes': [{'service_name': None, 'tax_name': 'Utility Tax', 'tax_rate': '6.38%', 'tax_amount': '71.45'}], 'global_taxes': [{'tax_name': 'Sales Tax', 'tax_rate': '10.6%', 'tax_amount': '1.71'}]}}
+
+END OF DATA
+Successfully extracted data from 3 page(s)
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'payment_information', 'payments_applied', 'adjustments', 'wm_service_period', 'wm_contact_info', 'wm_late_payment_fee', 'service_types', 'taxes', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+ Moved PDF to processed/pdf/WASTE MANAGEMENT OF WASHINGTON.pdf
+Saved JSON to processed/json/WASTE MANAGEMENT OF WASHINGTON.json
+Successfully processed WASTE MANAGEMENT OF WASHINGTON.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

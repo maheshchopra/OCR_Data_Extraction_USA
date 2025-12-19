@@ -1,0 +1,175 @@
+=== Utility Bills Processing Run @ 2025-12-06_11-18-15 ===
+Python: 3.12.11  PID: 1529660
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_2
+===============================================
+
+Found 9 PDF file(s) in inbox folder:
+  1. City Of Redmond Utility Billing.pdf
+  2. EVERETT PUBLIC WORKS.pdf
+  3. Kent Utility.pdf
+  4. Puget Sound Energy - Electric.pdf
+  5. Republic Services.pdf
+  6. Sammamish Plateau Water.pdf
+  7. Seattle City Light.pdf
+  8. Seattle Public Utilities.pdf
+  9. WASTE MANAGEMENT OF WASHINGTON.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 9
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (9 files)
+============================================================
+
+[1.1] Processing: City Of Redmond Utility Billing.pdf
+Detected company: City of Redmond - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'service_days', 'balance', 'payment_information', 'payments_applied', 'adjustments', 'provider_info', 'bill_info', 'late_fee_info', 'balance_info', 'meters', 'agency_information', 'account_information', 'bill_details', 'current_charges', 'bill_summary', 'taxes', 'service_types', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/City Of Redmond Utility Billing.pdf
+Saved JSON to processed/json/City Of Redmond Utility Billing.json
+Successfully processed City Of Redmond Utility Billing.pdf
+
+[1.2] Processing: EVERETT PUBLIC WORKS.pdf
+Detected company: Everett Public Works - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'service_days', 'balance', 'payment_information', 'payments_applied', 'adjustments', 'late_fee_info', 'balance_info', 'meters', 'contact_info', 'account_info', 'bill_details', 'current_charges', 'totals', 'consumption', 'taxes', 'service_types', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [False, True, True, True, False]
+ Moved PDF to processed/pdf/EVERETT PUBLIC WORKS.pdf
+Saved JSON to processed/json/EVERETT PUBLIC WORKS.json
+Successfully processed EVERETT PUBLIC WORKS.pdf
+
+[1.3] Processing: Kent Utility.pdf
+Detected company: Kent Utility - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'service_days', 'balance', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'remit_payment_to', 'payment_website', 'previous_amount_due', 'late_fee_info', 'balance_info', 'meters', 'current_usage', 'account_info', 'bill_details', 'current_charges', 'totals', 'payment_information', 'billing_validation', 'description', 'previous_amount_due_amount', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/Kent Utility.pdf
+Saved JSON to processed/json/Kent Utility.json
+Successfully processed Kent Utility.pdf
+
+[1.4] Processing: Puget Sound Energy - Electric.pdf
+Detected company: Puget Sound Energy - Using specialized template
+Converting PDF to images...
+Processing 3 page(s) with GPT-4o Vision...
+  Encoding page 1/3...
+  Encoding page 2/3...
+  Encoding page 3/3...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 3 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'bill_number', 'bill_type', 'total_amount_due_date', 'number_of_days', 'service_days', 'description', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'contact_info', 'late_payment_fee', 'late_fee_info', 'meters', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, False, False]
+ Moved PDF to processed/pdf/Puget Sound Energy - Electric.pdf
+Saved JSON to processed/json/Puget Sound Energy - Electric.json
+Successfully processed Puget Sound Energy - Electric.pdf
+
+[1.5] Processing: Republic Services.pdf
+Detected company: Republic Services - Using specialized template
+Converting PDF to images...
+Processing 2 page(s) with GPT-4o Vision...
+  Encoding page 1/2...
+  Encoding page 2/2...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 2 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'service_days', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'company_address', 'contact_info', 'payment_website', 'late_fee', 'late_fee_info', 'taxes', 'service_types', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+ Moved PDF to processed/pdf/Republic Services.pdf
+Saved JSON to processed/json/Republic Services.json
+Successfully processed Republic Services.pdf
+
+[1.6] Processing: Sammamish Plateau Water.pdf
+Detected company: Sammamish Plateau Water - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'service_days', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'late_fee_info', 'contact_info', 'meter', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/Sammamish Plateau Water.pdf
+Saved JSON to processed/json/Sammamish Plateau Water.json
+Successfully processed Sammamish Plateau Water.pdf
+
+[1.7] Processing: Seattle City Light.pdf
+Detected company: Seattle City Light - Using specialized template
+Converting PDF to images...
+Processing 4 page(s) with GPT-4o Vision...
+  Encoding page 1/4...
+  Encoding page 2/4...
+  Encoding page 3/4...
+  Encoding page 4/4...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 4 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'service_days', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'contact_info', 'late_payment_charge', 'late_fee_info', 'consumption_units', 'amounts', 'detailed_billing_rows', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/Seattle City Light.pdf
+Saved JSON to processed/json/Seattle City Light.json
+Successfully processed Seattle City Light.pdf
+
+[1.8] Processing: Seattle Public Utilities.pdf
+Detected company: Seattle Public Utilities - Using specialized template
+Converting PDF to images...
+Processing 4 page(s) with GPT-4o Vision...
+  Encoding page 1/4...
+  Encoding page 2/4...
+  Encoding page 3/4...
+  Encoding page 4/4...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 4 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'service_days', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'balance', 'payment_information', 'payments_applied', 'adjustments', 'contact_info', 'late_payment_fee', 'late_fee_info', 'consumption', 'service_types', 'taxes', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+ Moved PDF to processed/pdf/Seattle Public Utilities.pdf
+Saved JSON to processed/json/Seattle Public Utilities.json
+Successfully processed Seattle Public Utilities.pdf
+
+[1.9] Processing: WASTE MANAGEMENT OF WASHINGTON.pdf
+Detected company: Waste Management of Washington - Using specialized template
+Converting PDF to images...
+Processing 3 page(s) with GPT-4o Vision...
+  Encoding page 1/3...
+  Encoding page 2/3...
+  Encoding page 3/3...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 3 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'service_days', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'balance', 'payment_information', 'payments_applied', 'adjustments', 'service_period', 'contact_info', 'late_payment_fee', 'late_fee_info', 'service_types', 'taxes', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+ Moved PDF to processed/pdf/WASTE MANAGEMENT OF WASHINGTON.pdf
+Saved JSON to processed/json/WASTE MANAGEMENT OF WASHINGTON.json
+Successfully processed WASTE MANAGEMENT OF WASHINGTON.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 9
+Successfully processed: 9
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 9
+Successfully extracted: 9
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 9 files
+  - processed/json: 9 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

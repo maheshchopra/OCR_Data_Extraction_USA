@@ -1,0 +1,28 @@
+meter_number,service_category,service_from_date,service_through_date,previous_reading,current_reading,multiplier,consumption_units,power_factor,rate_code,unit_charge,amount
+2172371,KWH,"August 13, 2025","October 10, 2025",26325.33,27724.65,1,1399.32,,,,
+,,,Base Service Charge,,,,,,,,14.77
+,,,Summer Residential Energy,,,,,,,0.1375,66.00
+,,,Summer Residential Energy,,,,,,,0.1375,93.23
+,,,Base Service Charge,,,,,,,,3.08
+,,,Winter Residential Energy,,,,,,,0.1375,33.17
+2172368,KWH,"August 13, 2025","October 10, 2025",62975.57,63209.73,1,234.15,,,,
+,,,Base Service Charge,,,,,,,,14.77
+,,,Summer Residential Energy,,,,,,,0.1375,26.65
+,,,Base Service Charge,,,,,,,,3.08
+,,,Winter Residential Energy,,,,,,,0.1375,5.55
+2172370,KWH,"August 13, 2025","October 10, 2025",31331.87,31654.96,1,323.08,,,,
+,,,Base Service Charge,,,,,,,,14.77
+,,,Summer Residential Energy,,,,,,,0.1375,36.77
+,,,Base Service Charge,,,,,,,,3.08
+,,,Winter Residential Energy,,,,,,,0.1375,7.66
+2172346,KWH,"August 13, 2025","October 10, 2025",32733.57,33041.83,1,668.26,,,,
+,,,Base Service Charge,,,,,,,,14.77
+,,,Summer Residential Energy,,,,,,,0.1375,66.00
+,,,Summer Residential Energy,,,,,,,0.1375,10.04
+,,,Base Service Charge,,,,,,,,3.08
+,,,Winter Residential Energy,,,,,,,0.1375,15.84
+2172347,KWH,"August 13, 2025","October 10, 2025",31419.46,31716.74,1,297.28,,,,
+,,,Base Service Charge,,,,,,,,14.77
+,,,Summer Residential Energy,,,,,,,0.1375,33.83
+,,,Base Service Charge,,,,,,,,3.08
+,,,Winter Residential Energy,,,,,,,0.1375,7.05

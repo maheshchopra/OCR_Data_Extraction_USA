@@ -1,0 +1,146 @@
+=== Utility Bills Processing Run @ 2025-11-03_11-37-34 ===
+Python: 3.12.11  PID: 53456
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. EVERETT PUBLIC WORKS.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: EVERETT PUBLIC WORKS.pdf
+Detected company: Everett Public Works - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+
+TEXT RESPONSE
+{
+  "account_number": "010496",
+  "customer_name": "C/O BILLING ASSOCIATES GROUP",
+  "service_address": "1915 HEWITT AVE",
+  "billing_address": "2054 VISTA PARKWAY SUITE 400, WEST PALM BEACH, FL 33411",
+  "previous_balance": "$2,348.56",
+  "current_billing": "$2,332.27",
+  "current_adjustments": null,
+  "total_amount_due": "$2,332.27",
+  "total_amount_due_date": "February 10 2025",
+  "bill_date": "January 21 2025",
+  "number_of_days": "31",
+  "payment_information": {
+    "payment_date": null,
+    "payment_amount": null
+  },
+  "payments_applied": [
+    {
+      "payment_date": null,
+      "payment_amount": "$2,348.56"
+    }
+  ],
+  "adjustments": [],
+  "everett_contact_info": {
+    "phone_number": "(425) 257-8999",
+    "website": "everettwa.gov/ub"
+  },
+  "everett_account_info": {
+    "account_number": "010496",
+    "service_address": "1915 HEWITT AVE"
+  },
+  "everett_bill_details": {
+    "date_billed": "January 21 2025",
+    "due_date": "February 10 2025"
+  },
+  "everett_current_charges": [
+    {
+      "type": "Water",
+      "amount": "$692.14"
+    },
+    {
+      "type": "Filtration",
+      "amount": "$120.23"
+    },
+    {
+      "type": "Sewer",
+      "amount": "$1,371.62"
+    },
+    {
+      "type": "Solid Waste Program",
+      "amount": "$148.28"
+    }
+  ],
+  "everett_totals": {
+    "total_current_charges": "$2,332.27",
+    "total_due": "$2,332.27"
+  },
+  "everett_consumption": {
+    "current_consumption": "134 CCF"
+  },
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  },
+  "service_types": [
+    {
+      "service_name": "Water",
+      "current_service": "$692.14",
+      "service_from_date": "November 08 2024",
+      "service_to_date": "December 09 2024",
+      "previous_reading": "1562.00",
+      "current_reading": "1577.00",
+      "line_item_charges": [
+        {
+          "category": "Water",
+          "amount": "$692.14",
+          "meter_number": null,
+          "ccf_usage": "134",
+          "previous_reading": "1562.00",
+          "current_reading": "1577.00"
+        }
+      ]
+    }
+  ]
+}
+
+END OF TEXT RESPONSE
+
+DATA
+{'account_number': '010496', 'customer_name': 'C/O BILLING ASSOCIATES GROUP', 'service_address': '1915 HEWITT AVE', 'billing_address': '2054 VISTA PARKWAY SUITE 400, WEST PALM BEACH, FL 33411', 'previous_balance': '$2,348.56', 'current_billing': '$2,332.27', 'current_adjustments': None, 'total_amount_due': '$2,332.27', 'total_amount_due_date': 'February 10 2025', 'bill_date': 'January 21 2025', 'number_of_days': '31', 'payment_information': {'payment_date': None, 'payment_amount': None}, 'payments_applied': [{'payment_date': None, 'payment_amount': '$2,348.56'}], 'adjustments': [], 'everett_contact_info': {'phone_number': '(425) 257-8999', 'website': 'everettwa.gov/ub'}, 'everett_account_info': {'account_number': '010496', 'service_address': '1915 HEWITT AVE'}, 'everett_bill_details': {'date_billed': 'January 21 2025', 'due_date': 'February 10 2025'}, 'everett_current_charges': [{'type': 'Water', 'amount': '$692.14'}, {'type': 'Filtration', 'amount': '$120.23'}, {'type': 'Sewer', 'amount': '$1,371.62'}, {'type': 'Solid Waste Program', 'amount': '$148.28'}], 'everett_totals': {'total_current_charges': '$2,332.27', 'total_due': '$2,332.27'}, 'everett_consumption': {'current_consumption': '134 CCF'}, 'taxes': {'per_service_taxes': [], 'global_taxes': []}, 'service_types': [{'service_name': 'Water', 'current_service': '$692.14', 'service_from_date': 'November 08 2024', 'service_to_date': 'December 09 2024', 'previous_reading': '1562.00', 'current_reading': '1577.00', 'line_item_charges': [{'category': 'Water', 'amount': '$692.14', 'meter_number': None, 'ccf_usage': '134', 'previous_reading': '1562.00', 'current_reading': '1577.00'}]}]}
+
+END OF DATA
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'everett_contact_info', 'everett_account_info', 'everett_bill_details', 'everett_current_charges', 'everett_totals', 'everett_consumption', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/EVERETT PUBLIC WORKS.pdf
+Saved JSON to processed/json/EVERETT PUBLIC WORKS.json
+Successfully processed EVERETT PUBLIC WORKS.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

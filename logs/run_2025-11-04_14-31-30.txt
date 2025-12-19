@@ -1,0 +1,128 @@
+=== Utility Bills Processing Run @ 2025-11-04_14-31-30 ===
+Python: 3.12.11  PID: 302928
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. Sammamish Plateau Water.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: Sammamish Plateau Water.pdf
+No specific template detected - Using default template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+
+TEXT RESPONSE
+{
+  "account_number": "00013076",
+  "customer_name": "SAXONY CONDOMINIUMS",
+  "service_address": "564 225TH LN NE A",
+  "billing_address": "SAXONY CONDOMINIUMS, C/O EMERALD DEPT 106, PO BOX 4579, HOUSTON TX 77210-4579",
+  "previous_balance": "$42.41",
+  "current_billing": "$1,731.65",
+  "current_adjustments": null,
+  "total_amount_due": "$1,689.24",
+  "total_amount_due_date": "October 25 2025",
+  "bill_date": "October 05 2025",
+  "number_of_days": "30",
+  "payment_information": {
+    "payment_date": null,
+    "payment_amount": null
+  },
+  "payments_applied": [],
+  "adjustments": [],
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  },
+  "service_types": [
+    {
+      "service_name": "Water",
+      "current_service": "$1,731.65",
+      "service_from_date": "August 31 2025",
+      "service_to_date": "September 30 2025",
+      "previous_reading": "0820413",
+      "current_reading": "0828725",
+      "line_item_charges": [
+        {
+          "category": "WATER BLOCK 1",
+          "amount": "$235.23",
+          "meter_number": "68566030",
+          "ccf_usage": "8312",
+          "previous_reading": "0820413",
+          "current_reading": "0828725"
+        },
+        {
+          "category": "MULTI-FAMILY WTR PER UNIT",
+          "amount": "$316.80",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        },
+        {
+          "category": "MULTI-FAMILY SEWER PER UNIT",
+          "amount": "$533.70",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        },
+        {
+          "category": "KING COUNTY WASTEWATER TRTMNT",
+          "amount": "$645.92",
+          "meter_number": null,
+          "ccf_usage": null,
+          "previous_reading": null,
+          "current_reading": null
+        }
+      ]
+    }
+  ]
+}
+
+END OF TEXT RESPONSE
+
+DATA
+{'account_number': '00013076', 'customer_name': 'SAXONY CONDOMINIUMS', 'service_address': '564 225TH LN NE A', 'billing_address': 'SAXONY CONDOMINIUMS, C/O EMERALD DEPT 106, PO BOX 4579, HOUSTON TX 77210-4579', 'previous_balance': '$42.41', 'current_billing': '$1,731.65', 'current_adjustments': None, 'total_amount_due': '$1,689.24', 'total_amount_due_date': 'October 25 2025', 'bill_date': 'October 05 2025', 'number_of_days': '30', 'payment_information': {'payment_date': None, 'payment_amount': None}, 'payments_applied': [], 'adjustments': [], 'taxes': {'per_service_taxes': [], 'global_taxes': []}, 'service_types': [{'service_name': 'Water', 'current_service': '$1,731.65', 'service_from_date': 'August 31 2025', 'service_to_date': 'September 30 2025', 'previous_reading': '0820413', 'current_reading': '0828725', 'line_item_charges': [{'category': 'WATER BLOCK 1', 'amount': '$235.23', 'meter_number': '68566030', 'ccf_usage': '8312', 'previous_reading': '0820413', 'current_reading': '0828725'}, {'category': 'MULTI-FAMILY WTR PER UNIT', 'amount': '$316.80', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}, {'category': 'MULTI-FAMILY SEWER PER UNIT', 'amount': '$533.70', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}, {'category': 'KING COUNTY WASTEWATER TRTMNT', 'amount': '$645.92', 'meter_number': None, 'ccf_usage': None, 'previous_reading': None, 'current_reading': None}]}]}
+
+END OF DATA
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/Sammamish Plateau Water.pdf
+Saved JSON to processed/json/Sammamish Plateau Water.json
+Successfully processed Sammamish Plateau Water.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

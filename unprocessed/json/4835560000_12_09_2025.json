@@ -1,0 +1,681 @@
+{
+  "provider_name": "Seattle City Light",
+  "provider_website": "seattle.gov/city-light",
+  "provider_customer_service_phone": "(206) 684-3000",
+  "provider_customer_service_email": null,
+  "provider_address": null,
+  "provider_return_address": null,
+  "account_number": "4835560000",
+  "account_type": "Electric",
+  "bill_number": null,
+  "bill_type": null,
+  "customer_name": "DAVIS INVESTORS AND MANAGEMENT",
+  "service_address": "309 16TH AVE E APT 103",
+  "billing_address": "6513 132ND AVE NE #403 KIRKLAND WA 98033-8628",
+  "bill_date": "October 10, 2025",
+  "total_amount_due_date": "October 31, 2025",
+  "number_of_days": "58",
+  "service_days": "58",
+  "previous_balance": "529.78",
+  "current_billing": "491.04",
+  "total_amount_due": "491.04",
+  "balance": null,
+  "payments_applied": [
+    {
+      "payment_date": "September 04, 2025",
+      "payment_amount": "529.78"
+    }
+  ],
+  "contact_info": {
+    "website": "seattle.gov/city-light",
+    "phone_number": "(206) 684-3000"
+  },
+  "late_payment_charge": {
+    "percentage": "1%",
+    "description": "A late payment charge of 1% will be applied to accounts that are more than 15 days past due."
+  },
+  "late_fee_info": {
+    "latefee_applied": null,
+    "latefee_date": null,
+    "latefee_amount": null,
+    "latefee_by_duedate_percentage": "1%",
+    "latefee_by_duedate": null,
+    "total_amount_with_latefee_by_duedate": null
+  },
+  "consumption_units": [
+    "1399.32",
+    "234.15",
+    "323.08",
+    "668.26",
+    "297.28"
+  ],
+  "amounts": [
+    "14.77",
+    "66.00",
+    "93.23",
+    "3.08",
+    "33.17",
+    "14.77",
+    "26.65",
+    "3.08",
+    "5.55",
+    "14.77",
+    "36.77",
+    "3.08",
+    "7.66",
+    "14.77",
+    "66.00",
+    "10.04",
+    "3.08",
+    "15.84",
+    "14.77",
+    "33.83",
+    "3.08",
+    "7.05"
+  ],
+  "detailed_billing_rows": [
+    {
+      "meter_number": "2172371",
+      "service_category": "KWH",
+      "service_from_date": "August 13, 2025",
+      "service_through_date": "October 10, 2025",
+      "previous_reading": "26325.33",
+      "current_reading": "27724.65",
+      "multiplier": "1",
+      "consumption_units": "1399.32",
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": null,
+      "usage": 1399.22
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": 26325.33,
+      "current_reading": 27724.65,
+      "multiplier": null,
+      "consumption_units": "kWh",
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "14.77",
+      "usage": 1399.22
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Summer Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "66.00",
+      "usage": 480.00
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Summer Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "93.23",
+      "usage": 678.06
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": 26325.33,
+      "current_reading": 27724.65,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "3.08"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Winter Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "33.17",
+      "usage": 241.26
+    },
+    {
+      "meter_number": "2172368",
+      "service_category": "KWH",
+      "service_from_date": "August 13, 2025",
+      "service_through_date": "October 10, 2025",
+      "previous_reading": "62975.57",
+      "current_reading": "63209.73",
+      "multiplier": "1",
+      "consumption_units": "234.15",
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": null
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "14.77"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Summer Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "26.65"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "3.08"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Winter Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "5.55"
+    },
+    {
+      "meter_number": "2172370",
+      "service_category": "KWH",
+      "service_from_date": "August 13, 2025",
+      "service_through_date": "October 10, 2025",
+      "previous_reading": "31331.87",
+      "current_reading": "31654.96",
+      "multiplier": "1",
+      "consumption_units": "323.08",
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": null
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "14.77"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Summer Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "36.77"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "3.08"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Winter Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "7.66"
+    },
+    {
+      "meter_number": "2172346",
+      "service_category": "KWH",
+      "service_from_date": "August 13, 2025",
+      "service_through_date": "October 10, 2025",
+      "previous_reading": "32733.57",
+      "current_reading": "33041.83",
+      "multiplier": "1",
+      "consumption_units": "668.26",
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": null
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "14.77"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Summer Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "66.00"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Summer Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "10.04"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "3.08"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Winter Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "15.84"
+    },
+    {
+      "meter_number": "2172347",
+      "service_category": "KWH",
+      "service_from_date": "August 13, 2025",
+      "service_through_date": "October 10, 2025",
+      "previous_reading": "31419.46",
+      "current_reading": "31716.74",
+      "multiplier": "1",
+      "consumption_units": "297.28",
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": null
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "14.77"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Summer Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "33.83"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Base Service Charge",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": null,
+      "amount": "3.08"
+    },
+    {
+      "meter_number": null,
+      "service_category": null,
+      "service_from_date": null,
+      "service_through_date": "Winter Residential Energy",
+      "previous_reading": null,
+      "current_reading": null,
+      "multiplier": null,
+      "consumption_units": null,
+      "power_factor": null,
+      "rate_code": null,
+      "unit_charge": "0.1375",
+      "amount": "7.05"
+    }
+  ],
+  "service_types": [
+    {
+      "service_name": "Electric Service",
+      "current_service": "491.04",
+      "service_from_date": "August 13, 2025",
+      "service_to_date": "October 10, 2025",
+      "line_item_charges": [
+        {
+          "category": "Base Service Charge",
+          "description": null,
+          "rate": null,
+          "amount": "14.77",
+          "meter_number": "2172371",
+          "usage": 1399.32,
+          "uom": "kWh",
+          "previous_reading": 26325.33,
+          "previous_reading_type": null,
+          "current_reading": 27724.65,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "Summer Residential Energy",
+          "description": null,
+          "rate": "0.1375",
+          "amount": "66.00",
+          "meter_number": null,
+          "usage": 480,
+          "uom": "kWh",
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "Summer Residential Energy",
+          "description": null,
+          "rate": "0.1375",
+          "amount": "93.23",
+          "meter_number": null,
+          "usage": 678.06,
+          "uom": "kWh",
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "Base Service Charge",
+          "description": null,
+          "rate": null,
+          "amount": "3.08",
+          "meter_number": null,
+          "usage": null,
+          "uom": null,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "Winter Residential Energy",
+          "description": null,
+          "rate": "0.1375",
+          "amount": "33.17",
+          "meter_number": null,
+          "usage": 241.26,
+          "uom": kWh,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        }
+      ],
+      "current_service_validation": {
+        "is_valid": true,
+        "current_service_amount": 491.04,
+        "line_items_total": 491.0399999999999,
+        "difference": 0.0,
+        "line_items": [
+          {
+            "category": "Base Service Charge",
+            "amount": 14.77
+          },
+          {
+            "category": "Summer Residential Energy",
+            "amount": 66.0
+          },
+          {
+            "category": "Summer Residential Energy",
+            "amount": 93.23
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 3.08
+          },
+          {
+            "category": "Winter Residential Energy",
+            "amount": 33.17
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 14.77
+          },
+          {
+            "category": "Summer Residential Energy",
+            "amount": 26.65
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 3.08
+          },
+          {
+            "category": "Winter Residential Energy",
+            "amount": 5.55
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 14.77
+          },
+          {
+            "category": "Summer Residential Energy",
+            "amount": 36.77
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 3.08
+          },
+          {
+            "category": "Winter Residential Energy",
+            "amount": 7.66
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 14.77
+          },
+          {
+            "category": "Summer Residential Energy",
+            "amount": 66.0
+          },
+          {
+            "category": "Summer Residential Energy",
+            "amount": 10.04
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 3.08
+          },
+          {
+            "category": "Winter Residential Energy",
+            "amount": 15.84
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 14.77
+          },
+          {
+            "category": "Summer Residential Energy",
+            "amount": 33.83
+          },
+          {
+            "category": "Base Service Charge",
+            "amount": 3.08
+          },
+          {
+            "category": "Winter Residential Energy",
+            "amount": 7.05
+          }
+        ],
+        "reason": "Line items ($491.04) matches Current Service ($491.04)"
+      }
+    }
+  ],
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  },
+  "current_adjustments": null,
+  "payment_information": {
+    "payment_date": null,
+    "payment_amount": null
+  },
+  "adjustments": [],
+  "billing_validation": {
+    "is_valid": true,
+    "current_billing_amount": 491.04,
+    "amounts_total": 491.0399999999999,
+    "difference": 0.0,
+    "amounts_list": [
+      14.77,
+      66.0,
+      93.23,
+      3.08,
+      33.17,
+      14.77,
+      26.65,
+      3.08,
+      5.55,
+      14.77,
+      36.77,
+      3.08,
+      7.66,
+      14.77,
+      66.0,
+      10.04,
+      3.08,
+      15.84,
+      14.77,
+      33.83,
+      3.08,
+      7.05
+    ],
+    "reason": "Sum of all amounts ($491.04) matches Current Billing ($491.04)"
+  },
+  "description": null,
+  "source_file": "4835560000_12_09_2025.pdf"
+}

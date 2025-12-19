@@ -1,0 +1,129 @@
+=== Utility Bills Processing Run @ 2025-11-04_15-28-58 ===
+Python: 3.12.11  PID: 319212
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. Sammamish Plateau Water.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: Sammamish Plateau Water.pdf
+Detected company: Sammamish Plateau Water - Using specialized template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+
+TEXT RESPONSE
+{
+  "account_number": "0001307600",
+  "customer_name": "SAXONY CONDOMINIUMS",
+  "service_address": "564 225TH LN NE A",
+  "billing_address": "C/O EMERALD DEPT 106 PO BOX 4579 HOUSTON TX 77210-4579",
+  "bill_date": "October 05 2025",
+  "total_amount_due_date": "October 25 2025",
+  "number_of_days": "30",
+  "previous_balance": "42.41",
+  "current_billing": "1731.65",
+  "total_amount_due": "1689.24",
+  
+  "payments_applied": [],
+  
+  "sammamish_contact_info": {
+    "phone_number": "425.392.6256",
+    "email": "billing@spwater.org"
+  },
+  
+  "sammamish_meter": {
+    "meter_number": "68566030",
+    "read_dates": {
+      "start_date": "August 31 2025",
+      "end_date": "September 30 2025"
+    },
+    "billing_days": "30",
+    "meter_readings": {
+      "previous_reading": "0820413",
+      "present_reading": "0828725"
+    },
+    "usage": {
+      "cubic_feet": "8312",
+      "gallons": "62174"
+    }
+  },
+  
+  "service_types": [
+    {
+      "service_name": "Water",
+      "current_service": "1731.65",
+      "service_from_date": "August 31 2025",
+      "service_to_date": "September 30 2025",
+      "line_item_charges": [
+        {
+          "category": "WATER BLOCK 1",
+          "amount": "235.23"
+        },
+        {
+          "category": "MULTI-FAMILY WTR PER UNIT",
+          "amount": "316.80"
+        },
+        {
+          "category": "MULTI-FAMILY SEWER PER UNIT",
+          "amount": "533.70"
+        },
+        {
+          "category": "KING COUNTY WASTEWATER TRTMNT",
+          "amount": "645.92"
+        }
+      ]
+    }
+  ],
+  
+  "taxes": {
+    "per_service_taxes": [],
+    "global_taxes": []
+  }
+}
+
+END OF TEXT RESPONSE
+
+DATA
+{'account_number': '0001307600', 'customer_name': 'SAXONY CONDOMINIUMS', 'service_address': '564 225TH LN NE A', 'billing_address': 'C/O EMERALD DEPT 106 PO BOX 4579 HOUSTON TX 77210-4579', 'bill_date': 'October 05 2025', 'total_amount_due_date': 'October 25 2025', 'number_of_days': '30', 'previous_balance': '42.41', 'current_billing': '1731.65', 'total_amount_due': '1689.24', 'payments_applied': [], 'sammamish_contact_info': {'phone_number': '425.392.6256', 'email': 'billing@spwater.org'}, 'sammamish_meter': {'meter_number': '68566030', 'read_dates': {'start_date': 'August 31 2025', 'end_date': 'September 30 2025'}, 'billing_days': '30', 'meter_readings': {'previous_reading': '0820413', 'present_reading': '0828725'}, 'usage': {'cubic_feet': '8312', 'gallons': '62174'}}, 'service_types': [{'service_name': 'Water', 'current_service': '1731.65', 'service_from_date': 'August 31 2025', 'service_to_date': 'September 30 2025', 'line_item_charges': [{'category': 'WATER BLOCK 1', 'amount': '235.23'}, {'category': 'MULTI-FAMILY WTR PER UNIT', 'amount': '316.80'}, {'category': 'MULTI-FAMILY SEWER PER UNIT', 'amount': '533.70'}, {'category': 'KING COUNTY WASTEWATER TRTMNT', 'amount': '645.92'}]}], 'taxes': {'per_service_taxes': [], 'global_taxes': []}}
+
+END OF DATA
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'previous_balance', 'current_billing', 'total_amount_due', 'payments_applied', 'sammamish_contact_info', 'sammamish_meter', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/Sammamish Plateau Water.pdf
+Saved JSON to processed/json/Sammamish Plateau Water.json
+Successfully processed Sammamish Plateau Water.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

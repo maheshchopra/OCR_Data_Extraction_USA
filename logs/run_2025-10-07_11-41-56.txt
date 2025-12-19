@@ -1,0 +1,127 @@
+=== Utility Bills Processing Run @ 2025-10-07_11-41-56 ===
+Python: 3.12.11  PID: 971032
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 12 PDF file(s) in inbox folder:
+  1. UBM-3065-Cycle 7 - 2025 - 4822650000 080720254130.pdf
+  2. UBM-3067-Cycle 8 - 2025 - 200001274808 082020253248.pdf
+  3. UBM-3067-Cycle 8 - 2025 - 4908410000 080520252450.pdf
+  4. UBM-3067-Cycle 8 - 2025 - 5021640000 081120255026.pdf
+  5. UBM-3138-Cycle 7 - 2025 - 9601550000 081420254504.pdf
+  6. UBM-3139-Cycle 7 - 2025 - 5685740000 080420255855.pdf
+  7. UBM-3144-Cycle 7 - 2025 - 200001659198 - X147815324 082020254116.pdf
+  8. UBM-3144-Cycle 7 - 2025 - 200001659776 082820252859.pdf
+  9. UBM-3144-Cycle 7 - 2025 - 301720892199 080620252959.pdf
+  10. UBM-3144-Cycle 8 - 2025 - 301720892199 080620253442.pdf
+  11. UBM-3147-Cycle 8 - 2025 - 04177303-00 082020254450.pdf
+  12. UBM-3150-Cycle 5 - 2025 - 6869640000 080420254938.pdf
+
+Processing: UBM-3065-Cycle 7 - 2025 - 4822650000 080720254130.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3065-Cycle 7 - 2025 - 4822650000 080720254130.pdf
+✓ Saved JSON to processed/json/UBM-3065-Cycle 7 - 2025 - 4822650000 080720254130.json
+✓ Successfully processed UBM-3065-Cycle 7 - 2025 - 4822650000 080720254130.pdf
+
+Processing: UBM-3067-Cycle 8 - 2025 - 200001274808 082020253248.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3067-Cycle 8 - 2025 - 200001274808 082020253248.pdf
+✓ Saved JSON to processed/json/UBM-3067-Cycle 8 - 2025 - 200001274808 082020253248.json
+✓ Successfully processed UBM-3067-Cycle 8 - 2025 - 200001274808 082020253248.pdf
+
+Processing: UBM-3067-Cycle 8 - 2025 - 4908410000 080520252450.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3067-Cycle 8 - 2025 - 4908410000 080520252450.pdf
+✓ Saved JSON to processed/json/UBM-3067-Cycle 8 - 2025 - 4908410000 080520252450.json
+✓ Successfully processed UBM-3067-Cycle 8 - 2025 - 4908410000 080520252450.pdf
+
+Processing: UBM-3067-Cycle 8 - 2025 - 5021640000 081120255026.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3067-Cycle 8 - 2025 - 5021640000 081120255026.pdf
+✓ Saved JSON to processed/json/UBM-3067-Cycle 8 - 2025 - 5021640000 081120255026.json
+✓ Successfully processed UBM-3067-Cycle 8 - 2025 - 5021640000 081120255026.pdf
+
+Processing: UBM-3138-Cycle 7 - 2025 - 9601550000 081420254504.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3138-Cycle 7 - 2025 - 9601550000 081420254504.pdf
+✓ Saved JSON to processed/json/UBM-3138-Cycle 7 - 2025 - 9601550000 081420254504.json
+✓ Successfully processed UBM-3138-Cycle 7 - 2025 - 9601550000 081420254504.pdf
+
+Processing: UBM-3139-Cycle 7 - 2025 - 5685740000 080420255855.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3139-Cycle 7 - 2025 - 5685740000 080420255855.pdf
+✓ Saved JSON to processed/json/UBM-3139-Cycle 7 - 2025 - 5685740000 080420255855.json
+✓ Successfully processed UBM-3139-Cycle 7 - 2025 - 5685740000 080420255855.pdf
+
+Processing: UBM-3144-Cycle 7 - 2025 - 200001659198 - X147815324 082020254116.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3144-Cycle 7 - 2025 - 200001659198 - X147815324 082020254116.pdf
+✓ Saved JSON to processed/json/UBM-3144-Cycle 7 - 2025 - 200001659198 - X147815324 082020254116.json
+✓ Successfully processed UBM-3144-Cycle 7 - 2025 - 200001659198 - X147815324 082020254116.pdf
+
+Processing: UBM-3144-Cycle 7 - 2025 - 200001659776 082820252859.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3144-Cycle 7 - 2025 - 200001659776 082820252859.pdf
+✓ Saved JSON to processed/json/UBM-3144-Cycle 7 - 2025 - 200001659776 082820252859.json
+✓ Successfully processed UBM-3144-Cycle 7 - 2025 - 200001659776 082820252859.pdf
+
+Processing: UBM-3144-Cycle 7 - 2025 - 301720892199 080620252959.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [False, False, False, False, False]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to unprocessed/pdf/UBM-3144-Cycle 7 - 2025 - 301720892199 080620252959.pdf
+✓ Saved JSON to unprocessed/json/UBM-3144-Cycle 7 - 2025 - 301720892199 080620252959.json
+⚠ Incomplete extraction for UBM-3144-Cycle 7 - 2025 - 301720892199 080620252959.pdf
+
+Processing: UBM-3144-Cycle 8 - 2025 - 301720892199 080620253442.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [False, False, False, False, False]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to unprocessed/pdf/UBM-3144-Cycle 8 - 2025 - 301720892199 080620253442.pdf
+✓ Saved JSON to unprocessed/json/UBM-3144-Cycle 8 - 2025 - 301720892199 080620253442.json
+⚠ Incomplete extraction for UBM-3144-Cycle 8 - 2025 - 301720892199 080620253442.pdf
+
+Processing: UBM-3147-Cycle 8 - 2025 - 04177303-00 082020254450.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3147-Cycle 8 - 2025 - 04177303-00 082020254450.pdf
+✓ Saved JSON to processed/json/UBM-3147-Cycle 8 - 2025 - 04177303-00 082020254450.json
+✓ Successfully processed UBM-3147-Cycle 8 - 2025 - 04177303-00 082020254450.pdf
+
+Processing: UBM-3150-Cycle 5 - 2025 - 6869640000 080420254938.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3150-Cycle 5 - 2025 - 6869640000 080420254938.pdf
+✓ Saved JSON to processed/json/UBM-3150-Cycle 5 - 2025 - 6869640000 080420254938.json
+✓ Successfully processed UBM-3150-Cycle 5 - 2025 - 6869640000 080420254938.pdf
+
+==================================================
+PROCESSING SUMMARY
+==================================================
+Total files processed: 12
+Successfully extracted: 10
+Incomplete/Failed: 2
+
+Files organized into:
+  - processed/pdf: 10 files
+  - processed/json: 10 files
+  - unprocessed/pdf: 2 files
+  - unprocessed/json: 2 files

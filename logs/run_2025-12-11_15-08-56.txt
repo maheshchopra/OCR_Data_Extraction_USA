@@ -1,0 +1,84 @@
+=== Utility Bills Processing Run @ 2025-12-11_15-08-56 ===
+Python: 3.12.11  PID: 142032
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\first_phase\version_2
+===============================================
+
+Found 3 PDF file(s) in inbox folder:
+  1. PSE Gas & Electric Bill.pdf
+  2. PSE Electric Bill.pdf
+  3. PSE Gas Bill.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 3
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (3 files)
+============================================================
+
+[1.1] Processing: PSE Gas & Electric Bill.pdf
+Detected company: Puget Sound Energy - Using specialized template
+Converting PDF to images...
+Processing 3 page(s) with GPT-4o Vision...
+  Encoding page 1/3...
+  Encoding page 2/3...
+  Encoding page 3/3...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 3 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'bill_number', 'bill_type', 'total_amount_due_date', 'number_of_days', 'service_days', 'description', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'contact_info', 'late_payment_fee', 'late_fee_info', 'meters', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/PSE Gas & Electric Bill.pdf
+Saved JSON to processed/json/PSE Gas & Electric Bill.json
+Successfully processed PSE Gas & Electric Bill.pdf
+
+[1.2] Processing: PSE Electric Bill.pdf
+Detected company: Puget Sound Energy - Using specialized template
+Converting PDF to images...
+Processing 2 page(s) with GPT-4o Vision...
+  Encoding page 1/2...
+  Encoding page 2/2...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 2 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'bill_number', 'bill_type', 'total_amount_due_date', 'number_of_days', 'service_days', 'description', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'contact_info', 'late_payment_fee', 'late_fee_info', 'meters', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/PSE Electric Bill.pdf
+Saved JSON to processed/json/PSE Electric Bill.json
+Successfully processed PSE Electric Bill.pdf
+
+[1.3] Processing: PSE Gas Bill.pdf
+Detected company: Puget Sound Energy - Using specialized template
+Converting PDF to images...
+Processing 2 page(s) with GPT-4o Vision...
+  Encoding page 1/2...
+  Encoding page 2/2...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 2 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'bill_number', 'bill_type', 'total_amount_due_date', 'number_of_days', 'service_days', 'description', 'previous_balance', 'current_billing', 'total_amount_due', 'balance', 'payments_applied', 'contact_info', 'late_payment_fee', 'late_fee_info', 'meters', 'service_types', 'taxes', 'current_adjustments', 'payment_information', 'adjustments', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/PSE Gas Bill.pdf
+Saved JSON to processed/json/PSE Gas Bill.json
+Successfully processed PSE Gas Bill.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 3
+Successfully processed: 3
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 3
+Successfully extracted: 3
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 3 files
+  - processed/json: 3 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

@@ -1,0 +1,54 @@
+=== Utility Bills Processing Run @ 2025-12-08_16-22-46 ===
+Python: 3.12.11  PID: 1533160
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\first_phase\version_2
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. Portal - Invoice # 4091370 - Print Invoice.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: Portal - Invoice # 4091370 - Print Invoice.pdf
+Filename detection failed. Attempting AI-based detection from PDF content...
+AI detection also failed. Using default template.
+No specific template detected - Using default template
+Converting PDF to images...
+Processing 1 page(s) with GPT-4o Vision...
+  Encoding page 1/1...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 1 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'account_number', 'account_type', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'bill_number', 'bill_type', 'balance', 'service_days', 'description', 'late_fee_info', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+ Moved PDF to processed/pdf/Portal - Invoice # 4091370 - Print Invoice.pdf
+Saved JSON to processed/json/Portal - Invoice # 4091370 - Print Invoice.json
+Successfully processed Portal - Invoice # 4091370 - Print Invoice.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

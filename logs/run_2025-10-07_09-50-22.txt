@@ -1,0 +1,29 @@
+=== Utility Bills Processing Run @ 2025-10-07_09-50-22 ===
+Python: 3.12.11  PID: 930872
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+
+Processing: UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+Warning: Could not extract any useful information from the PDF. Returning partial data.
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [False, False, False, False, False]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to unprocessed/pdf/UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+✓ Saved JSON to unprocessed/json/UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.json
+⚠ Incomplete extraction for UBM-3015-Cycle 10 - 2023 - 2591706 080620250845.pdf
+
+==================================================
+PROCESSING SUMMARY
+==================================================
+Total files processed: 1
+Successfully extracted: 0
+Incomplete/Failed: 1
+
+Files organized into:
+  - processed/pdf: 0 files
+  - processed/json: 0 files
+  - unprocessed/pdf: 1 files
+  - unprocessed/json: 1 files

@@ -1,0 +1,53 @@
+=== Utility Bills Processing Run @ 2025-12-08_16-06-07 ===
+Python: 3.12.11  PID: 1014520
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\first_phase\version_2
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. rentonwa.merchanttransact.com_secure_MyBill_Print.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: rentonwa.merchanttransact.com_secure_MyBill_Print.pdf
+Detected company: City of Renton - Using specialized template
+Converting PDF to images...
+Processing 2 page(s) with GPT-4o Vision...
+  Encoding page 1/2...
+  Encoding page 2/2...
+Sending images to GPT-4o Vision API...
+Successfully extracted data from 2 page(s)
+Debug - organize_files called with result keys: ['provider_name', 'provider_website', 'provider_customer_service_phone', 'provider_customer_service_email', 'provider_address', 'provider_return_address', 'account_number', 'account_type', 'bill_number', 'bill_type', 'customer_name', 'service_address', 'billing_address', 'bill_date', 'total_amount_due_date', 'number_of_days', 'service_days', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'balance', 'payment_information', 'payments_applied', 'adjustments', 'late_fee_info', 'meters', 'service_types', 'taxes', 'billing_validation', 'description', 'source_file']
+Debug - success_indicators: [True, True, True, True, False]
+ Moved PDF to processed/pdf/rentonwa.merchanttransact.com_secure_MyBill_Print.pdf
+Saved JSON to processed/json/rentonwa.merchanttransact.com_secure_MyBill_Print.json
+Successfully processed rentonwa.merchanttransact.com_secure_MyBill_Print.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 1
+Successfully processed: 1
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 1
+Successfully extracted: 1
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 1 files
+  - processed/json: 1 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

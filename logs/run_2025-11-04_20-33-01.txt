@@ -1,0 +1,45 @@
+=== Utility Bills Processing Run @ 2025-11-04_20-33-01 ===
+Python: 3.12.11  PID: 416660
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 1 PDF file(s) in inbox folder:
+  1. Seattle City Light.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 1
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (1 files)
+============================================================
+
+[1.1] Processing: Seattle City Light.pdf
+Detected company: Seattle City Light - Using specialized template
+Converting PDF to images...
+Processing 4 page(s) with GPT-4o Vision...
+  Encoding page 1/4...
+  Encoding page 2/4...
+  Encoding page 3/4...
+  Encoding page 4/4...
+Sending images to GPT-4o Vision API...
+
+
+Processing stopped by user during batch 1
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 0
+Successfully extracted: 0
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 0 files
+  - processed/json: 0 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files

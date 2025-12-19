@@ -1,0 +1,393 @@
+{
+  "provider_name": "Seattle Public Utilities",
+  "provider_website": "seattle.gov/utilities",
+  "provider_customer_service_phone": "(206) 684-3000",
+  "provider_customer_service_email": "SPUCustomerService@seattle.gov",
+  "provider_address": null,
+  "provider_return_address": "PO BOX 35177, SEATTLE WA 98124-5177",
+  "account_number": "9510740000",
+  "account_type": "Water & Sewer & Solid Waste",
+  "bill_number": null,
+  "bill_type": null,
+  "customer_name": "STELLINA CONDO HOA",
+  "service_address": "833 DAVIS PL S",
+  "billing_address": "PO BOX 650588, DALLAS TX 75265-0588",
+  "bill_date": "November 17, 2025",
+  "total_amount_due_date": "December 08, 2025",
+  "number_of_days": "28",
+  "service_days": "28",
+  "previous_balance": "3483.15",
+  "current_billing": "2779.31",
+  "current_adjustments": null,
+  "total_amount_due": "2779.31",
+  "balance": null,
+  "payment_information": {
+    "payment_date": "November 04, 2025",
+    "payment_amount": "3483.15"
+  },
+  "payments_applied": [
+    {
+      "payment_date": "November 04, 2025",
+      "payment_amount": "3483.15"
+    }
+  ],
+  "adjustments": [],
+  "contact_info": {
+    "website": "seattle.gov/utilities",
+    "phone_number": "(206) 684-3000",
+    "email": "SPUCustomerService@seattle.gov"
+  },
+  "late_payment_fee": {
+    "percentage": "1%",
+    "description": "A late payment charge of 1% will be applied to accounts that are more than 15 days past due."
+  },
+  "late_fee_info": {
+    "latefee_applied": null,
+    "latefee_date": null,
+    "latefee_amount": null,
+    "latefee_by_duedate_percentage": "1%",
+    "latefee_by_duedate": null,
+    "total_amount_with_latefee_by_duedate": null
+  },
+  "consumption": {
+    "ccf": {
+      "usage": "67",
+      "uom": "CCF"
+    },
+    "gallons": {
+      "usage": "50116",
+      "uom": "gallons"
+    },
+    "ccf_to_gallons_conversion": "1 CCF = 748 gallons"
+  },
+  "service_types": [
+    {
+      "service_name": "Water Service",
+      "current_service": "502.06",
+      "service_from_date": "October 18, 2025",
+      "service_to_date": "November 15, 2025",
+      "previous_reading": "23285.00",
+      "current_reading": "23352.00",
+      "line_item_charges": [
+        {
+          "category": "Base service charge",
+          "description": null,
+          "amount": "40.13",
+          "rate": null,
+          "meter_number": "PMM-62420092-1",
+          "service_category": "WTR1",
+          "usage": "0.00",
+          "uom": "CCF",
+          "previous_reading": "8654.00",
+          "previous_reading_type": null,
+          "current_reading": "8654.00",
+          "current_reading_type": null,
+          "usage_multiplier": "1.00"
+        },
+        {
+          "category": "Base service charge",
+          "description": null,
+          "amount": "22.63",
+          "rate": null,
+          "meter_number": "PMM-62106417-1",
+          "service_category": "WTR1",
+          "usage": "0.00",
+          "uom": "CCF",
+          "previous_reading": "0.00",
+          "previous_reading_type": null,
+          "current_reading": "0.00",
+          "current_reading_type": null,
+          "usage_multiplier": "1.00"
+        },
+        {
+          "category": "Base service charge",
+          "description": null,
+          "amount": "38.64",
+          "rate": null,
+          "meter_number": "PMM-62192713-1",
+          "service_category": "WTR1",
+          "usage": "67.00",
+          "uom": "CCF",
+          "previous_reading": "23285.00",
+          "previous_reading_type": null,
+          "current_reading": "23352.00",
+          "current_reading_type": null,
+          "usage_multiplier": "1.00"
+        },
+        {
+          "category": "Winter Commercial",
+          "description": null,
+          "amount": "400.66",
+          "rate": "$5.98 per CCF",
+          "meter_number": "PMM-62192713-1",
+          "service_category": "WTR1",
+          "usage": "67.00",
+          "uom": "CCF",
+          "previous_reading": "23285.00",
+          "previous_reading_type": null,
+          "current_reading": "23352.00",
+          "current_reading_type": null,
+          "usage_multiplier": "1.00"
+        }
+      ],
+      "current_service_validation": {
+        "is_valid": true,
+        "current_service_amount": 502.06,
+        "line_items_total": 502.06000000000006,
+        "difference": 0.0,
+        "line_items": [
+          {
+            "category": "Base service charge",
+            "amount": 40.13
+          },
+          {
+            "category": "Base service charge",
+            "amount": 22.63
+          },
+          {
+            "category": "Base service charge",
+            "amount": 38.64
+          },
+          {
+            "category": "Winter Commercial",
+            "amount": 400.66
+          }
+        ],
+        "reason": "Line items ($502.06) matches Current Service ($502.06)"
+      }
+    },
+    {
+      "service_name": "Sewer Service",
+      "current_service": "1287.07",
+      "service_from_date": "October 18, 2025",
+      "service_to_date": "November 15, 2025",
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "Commercial Service",
+          "description": null,
+          "amount": "1287.07",
+          "rate": "$19.21 per CCF",
+          "meter_number": null,
+          "service_category": null,
+          "usage": "67.00",
+          "uom": "CCF",
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": "1.00"
+        }
+      ],
+      "current_service_validation": {
+        "is_valid": true,
+        "current_service_amount": 1287.07,
+        "line_items_total": 1287.07,
+        "difference": 0.0,
+        "line_items": [
+          {
+            "category": "Commercial Service",
+            "amount": 1287.07
+          }
+        ],
+        "reason": "Line items ($1287.07) matches Current Service ($1287.07)"
+      }
+    },
+    {
+      "service_name": "Solid Waste Service",
+      "current_service": "990.18",
+      "service_from_date": "October 01, 2025",
+      "service_to_date": "October 31, 2025",
+      "previous_reading": null,
+      "current_reading": null,
+      "line_item_charges": [
+        {
+          "category": "1-Garbage Dumpster 2 Yd 2X Weekly",
+          "description": null,
+          "amount": "815.34",
+          "rate": null,
+          "meter_number": null,
+          "service_category": null,
+          "usage": null,
+          "uom": null,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "Dumpster Base Charge",
+          "description": null,
+          "amount": "49.50",
+          "rate": null,
+          "meter_number": null,
+          "service_category": null,
+          "usage": null,
+          "uom": null,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "1-Food/Yard Waste/Liner 90 Gal 1X Weekly",
+          "description": null,
+          "amount": "14.30",
+          "rate": null,
+          "meter_number": null,
+          "service_category": null,
+          "usage": null,
+          "uom": null,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "1-Food/Yard Waste/Liner 90 Gal 1X Weekly Onsite Pick-up",
+          "description": null,
+          "amount": "80.95",
+          "rate": null,
+          "meter_number": null,
+          "service_category": null,
+          "usage": null,
+          "uom": null,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "2-Recycle Dumpster 2 Yd 1X Weekly",
+          "description": null,
+          "amount": "0.00",
+          "rate": null,
+          "meter_number": null,
+          "service_category": null,
+          "usage": null,
+          "uom": null,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        },
+        {
+          "category": "Recycle Secure Building Fee",
+          "description": null,
+          "amount": "30.09",
+          "rate": null,
+          "meter_number": null,
+          "service_category": null,
+          "usage": null,
+          "uom": null,
+          "previous_reading": null,
+          "previous_reading_type": null,
+          "current_reading": null,
+          "current_reading_type": null,
+          "usage_multiplier": null
+        }
+      ],
+      "current_service_validation": {
+        "is_valid": true,
+        "current_service_amount": 990.18,
+        "line_items_total": 990.1800000000001,
+        "difference": 0.0,
+        "line_items": [
+          {
+            "category": "1-Garbage Dumpster 2 Yd 2X Weekly",
+            "amount": 815.34
+          },
+          {
+            "category": "Dumpster Base Charge",
+            "amount": 49.5
+          },
+          {
+            "category": "1-Food/Yard Waste/Liner 90 Gal 1X Weekly",
+            "amount": 14.3
+          },
+          {
+            "category": "1-Food/Yard Waste/Liner 90 Gal 1X Weekly Onsite Pick-up",
+            "amount": 80.95
+          },
+          {
+            "category": "2-Recycle Dumpster 2 Yd 1X Weekly",
+            "amount": 0.0
+          },
+          {
+            "category": "Recycle Secure Building Fee",
+            "amount": 30.09
+          }
+        ],
+        "reason": "Line items ($990.18) matches Current Service ($990.18)"
+      }
+    }
+  ],
+  "taxes": {
+    "per_service_taxes": [
+      {
+        "service_name": "Water Service",
+        "tax_name": "City taxes",
+        "tax_rate": "15.5%",
+        "tax_amount": null
+      },
+      {
+        "service_name": "Sewer Service",
+        "tax_name": "City taxes",
+        "tax_rate": "12.0%",
+        "tax_amount": null
+      },
+      {
+        "service_name": "Sewer Service",
+        "tax_name": "State taxes",
+        "tax_rate": "1.2%",
+        "tax_amount": null
+      },
+      {
+        "service_name": "Solid Waste Service",
+        "tax_name": "City taxes",
+        "tax_rate": "11.9%",
+        "tax_amount": null
+      },
+      {
+        "service_name": "Solid Waste Service",
+        "tax_name": "State taxes",
+        "tax_rate": "4.0%",
+        "tax_amount": null
+      }
+    ],
+    "global_taxes": []
+  },
+  "billing_validation": {
+    "is_valid": true,
+    "total_amount_due": 2779.31,
+    "service_total": 2779.31,
+    "current_adjustments": 0.0,
+    "balance": 0.0,
+    "previous_balance_net_of_payments": 0.0,
+    "total_calculated": 2779.31,
+    "difference": 0.0,
+    "services": [
+      {
+        "service_name": "Water Service",
+        "amount": 502.06
+      },
+      {
+        "service_name": "Sewer Service",
+        "amount": 1287.07
+      },
+      {
+        "service_name": "Solid Waste Service",
+        "amount": 990.18
+      }
+    ],
+    "reason": "Services ($2779.31) + Adjustments ($0.00) + Previous Balance Net ($0.00) = $2779.31 matches Total Amount Due ($2779.31)"
+  },
+  "description": null,
+  "source_file": "9510740000_12_18_2025.pdf"
+}

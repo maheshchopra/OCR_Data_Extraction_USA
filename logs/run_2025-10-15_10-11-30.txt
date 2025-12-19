@@ -1,0 +1,56 @@
+=== Utility Bills Processing Run @ 2025-10-15_10-11-30 ===
+Python: 3.12.11  PID: 26848
+Working dir: C:\Users\tejas\Documents\Utility Bills Project\version_1
+===============================================
+
+Found 2 PDF file(s) in inbox folder:
+  1. UBM-3170-Cycle 8 - 2025 - 9049640000 080820254737.pdf
+  2. UBM-3174-Cycle 9 - 2025 - 8435450000 082020254804.pdf
+
+============================================================
+STARTING BATCH PROCESSING
+============================================================
+Total files: 2
+Batch size: 20
+Total batches: 1
+============================================================
+
+============================================================
+PROCESSING BATCH 1 of 1 (2 files)
+============================================================
+
+[1.1] Processing: UBM-3170-Cycle 8 - 2025 - 9049640000 080820254737.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3170-Cycle 8 - 2025 - 9049640000 080820254737.pdf
+✓ Saved JSON to processed/json/UBM-3170-Cycle 8 - 2025 - 9049640000 080820254737.json
+✓ Successfully processed UBM-3170-Cycle 8 - 2025 - 9049640000 080820254737.pdf
+
+[1.2] Processing: UBM-3174-Cycle 9 - 2025 - 8435450000 082020254804.pdf
+Debug - organize_files called with result keys: ['account_number', 'customer_name', 'service_address', 'billing_address', 'previous_balance', 'current_billing', 'current_adjustments', 'total_amount_due', 'total_amount_due_date', 'bill_date', 'number_of_days', 'payment_information', 'payments_applied', 'adjustments', 'taxes', 'service_types', 'billing_validation', 'source_file']
+Debug - success_indicators: [True, True, True, True, True]
+Debug - indicator types: [<class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>, <class 'bool'>]
+✓ Moved PDF to processed/pdf/UBM-3174-Cycle 9 - 2025 - 8435450000 082020254804.pdf
+✓ Saved JSON to processed/json/UBM-3174-Cycle 9 - 2025 - 8435450000 082020254804.json
+✓ Successfully processed UBM-3174-Cycle 9 - 2025 - 8435450000 082020254804.pdf
+
+============================================================
+BATCH 1 SUMMARY
+============================================================
+Files in batch: 2
+Successfully processed: 2
+Failed/Incomplete: 0
+
+============================================================
+FINAL PROCESSING SUMMARY
+============================================================
+Total files processed: 2
+Successfully extracted: 2
+Incomplete/Failed: 0
+
+Files organized into:
+  - processed/pdf: 2 files
+  - processed/json: 2 files
+  - unprocessed/pdf: 0 files
+  - unprocessed/json: 0 files
