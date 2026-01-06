@@ -1,0 +1,201 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "-" or negative sign, treat as negative (prefix a minus sign). Remove commas.
+  Example: $-1567.46 -> -1567.46
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date (often labeled "Billing Date").
+
+statement_level_data.previous_balance:
+- The prior balance amount if explicitly present (e.g., "PREVIOUS BILL AMOUNT").
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period (e.g., "PAYMENTS RECEIVED").
+- If shown with a minus sign, output as negative.
+- Example: "$-1567.46" -> -1567.46
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed).
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+
+statement_level_data.balance:
+- The current balance if explicitly labeled "Balance" (distinct from "Amount Due").
+
+statement_level_data.current_billing:
+- The current period charges (often labeled "TOTAL CURRENT CHARGES").
+
+statement_level_data.total_amount_due:
+- The amount due now (often "AMOUNT DUE THIS STATEMENT").
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due (often "CURRENT STATEMENT DUE DATE").
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated. Return as a number (no % sign).
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date (e.g., "PREVIOUS BALANCE DUE IMMEDIATELY").
+- If not present, return null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed/Payment Amount" field, extract that number; otherwise null.
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field in a payment stub/policy section, extract it; otherwise null.
+
+statement_level_data.current_adjustments:
+- Current adjustments amount if explicitly shown (e.g., "CURRENT ADJUSTMENTS").
+- Return numbers only (no $ sign, no commas).
+- If not present, return null.
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill (Look for "CITY OF LACEY" or "City of Lacey" at the top of the bill).
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill (e.g., "CityofLacey.org").
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number (e.g., "(360) 491-5616").
+
+account_level_data.provider_customer_service_email:
+- A customer service email address (e.g., "UtilityBilling@CityofLacey.org").
+
+account_level_data.provider_address:
+- The provider's mailing address (use the PO BOX or address belonging to the provider, not the service address).
+- Example: "P.O. BOX 34210, SEATTLE, WA 98124-1210" or "420 College St SE, Lacey, WA 98503"
+
+account_level_data.account_number:
+- The account number as printed (labels like "Account Number").
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type(s) from the bill's service descriptions/line items.
+- City of Lacey bills typically have "WW" (Wastewater/Sewer) and "WR" (Water) prefixes on charges.
+- If both types are present, return "Water and Sewer".
+- If only one service type is shown, return that type (e.g., "Water" or "Sewer").
+- If the bill provides no clue about service type(s), return null.
+
+account_level_data.customer_name:
+- The billed customer name as printed (shown above the service address).
+
+account_level_data.service_address:
+- The location receiving service (often labeled "SERVICE ADDRESS"). Do not use the provider address.
+
+account_level_data.service_days:
+- The number of service days for this billing period, if explicitly shown.
+- Look for "DAYS" in the Meter Information section.
+- Extract ONLY the numeric day count (e.g., "36").
+- If the bill does not explicitly state the number of days, return null.
+
+account_level_data.multiplier_value:
+- The numeric conversion factor for CCF to Gallons.
+- Look for text like "1 CCF = 7.48 GALLONS" (typically shown in the Meter Information section).
+- Extract the numeric value that shows how many gallons equal 1 CCF: 7.48
+- Return as a number (e.g., 7.48).
+- If no multiplier is shown, return null.
+
+========================================
+C. meter_level_data (MeterLevelData)
+========================================
+
+meter_level_data:
+- A list of meter entries shown in the "Meter Information" section.
+- Each meter shows readings, usage, and consumption details.
+- Extract EVERY meter entry you find.
+- Return one array item per meter.
+- If no meter data exists, return an empty list [].
+
+meter_level_data[].meter_number:
+- The meter identifier shown under "METER #".
+- Extract exactly as written (e.g., "24039585-1").
+
+meter_level_data[].previous_read:
+- The previous meter reading shown under "PREVIOUS READ".
+- Extract the numeric value only (e.g., "55,150" -> 55150).
+
+meter_level_data[].current_read:
+- The current meter reading shown under "CURRENT READ".
+- Extract the numeric value only (e.g., "72,540" -> 72540).
+
+meter_level_data[].usage:
+- The usage amount shown under "USAGE".
+- Extract the numeric value only (e.g., "17,390" -> 17390).
+- This represents the consumption in CCF (hundred cubic feet).
+
+meter_level_data[].days:
+- The number of billing days shown under "DAYS".
+- Extract the numeric value only (e.g., "36").
+
+meter_level_data[].meter_read_dates:
+- The date range for meter readings if shown (e.g., "METER READ DATES FROM 08/13/2025 TO 09/18/2025").
+- Extract as text exactly as written.
+- If not present, return null.
+
+meter_level_data[].usage_in_gallons:
+- The usage converted to gallons if explicitly shown.
+- Look for text like "YOUR WATER USAGE FOR THIS BILLING PERIOD WAS 130,077.20 GALLONS."
+- Extract the numeric value only (e.g., 130077.20).
+- If not shown, return null.
+
+========================================
+D. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data:
+- A list of individual charge line items shown in the "Billing Details" section.
+- Each line item includes a service code prefix and description.
+- City of Lacey uses prefixes: "WW" (Wastewater/Sewer), "WR" (Water).
+- Extract EVERY charge line item you find.
+- Return one array item per line item.
+- If no charges exist, return an empty list [].
+
+charges_level_data[].service_code:
+- The service code prefix at the start of the charge description.
+- Examples: "WW" (Wastewater), "WR" (Water).
+- Extract exactly as written.
+
+charges_level_data[].charge_description:
+- The full description of the charge.
+- Examples: "CITY SEWER CHARGE", "LOTT TREATMENT", "RESIDENT BASE RATE", "WATER CONSUMPTION".
+- Extract exactly as written (without the service code prefix).
+
+charges_level_data[].charge_amount:
+- The charge amount shown on the right.
+- Return numbers only (no $ sign, no commas).
+- Examples: "$370.88" -> 370.88, "$753.84" -> 753.84
+
+charges_level_data[].service_from_date:
+- The start date of the service period for this charge if shown.
+- Look for "SERVICE FROM" label.
+- Extract exactly as written (e.g., "08/22/2025").
+- If not present, return null.
+
+charges_level_data[].service_to_date:
+- The end date of the service period for this charge if shown.
+- Look for "TO" after the service from date.
+- Extract exactly as written (e.g., "09/26/2025").
+- If not present, return null.

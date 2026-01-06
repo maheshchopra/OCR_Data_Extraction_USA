@@ -1,0 +1,160 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The invoice/bill date shown in the "BILLING PERIOD" table under "DATE" (e.g., "01-JAN-24").
+
+statement_level_data.previous_balance:
+- Look in the main "DESCRIPTION" table/section in the center of the invoice.
+- Find the line that starts with "*Past Due" (note the asterisk before "Past Due").
+- This line appears ABOVE the "Current Billing" line and shows the unpaid amount from previous billing periods.
+- Extract the dollar amount shown to the right of "*Past Due".
+- DO NOT confuse this with "Remaining Balance: $" (which appears below the main description section and represents the long-term mortgage-style balance).
+- Return the numeric value only (no $ sign, no commas).
+- If the amount is 0.00, return 0.00 (not null).
+- Example: If the line shows "*Past Due.....................$ 0.00", return 0.00
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period. For King County bills, this is typically not shown on the invoice, so return null.
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown. Typically not shown on King County bills, so return null.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed). Typically not shown on King County bills, so return null.
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown). Typically not shown on King County bills, so return null.
+
+statement_level_data.balance:
+- The current balance (if explicitly labeled "Balance", distinct from "Total Amount Due"). For King County bills, this is typically not shown separately, so return null.
+
+statement_level_data.current_billing:
+- The current period charges from the "DESCRIPTION" section (labeled "Current Billing").
+- Return the numeric value only (no $ sign, no commas).
+
+statement_level_data.total_amount_due:
+- The total amount due from the "DESCRIPTION" section (labeled "Total $").
+- This should match the "AMOUNT DUE" in the payment stub section at the bottom of the bill.
+- Return the numeric value only (no $ sign, no commas).
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due from the "BILLING PERIOD" table under "DUE DATE" (e.g., "31-JAN-24").
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated. If not present, return null.
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date. If not present, return null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed/Payment Amount" field, extract that number; otherwise null.
+- For King County bills, this is shown in the payment stub as "AMOUNT ENCLOSED".
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field in a payment stub/policy section, extract it; otherwise null.
+
+
+statement_level_data.discount_early_payoff:
+- The discounted early payoff amount (labeled "Discount Early Payoff: $").
+- This is the discounted amount if the customer pays off the entire remaining balance early.
+- Return the numeric value only (no $ sign, no commas).
+- If not present, return null.
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill (Look for "King County" at the top of the bill).
+- Use the full name including the division: "King County Wastewater Treatment Division".
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill (e.g., "www.kingcounty.gov/paycapacitycharge").
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number from the top of the bill (e.g., "206-296-1450").
+
+account_level_data.provider_customer_service_email:
+- A customer service email address if shown anywhere on the bill.
+
+account_level_data.provider_address:
+- The provider's mailing address for payments. Look for "Make check payable to:" section.
+- Use the address shown: "KING COUNTY FINANCE, 201 S JACKSON ST STE 710, SEATTLE WA 98104".
+- Format as a single string with commas separating address components.
+
+account_level_data.account_number:
+- The account number from the "BILLING PERIOD" table (labeled "ACCOUNT").
+
+account_level_data.invoice_number:
+- The invoice number from the "BILLING PERIOD" table (labeled "INVOICE NUMBER").
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type from the bill header.
+- Look for "Sewage Treatment Capacity Charge" or similar descriptors.
+- Return a concise value like "Sewage Treatment Capacity Charge".
+- If the bill provides no clue about service type, return null.
+
+account_level_data.customer_name:
+- The billed customer name from the "TO" section (e.g., "BROADCAST APARTMENTS").
+
+account_level_data.service_address:
+- The location receiving service from the "TO" section or from "Service Location" information.
+- Use the service address shown (e.g., "1420 E MADISON ST, SEATTLE, WA 98122").
+- Do not use the payment address.
+
+account_level_data.site_number:
+- The site number shown on the invoice (labeled "Site #").
+- Extract exactly as written (e.g., "2182924").
+
+account_level_data.service_location_district:
+- The district number shown under "Service Location" (labeled "District:").
+- Extract the numeric value (e.g., "68").
+- If not present, return null.
+
+account_level_data.billing_period:
+- The billing period date range from the "BILLING PERIOD" table.
+- Extract exactly as written (e.g., "10/01/2023 TO 12/31/2023").
+
+
+========================================
+C. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data.charges:
+- A list of charge line items from the "DESCRIPTION" section of the bill.
+- For King County Sewage Treatment Capacity Charge bills, this typically includes only the current billing charge.
+- The "DESCRIPTION" section shows "*Past Due", "Current Billing", and "Total $" lines.
+- Extract ONLY the "Current Billing" line as a charge item (do NOT include "*Past Due" or "Total $" as these are summary lines, not charges).
+- Return one array item for the current billing charge.
+- If no charges are present, return an empty list [].
+
+charges_level_data.charges[].charge_name:
+- The name/label of the charge from the "DESCRIPTION" section.
+- For King County bills, this is typically "Current Billing" (the label for the current period's sewage treatment capacity charge).
+- Extract exactly as written on the bill.
+
+charges_level_data.charges[].charge_amount:
+- The monetary amount for that charge (shown to the right of the charge name in the "DESCRIPTION" section).
+- Return numbers only (no $ sign, no commas).
+- If followed by "CR", treat as negative (prefix a minus sign).
+- For the "Current Billing" line, this is the monthly sewage treatment capacity charge amount.
+- Example: If the line shows "Current Billing..............$ 471.96", extract 471.96

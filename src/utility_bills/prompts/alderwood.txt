@@ -1,0 +1,232 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "-" or negative sign, treat as negative (prefix a minus sign). Remove commas.
+  Example: $-59.66 -> -59.66
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date (often labeled "Bill Date").
+
+statement_level_data.previous_balance:
+- The prior balance amount if explicitly present (e.g., "Previous Balance", "PREVIOUS BALANCE").
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period (e.g., "PAYMENT", "Payments Received"). 
+- If shown with a minus sign or in the visual formula as subtraction, output as negative.
+- Example: In the formula circles, if "Payments Received $-59.66" or "$59.66" in the subtraction position, output: -59.66
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown (may appear next to "PAYMENT" label).
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed).
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+
+statement_level_data.balance:
+- The current balance after applying payments (often "Balance Forward", "BALANCE FORWARD").
+
+statement_level_data.current_billing:
+- The current period charges (often labeled "Current Charges", "CURRENT CHARGES").
+
+statement_level_data.total_amount_due:
+- The amount due now (often "Amount Due", "TOTAL AMOUNT DUE").
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due (often "Due Date", "DUE DATE").
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated (e.g., "10% penalty"). Return as a number like 10.0 (no % sign).
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date (e.g., "Pay by due date to avoid 10% penalty"). If not present, null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed/Payment Amount" field, extract that number; otherwise null.
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field in a payment stub/policy section, extract it; otherwise null.
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill (Look for "ALDERWOOD WATER & WASTEWATER DISTRICT" or "Alderwood Water & Wastewater District" at the top of the bill).
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill (e.g., "www.awwd.com").
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number (e.g., "425-787-0220").
+
+account_level_data.provider_customer_service_email:
+- A customer service email address (e.g., "help@awwd.com").
+
+account_level_data.provider_address:
+- The provider's mailing address (use the PO BOX or address belonging to the provider, not the service address).
+- Example: "PO BOX 35113, SEATTLE, WA 98124-5113" or "3626 156th Street SW, Lynnwood, WA 98087-5021"
+- Prefer the PO BOX address if multiple addresses are shown.
+
+account_level_data.account_number:
+- The account number as printed (labels like "Account Number").
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type(s) from the bill's service descriptions/sections.
+- Alderwood bills typically have "Water Charges" and "Sewer Charges" sections.
+- If both sections are present (even if one is empty), return "Water and Wastewater".
+- If only one service type is shown, return that type (e.g., "Water" or "Wastewater").
+- Do NOT use the "Bill Type" or "Acct Type" fields from the billing details header - those are internal codes.
+- If the bill provides no clue about service type(s), return null.
+
+account_level_data.customer_name:
+- The billed customer name as printed (labels like "Account Name").
+
+account_level_data.service_address:
+- The location receiving service (often labeled "Service Address"). Do not use the provider address.
+
+account_level_data.service_days:
+- The number of service days for this billing period, if explicitly shown.
+- Look for "Billing Days" in the Meter Information section.
+- Extract ONLY the numeric day count (e.g., "59").
+- If the bill does not explicitly state the number of days, return null.
+
+account_level_data.multiplier_value:
+- The numeric conversion factor for CCF to Gallons.
+- Look for text like "1 CCF = 748 Gallons" (typically shown in the Meter Information section under "Units").
+- Extract the numeric value that shows how many gallons equal 1 CCF: 748
+- Return as a number (e.g., 748).
+- If no multiplier is shown, return null.
+
+========================================
+C. meter_level_data (MeterLevelData)
+========================================
+
+meter_level_data:
+- A list of meter entries shown in the "Meter Information" table at the bottom of the bill.
+- Each row represents one meter with its readings and usage information.
+- Extract EVERY meter entry you find in the table.
+- Return one array item per meter row.
+- If no meter data exists, return an empty list [].
+
+meter_level_data[].meter_type:
+- The type of meter (e.g., "Water", "Wastewater", "Sewer").
+- This is shown in the first column of the Meter Information table.
+- Extract exactly as written.
+
+meter_level_data[].meter_number:
+- The meter identifier shown under "Meter Number" column.
+- Extract exactly as written (e.g., "0043614341").
+
+meter_level_data[].read_date_present:
+- The current/present read date shown under "Read Dates" column (labeled "Present").
+- Extract exactly as written (e.g., "07/10/2025").
+
+meter_level_data[].read_date_previous:
+- The previous read date shown under "Read Dates" column (labeled "Previous").
+- Extract exactly as written (e.g., "05/12/2025").
+
+meter_level_data[].billing_days:
+- The number of billing days shown under "Billing Days" column.
+- Extract the numeric value only (e.g., "59").
+
+meter_level_data[].meter_reading_present:
+- The current/present meter reading shown under "Meter Readings" column (labeled "Present").
+- Extract the numeric value only (e.g., "0211").
+
+meter_level_data[].meter_reading_previous:
+- The previous meter reading shown under "Meter Readings" column (labeled "Previous").
+- Extract the numeric value only (e.g., "0211").
+
+meter_level_data[].usage:
+- The usage amount shown under "Usage" column.
+- Extract the numeric value only (e.g., "0").
+- This represents the consumption in CCF (hundred cubic feet).
+
+meter_level_data[].usage_unit_of_measurement:
+- The unit of measurement for usage shown under "Units" column.
+- Look for text like "1 CCF = 748 Gallons" or just "CCF".
+- Extract as "CCF" (the standard unit shown).
+- If not explicitly shown, return "CCF" as the default for Alderwood bills.
+
+meter_level_data[].usage_in_gallons:
+- The usage converted to gallons, if shown in parentheses in the "Units" column.
+- Example: "(0 gallons)" -> 0
+- Extract the numeric value only.
+- If not shown, return null.
+
+meter_level_data[].meter_size:
+- The meter size shown under "Meter Size" column.
+- Extract the numeric value only (e.g., "75").
+
+meter_level_data[].meter_location:
+- The physical location of the meter shown under "Meter Location" column.
+- Extract exactly as written (e.g., "10' NORTH OF HYDRANT IN VAULT").
+- If not present, return null.
+
+========================================
+D. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data:
+- A list of service charge categories shown in the billing detail sections.
+- Alderwood bills typically show:
+  - "Water Charges" section (blue header with $ icon)
+  - "Sewer Charges" section (green header with $ icon)
+- Extract EVERY charge category you find (even if empty/no charges).
+- Return one array item per charge category.
+- If no charges exist, return an empty list [].
+
+charges_level_data[].service_type:
+- The type of service for this charge category.
+- Extract from the section headers: "Water Charges" -> "Water", "Sewer Charges" -> "Sewer"
+- Return just the service name without "Charges" (e.g., "Water", "Sewer").
+
+charges_level_data[].line_items:
+- A list of individual line items under that service category.
+- Each line item has columns: description, Rate, Usage, Charges.
+- Extract EVERY line item shown in the table for that service.
+- Return one array item per line item.
+- If no line items are present for a service category, return an empty list [].
+
+charges_level_data[].line_items[].charge_description:
+- The description/name of the charge (first column).
+- Examples: "WATER BASE CHARGE", "WATER BASE TIER"
+- Extract exactly as written.
+
+charges_level_data[].line_items[].rate:
+- The rate value shown in the "Rate" column.
+- Extract the numeric value (e.g., "0.000000" -> 0.0).
+- If not shown or blank, return null.
+
+charges_level_data[].line_items[].usage:
+- The usage value shown in the "Usage" column.
+- Extract the numeric value (e.g., "0" -> 0).
+- If not shown or blank, return null.
+
+charges_level_data[].line_items[].charge_amount:
+- The charge amount shown in the "Charges" column (rightmost).
+- Return numbers only (no $ sign, no commas).
+- Examples: "$59.66" -> 59.66, "$0.00" -> 0.0
+
+charges_level_data[].service_total:
+- The total for this service category if explicitly shown.
+- For Water Charges, this would be the sum of all water line items.
+- For Sewer Charges, this would be the sum of all sewer line items.
+- If not explicitly shown as a subtotal, return null (validation will calculate it).

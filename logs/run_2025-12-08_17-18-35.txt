@@ -1,7 +1,0 @@
-=== Utility Bills Processing Run @ 2025-12-08_17-18-35 ===
-Python: 3.12.11  PID: 1528212
-Working dir: C:\Users\tejas\Documents\Utility Bills Project\first_phase\version_2
-===============================================
-
-No PDF files found in the inbox folder.
-Please place PDF files in the 'inbox' directory and run the program again.

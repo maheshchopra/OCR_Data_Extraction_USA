@@ -1,0 +1,183 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date (look for "Billing Date" in the header section).
+
+statement_level_data.previous_balance:
+- The prior balance amount (look for "PRIOR BALANCE" in the line items table).
+- This appears as a line item at the top of the charges table.
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period (look for line items like "PAYMENT LOCKBOX" or similar payment descriptions).
+- If the amount is shown as negative (like -$561.03), output as negative number (e.g., -561.03).
+
+statement_level_data.payment_date:
+- Date of the payment if explicitly shown in the Date column next to the payment line item.
+- Extract the date from the leftmost column corresponding to the payment row.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed as a line item).
+- Look for descriptions containing "late fee" or "penalty".
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown in the Date column).
+
+statement_level_data.balance:
+- The current balance (if explicitly labeled "Balance", distinct from other totals). For Rubatino bills, this is typically not shown separately, return null.
+
+statement_level_data.current_billing:
+- The current period charges (look for "Current Charge" in the summary section at the bottom).
+
+statement_level_data.total_amount_due:
+- The amount due now (look for "Balance Due" in the summary section at the bottom).
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due (look for "Due Date" in the header section).
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated (e.g., "1.5% per month"). Return as a number like 1.5 (no % sign).
+- For Rubatino bills, this is typically not shown on the invoice, return null.
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date (e.g., "A late fee will be applied after MM/DD/YYYY").
+- If not present, return null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed/Payment Amount" field, extract that number.
+- For Rubatino bills, this is typically not shown, return null.
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field in a payment stub/policy section, extract it.
+- For Rubatino bills, this is typically not shown, return null.
+
+statement_level_data.invoice_number:
+- The invoice number as printed (look for "Invoice #" at the top of the bill).
+
+statement_level_data.service_period:
+- The service period date range if shown (look for "Message" field which typically shows date range like "11/01/2025 - 11/30/2025").
+- Return exactly as written.
+
+statement_level_data.aging_30_60_days:
+- Amount in the 30-60 days aging bucket (look for "30-60 Days" in the summary section).
+
+statement_level_data.aging_61_90_days:
+- Amount in the 61-90 days aging bucket (look for "61-90 Days" in the summary section).
+
+statement_level_data.aging_91_plus_days:
+- Amount in the 91+ days aging bucket (look for "91+ Days" in the summary section).
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill.
+- Look for "Rubatino" or "Rubatino Refuse Removal" anywhere on the bill.
+- If not explicitly shown on the bill itself, check the URL at the bottom (if it contains "rubatino.onlineportal.us.com", the provider is "Rubatino Refuse Removal").
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill (typically at the bottom of the page).
+- Look for URLs like "https://rubatino.onlineportal.us.com/...".
+- Extract the base URL: "rubatino.onlineportal.us.com".
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number.
+- For Rubatino bills, this is typically not shown on the invoice, return null.
+
+account_level_data.provider_customer_service_email:
+- A customer service email address.
+- For Rubatino bills, this is typically not shown on the invoice, return null.
+
+account_level_data.provider_address:
+- The provider's mailing address.
+- For Rubatino bills, this is typically not shown on the invoice, return null.
+
+account_level_data.account_number:
+- The account number as printed (look for "Account #" in the header section).
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type(s) from the bill's line item descriptions.
+- Look for descriptions like "GAL TOTER", "REFUSE TAX", "RCY" (recycling), or other garbage/refuse-related terms.
+- For Rubatino bills, this is typically "Garbage" or "Refuse Collection".
+- If the bill provides no clue about service type(s), return null.
+
+account_level_data.customer_name:
+- The billed customer name as printed (look for "Account Name" in the header section).
+
+account_level_data.service_address:
+- The location receiving service (look for "Service Address" in the header section).
+
+========================================
+C. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data.line_items:
+- A list of ALL line items from the charges table (excluding PRIOR BALANCE and payment entries).
+- The table has columns: Date, Invoice #, Description, Quantity, Rate, Total
+- Extract EVERY charge line item as a separate entry in the line_items array.
+- DO NOT include:
+  - "PRIOR BALANCE" (this goes to statement_level_data.previous_balance)
+  - Payment entries like "PAYMENT LOCKBOX" (these go to statement_level_data.payments_applied)
+- DO include:
+  - Service charges (e.g., "GRN MF 1-96GAL TOTER YRDWST - 1xWK", "MF 1-48GAL TOTER - 1xWK", "RCY MF RCY - 1xWK")
+  - Tax charges (e.g., "CITY TAX 6%", "REFUSE TAX 3.6%")
+  - Any other charges listed in the table
+- If no line items exist, return an empty list [].
+
+charges_level_data.line_items[].date:
+- The date from the "Date" column for this line item.
+- Extract exactly as written (do not reformat).
+- If the Date column is blank/empty for this row, return null.
+
+charges_level_data.line_items[].invoice_number:
+- The invoice number from the "Invoice #" column for this line item.
+- Extract exactly as written.
+- If the Invoice # column is blank/empty for this row, return null.
+
+charges_level_data.line_items[].description:
+- The description text from the "Description" column.
+- Extract exactly as written (examples: "GRN MF 1-96GAL TOTER YRDWST - 1xWK", "MF 1-48GAL TOTER - 1xWK", "RCY MF RCY - 1xWK", "CITY TAX 6%", "REFUSE TAX 3.6%").
+- This field is always present for every row.
+
+charges_level_data.line_items[].quantity:
+- The numeric value from the "Quantity" column.
+- Return as a number only.
+- If the Quantity column is blank/empty for this row, return null.
+
+charges_level_data.line_items[].rate:
+- The monetary amount from the "Rate" column.
+- Return numbers only (no $ sign, no commas).
+- If the rate is shown as negative (like -$561.03), output as negative number (e.g., -561.03).
+- If the Rate column is blank/empty or shows "$0.00", return 0.00.
+
+charges_level_data.line_items[].total:
+- The monetary amount from the "Total" column (the rightmost column).
+- Return numbers only (no $ sign, no commas).
+- If the total is shown as negative (like -$561.03), output as negative number (e.g., -561.03).
+- This field should always have a value for every row in the table.
+- Examples: 29.56, 483.30, 0.00, 1.77, 29.00, 17.40
+
+charges_level_data.current_charges:
+- The total of all current charges for this bill.
+- Look for "Current Charge" in the summary section at the bottom of the bill.
+- Return the numeric amount only (no $ sign, no commas).
+- This should match the sum of all line_items[].total values.

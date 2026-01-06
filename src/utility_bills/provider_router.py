@@ -1,0 +1,313 @@
+from pathlib import Path
+from typing import Any, Callable, Dict, Union
+
+from openai import OpenAI
+from provider_functions import (
+    alderwood,
+    bellevue,
+    cedar_grove,
+    edmond,
+    everett,
+    kent,
+    king_county,
+    lacey,
+    lynnwood,
+    pse_electric,
+    pse_gas,
+    pse_gas_and_electric,
+    recology,
+    redmond,
+    renton,
+    republic,
+    rubatino,
+    sammamish,
+    scl,
+    spu,
+    valley_view,
+    wd_20,
+    wmw,
+)
+from pydantic_models import (
+    AlderwoodBillExtract,
+    BellevueBillExtract,
+    CedarGroveBillExtract,
+    EdmondsBillExtract,
+    EverettBillExtract,
+    KentBillExtract,
+    KingCountyBillExtract,
+    LaceyBillExtract,
+    LynnwoodBillExtract,
+    PSEElectricBillExtract,
+    PSEGasAndElectricBillExtract,
+    PSEGasBillExtract,
+    RecologyBillExtract,
+    RedmondBillExtract,
+    RentonBillExtract,
+    RepublicServicesBillExtract,
+    RubatinoBillExtract,
+    SammamishPlateauWaterBillExtract,
+    SeattleCityLightBillExtract,
+    SPUBillExtract,
+    ValleyViewBillExtract,
+    WaterDistrict20BillExtract,
+    WMBillExtract,
+)
+
+client = OpenAI()
+
+# Map normalized provider names to prompt filenames
+PROVIDER_PROMPTS: dict[str, str] = {
+    "seattle public utilities": "spu.txt",
+    "puget sound energy - gas": "pse_gas.txt",
+    "puget sound energy - electric": "pse_electric.txt",
+    "puget sound energy - gas and electric": "pse_gas_and_electric.txt",
+    "seattle city light": "scl.txt",
+    "waste management of washington": "wmw.txt",
+    "sammamish plateau water": "sammamish.txt",
+    "kent": "kent.txt",
+    "everett public works": "everett.txt",
+    "republic services": "republic.txt",
+    "redmond city washington": "redmond.txt",
+    "king county wastewater treatment division": "king_county.txt",
+    "city of bellevue": "bellevue.txt",
+    "city of lynnwood": "lynnwood.txt",
+    "rubatino refuse removal": "rubatino.txt",
+    "recology king county": "recology.txt",
+    "king county water district 20": "wd_20.txt",
+    "valley view sewer district": "valley_view.txt",
+    "city of edmonds": "edmond.txt",
+    "alderwood water & wastewater district": "alderwood.txt",
+    "city of lacey": "lacey.txt",
+    "city of renton": "renton.txt",
+    "cedar grove organics recycling llc": "cedar_grove.txt",
+    # add more providers here as I support them
+}
+
+# provider-specific post‑processors
+PROVIDER_POSTPROCESSORS: Dict[str, Callable[[dict], dict]] = {
+    "seattle public utilities": spu.postprocess_seattle_public_utilities,
+    "puget sound energy - gas": pse_gas.postprocess_pse_gas,
+    "puget sound energy - electric": pse_electric.postprocess_pse_electric,
+    "puget sound energy - gas and electric": pse_gas_and_electric.postprocess_pse_gas_and_electric,
+    "seattle city light": scl.postprocess_seattle_city_light,
+    "waste management of washington": wmw.postprocess_waste_management_washington,
+    "sammamish plateau water": sammamish.postprocess_sammamish_plateau_water,
+    "kent": kent.postprocess_kent,
+    "everett public works": everett.postprocess_everett,
+    "republic services": republic.postprocess_republic_services,
+    "redmond city washington": redmond.postprocess_redmond,
+    "king county wastewater treatment division": king_county.postprocess_king_county,
+    "city of bellevue": bellevue.postprocess_bellevue,
+    "city of lynnwood": lynnwood.postprocess_lynnwood,
+    "rubatino refuse removal": rubatino.postprocess_rubatino,
+    "recology king county": recology.postprocess_recology,
+    "king county water district 20": wd_20.postprocess_water_district_20,
+    "valley view sewer district": valley_view.postprocess_valley_view,
+    "city of edmonds": edmond.postprocess_edmonds,
+    "alderwood water & wastewater district": alderwood.postprocess_alderwood,
+    "city of lacey": lacey.postprocess_lacey,
+    "city of renton": renton.postprocess_renton,
+    "cedar grove organics recycling llc": cedar_grove.postprocess_cedar_grove,
+    # add more providers here later
+}
+
+# provider-specific validation checkers
+PROVIDER_VALIDATION_CHECKERS: Dict[str, Callable[[dict], bool]] = {
+    "seattle public utilities": spu.check_validation_passed,
+    "puget sound energy - gas": pse_gas.check_validation_passed,
+    "puget sound energy - electric": pse_electric.check_validation_passed,
+    "puget sound energy - gas and electric": pse_gas_and_electric.check_validation_passed,
+    "seattle city light": scl.check_validation_passed,
+    "waste management of washington": wmw.check_validation_passed,
+    "sammamish plateau water": sammamish.check_validation_passed,
+    "kent": kent.check_validation_passed,
+    "everett public works": everett.check_validation_passed,
+    "republic services": republic.check_validation_passed,
+    "king county wastewater treatment division": king_county.check_validation_passed,
+    "city of bellevue": bellevue.check_validation_passed,
+    "city of lynnwood": lynnwood.check_validation_passed,
+    "rubatino refuse removal": rubatino.check_validation_passed,
+    "recology king county": recology.check_validation_passed,
+    "king county water district 20": wd_20.check_validation_passed,
+    "valley view sewer district": valley_view.check_validation_passed,
+    "city of edmonds": edmond.check_validation_passed,
+    "alderwood water & wastewater district": alderwood.check_validation_passed,
+    "city of lacey": lacey.check_validation_passed,
+    "city of renton": renton.check_validation_passed,
+    "cedar grove organics recycling llc": cedar_grove.check_validation_passed,
+    # add more providers here later
+}
+
+# Map provider names to their Pydantic models
+PROVIDER_MODELS = {
+    "seattle public utilities": SPUBillExtract,
+    "puget sound energy - gas": PSEGasBillExtract,
+    "puget sound energy - electric": PSEElectricBillExtract,
+    "puget sound energy - gas and electric": PSEGasAndElectricBillExtract,
+    "seattle city light": SeattleCityLightBillExtract,
+    "waste management of washington": WMBillExtract,
+    "sammamish plateau water": SammamishPlateauWaterBillExtract,
+    "kent": KentBillExtract,
+    "everett public works": EverettBillExtract,
+    "republic services": RepublicServicesBillExtract,
+    "redmond city washington": RedmondBillExtract,
+    "king county wastewater treatment division": KingCountyBillExtract,
+    "city of bellevue": BellevueBillExtract,
+    "city of lynnwood": LynnwoodBillExtract,
+    "rubatino refuse removal": RubatinoBillExtract,
+    "recology king county": RecologyBillExtract,
+    "king county water district 20": WaterDistrict20BillExtract,
+    "valley view sewer district": ValleyViewBillExtract,
+    "city of edmonds": EdmondsBillExtract,
+    "alderwood water & wastewater district": AlderwoodBillExtract,
+    "city of lacey": LaceyBillExtract,
+    "city of renton": RentonBillExtract,
+    "cedar grove organics recycling llc": CedarGroveBillExtract,
+    # add more providers here later
+}
+
+
+def detect_provider_from_file_id(file_id: str) -> str:
+    """
+    Ask the LLM to read the bill PDF and return the provider name.
+    """
+
+    allowed_providers = list(PROVIDER_PROMPTS.keys())
+    allowed_display = ", ".join(f"'{name}'" for name in allowed_providers)
+
+    response = client.responses.create(
+        model="gpt-4.1-mini",  # or another inexpensive model
+        input=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "input_file", "file_id": file_id},
+                    {
+                        "type": "input_text",
+                        "text": (
+                            "You are identifying the utility provider that issued this bill.\n\n"
+                            "You MUST answer with EXACTLY ONE name from the following list, "
+                            "and nothing else (no extra words, punctuation, or explanation):\n"
+                            f"{allowed_display}\n\n"
+                            "Look at the bill carefully:\n"
+                            "- For Puget Sound Energy bills, check if it's for Natural Gas, Electric service or both together\n"
+                            "- Choose the specific option that matches BOTH the provider and service type\n"
+                            "- scroll to the VERY BOTTOM of the page and look for a URL/website address\n"
+                            "If you find a URL containing 'rubatino.onlineportal.us.com', answer: rubatino refuse removal\n"
+                            "Reply with only that exact name."
+                        ),
+                    },
+                ],
+            }
+        ],
+    )
+
+    # Extract the text from the response
+    provider_text = response.output[0].content[0].text
+
+    # Convert to plain string
+    if hasattr(provider_text, "value"):
+        provider_name = provider_text.value
+    else:
+        provider_name = str(provider_text)
+
+    # Normalize and validate
+    provider_name = provider_name.strip()
+    normalized = provider_name.lower()
+
+    if normalized not in PROVIDER_PROMPTS:
+        raise ValueError(
+            f"Model returned unknown provider '{provider_name}'. "
+            f"Expected one of: {list(PROVIDER_PROMPTS.keys())}"
+        )
+
+    # return normalized since the dict keys are lowercase
+    return normalized
+
+
+def get_prompt_path_for_provider(
+    project_root: Union[str, Path],
+    provider_name: str,
+) -> Path:
+    """
+    Map a detected provider name to the corresponding prompt file path.
+    """
+    project_root = Path(project_root)
+
+    normalized = provider_name.strip().lower()
+    prompt_filename = PROVIDER_PROMPTS.get(normalized)
+
+    if not prompt_filename:
+        # You can change this to a default prompt or logging behavior if you prefer
+        raise ValueError(
+            f"Unknown provider '{provider_name}'. "
+            f"Known providers: {list(PROVIDER_PROMPTS.keys())}"
+        )
+
+    return project_root / "src" / "utility_bills" / "prompts" / prompt_filename
+
+
+def select_prompt_for_bill(
+    project_root: Union[str, Path],
+    file_id: str,
+) -> Path:
+    """
+    High-level helper: detect provider from the bill and return the prompt path.
+    """
+    provider_name = detect_provider_from_file_id(file_id)
+    return get_prompt_path_for_provider(project_root, provider_name)
+
+
+def postprocess_for_provider(provider_name: str, data: dict) -> dict:
+    """
+    Apply any provider-specific post‑processing to the extracted JSON.
+    If no post‑processor is registered, return data unchanged.
+    """
+    func = PROVIDER_POSTPROCESSORS.get(provider_name.strip().lower())
+    if not func:
+        return data
+    return func(data)
+
+
+def check_validation_for_provider(provider_name: str, data: dict) -> bool:
+    """
+    Check if validation passed for a provider-specific utility bill.
+    If no validation checker is registered, returns True by default.
+
+    Args:
+        provider_name: The normalized provider name.
+        data: The extracted utility bill dictionary after post-processing.
+
+    Returns:
+        True if validation passed or no checker is registered, False otherwise.
+    """
+    func = PROVIDER_VALIDATION_CHECKERS.get(provider_name.strip().lower())
+    if not func:
+        # If no validation checker is registered, assume validation passed
+        return True
+    return func(data)
+
+
+def get_model_for_provider(provider_name: str):
+    """
+    Get the Pydantic model class for a given provider.
+
+    Args:
+        provider_name: The normalized provider name.
+
+    Returns:
+        The Pydantic model class for that provider.
+
+    Raises:
+        ValueError: If no model is registered for the provider.
+    """
+    normalized = provider_name.strip().lower()
+    model_class = PROVIDER_MODELS.get(normalized)
+
+    if model_class is None:
+        raise ValueError(
+            f"No Pydantic model registered for provider '{provider_name}'. "
+            f"Known providers: {list(PROVIDER_MODELS.keys())}"
+        )
+
+    return model_class

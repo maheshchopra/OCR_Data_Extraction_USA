@@ -1,0 +1,168 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "-" or "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,241.92- -> -6241.92
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date shown in the bill (often labeled "BILLING DATE").
+
+statement_level_data.previous_balance:
+- The prior balance amount if explicitly present (e.g., "PREVIOUS AMOUNT").
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period (e.g., "PAYMENTS"). If the bill shows payments with a minus sign like "6,241.92-", output as negative: -6241.92.
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed).
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+
+statement_level_data.balance:
+- The current balance if explicitly labeled "Balance" (distinct from "AMOUNT DUE").
+
+statement_level_data.current_billing:
+- The current period charges (often labeled "TOTAL CHARGES").
+
+statement_level_data.total_amount_due:
+- The amount due now (often "AMOUNT DUE").
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due (often "DUE DATE" or "DUE IN OUR OFFICE").
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated. Return as a number (no % sign).
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date. If not present, null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed/Payment Amount" field, extract that number; otherwise null.
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field in a payment stub/policy section, extract it; otherwise null.
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill (Look for "VALLEY VIEW SEWER DISTRICT" or similar at the top of the bill).
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill (e.g., "www.valleyviewsewer.org").
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number (may be multiple - extract the primary customer service number).
+
+account_level_data.provider_customer_service_email:
+- A customer service email address.
+
+account_level_data.provider_address:
+- The provider's mailing address (use the PO BOX or street address belonging to the provider, not the service address).
+- Example: "PO BOX 69550 SEATTLE, WA 98168-9550" or the full address with suite number.
+
+account_level_data.account_number:
+- The account number as printed (labels like "ACCT. NO." or "Acct #:").
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type from the bill's service descriptions/line items.
+- For Valley View Sewer District bills, this is typically "Sewer" since they only provide sewer services.
+- If the bill provides no clue about service type, return null.
+
+account_level_data.customer_name:
+- The billed customer name as printed (name on account / billing recipient).
+
+account_level_data.service_address:
+- The location receiving service (often labeled "SERVICE ADDRESS"). Do not use the provider address.
+
+account_level_data.service_days:
+- The number of service days for this billing period, if explicitly shown.
+- If the bill does not explicitly state the number of days, return null.
+
+account_level_data.multiplier_value:
+- The numeric conversion factor if shown (unlikely for sewer-only bills).
+- If no multiplier is shown, return null.
+
+========================================
+C. charges_level_data (ChargesLevelData)
+========================================
+
+charge_level_data:
+- A list of major charge categories shown in the "CHARGES" section of the bill.
+- Valley View bills typically show two main charge types:
+  - "METRO MULTIPLE" (Metropolitan sewer charges)
+  - "VALLEY VIEW MULT" (Valley View district charges)
+- Extract EVERY charge category you find.
+- Return one array item per charge category.
+- If no charges exist, return an empty list [].
+
+charge_level_data[].charge_category_name:
+- The name of the charge category (e.g., "METRO MULTIPLE", "VALLEY VIEW MULT").
+
+charge_level_data[].charge_category_total:
+- The total amount for that charge category (the rightmost number on the main charge line).
+- Example: "METRO MULTIPLE 4,476.48" -> 4476.48
+
+charge_level_data[].line_items:
+- A list of line items under that charge category.
+- For Valley View bills, these typically include:
+  * "FIRST UNIT CHARGE" (base charge for the first unit)
+  * Unit-based charges (e.g., "95 UNITS @" followed by the rate per unit)
+- The total for the charge category equals: first_unit_charge + (quantity × rate_per_unit)
+- Example: FIRST UNIT CHARGE 46.63 + (95 × 46.63) = 46.63 + 4429.85 = 4476.48
+- Extract EVERY line item shown under the charge category.
+- Return one array item per line item.
+- If no line items are present for a charge category, return an empty list [].
+
+charge_level_data[].line_items[].line_item_name:
+- The name/label of the line item.
+- Examples: "FIRST UNIT CHARGE", "95 UNITS @" (extract exactly as written).
+
+charge_level_data[].line_items[].line_item_amount:
+- The charge amount for that line item (the rightmost number on the row).
+- For "FIRST UNIT CHARGE": extract the amount directly (e.g., "FIRST UNIT CHARGE 46.63" -> 46.63)
+- For "X UNITS @" lines: extract the rate/amount shown after the @ symbol (e.g., "95 UNITS @ 46.63" -> 46.63)
+  Note: The system will automatically calculate the correct line item amount based on usage × rate.
+
+charge_level_data[].line_items[].usage:
+- If the line item shows a quantity (e.g., "95 UNITS @"), extract the numeric quantity.
+- Example: "95 UNITS @" -> 95
+- If no quantity is shown (e.g., "FIRST UNIT CHARGE"), return null.
+
+charge_level_data[].line_items[].unit_of_measurement:
+- If units are shown, extract the unit type.
+- Example: "95 UNITS @" -> "UNITS"
+- If no units are shown, return null.
+
+charge_level_data[].line_items[].rate:
+- If a rate is shown (typically after "@"), extract the rate value.
+- Example: "95 UNITS @ 46.63" -> 46.63 (this is the rate per unit)
+- For "FIRST UNIT CHARGE" lines, return null (no rate applies).
+
+========================================
+D. miscellaneous_level_data (MiscellaneousLevelData)
+========================================
+
+miscellaneous_level_data.current_period_covered:
+- The billing period covered by this bill (e.g., "NOV", "NOVEMBER", or date range if shown).
+- Look for "CURRENT PERIOD COVERED" label near the top of the bill.

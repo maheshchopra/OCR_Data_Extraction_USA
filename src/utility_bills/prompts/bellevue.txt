@@ -1,0 +1,257 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date shown at the top right of page 1.
+- Look for "Bill Date:" followed by a date (e.g., "10/07/2025").
+- Extract exactly as written.
+
+statement_level_data.previous_balance:
+- Look for "Previous Balance" in the summary box at top right of page 1.
+- This is the balance from the previous billing cycle before any payments.
+- Extract the numeric value only (no $ sign, no commas).
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period.
+- Look for "Payment Received - Thank You!" in the summary box.
+- If shown as a negative amount (e.g., "-$22,858.22"), return as a negative number: -22858.22
+- Extract the numeric value only (no $ sign, no commas).
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown.
+- May appear near the "Payment Received" line.
+- Extract exactly as written or return null if not present.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed in the charges).
+- Look for any line items mentioning "Late Fee" or "Penalty".
+- Return null if not present.
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+- Return null if not present.
+
+statement_level_data.balance:
+- The current balance (if explicitly labeled "Balance", distinct from "Amount Due").
+- For Bellevue bills, this may not be separately shown.
+- Return null if not distinct from total_amount_due.
+
+statement_level_data.current_billing:
+- The current period charges FOR ALL SERVICES COMBINED.
+- Look for "Current Service Charges" in the summary box at top right of page 1.
+- This should be the sum of Water, Irrigation, Fireline, Storm & Surface Water, and Wastewater charges.
+- Extract the numeric value only (no $ sign, no commas).
+
+statement_level_data.total_amount_due:
+- The total amount due now.
+- Look for "AMOUNT DUE:" in the summary box at top right of page 1.
+- Extract the numeric value only (no $ sign, no commas).
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due.
+- Look for "DUE DATE:" at the top right of page 1.
+- Extract exactly as written (e.g., "11/06/2025").
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated.
+- Check the informational sections or notes for text like "late payment fee of X%".
+- Return as a number (no % sign).
+- Return null if not present.
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date.
+- Look for late payment policy text in the bill notes or informational sections.
+- Extract the full text if present, otherwise null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed" field, extract that number.
+- Look at the bottom payment section of page 1.
+- Check for "Amount Enclosed: $" field.
+- Return null if not present or empty.
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field in a payment stub/policy section, extract it.
+- Return null if not present.
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.account_type:
+- Determine the service type from the bill content.
+- Bellevue bills typically include multiple utility services: Water, Wastewater, Storm & Surface Water, and may include Irrigation and Fireline.
+- Return "Water and Wastewater" to indicate this is a combined utilities bill.
+- This distinguishes it from electric/gas bills.
+
+account_level_data.provider:
+- The provider name issuing the bill.
+- Look for "City of Bellevue" at the top of the bill near the logo.
+- May also appear as "City of Bellevue Utilities".
+- Extract exactly as shown.
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill.
+- Look for "MyUtilityBill.bellevuewa.gov" or similar URLs on page 1 or 2.
+- May also find "BellevueWa.gov/utilities" in the informational sections.
+- Extract exactly as written.
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number.
+- Look in the "Please call Customer Service" section or informational pages.
+- Typically shows "425-452-6973" (or similar).
+- Extract exactly as written.
+
+account_level_data.provider_customer_service_email:
+- A customer service email address.
+- Look in the contact information sections.
+- May appear as "Utilities@bellevuewa.gov" or similar.
+- Extract exactly as written or return null if not present.
+
+account_level_data.provider_address:
+- The provider's mailing address (payment remittance address).
+- Look at the payment stub section at bottom of page 1.
+- Shows the address where payments should be sent (e.g., "Bellevue City Treasurer, PO Box 35139, Seattle, WA 98124-5139").
+- Do NOT use the service address or the utility department's street address.
+- Extract the complete mailing address.
+
+account_level_data.account_number:
+- The account number as printed on the bill.
+- Look for "ACCOUNT #" at the top right of each page.
+- Format is typically numeric (e.g., "2002461").
+- Extract exactly as shown.
+
+account_level_data.customer_name:
+- The billed customer name as printed on the bill.
+- Look for the name at the top left of page 1.
+- Example: "PALAZZO CONDOS" or "PALAZZO CONDOS C/O EMERALD DEPT 169".
+- This is the account holder/billing contact.
+- Extract the first line of the customer name (typically the entity or person name).
+
+account_level_data.service_address:
+- The location receiving service.
+- Look for "Service from MM/DD/YYYY to MM/DD/YYYY (XX days) at:" followed by an address.
+- Example: "1100 106TH AVE NE, 98004-4314".
+- Extract the complete service address including ZIP code.
+- Do NOT use the customer's mailing address or the provider's address.
+
+account_level_data.service_days:
+- The number of days in the billing cycle/period.
+- Look for the service period text which shows "(XX days)".
+- Example: "Service from 07/10/2025 to 09/10/2025 (63 days)" → 63
+- Extract ONLY the numeric value.
+
+========================================
+C. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data.services:
+- A list of ALL service sections found on the bill.
+- Each service section is identified by an ALL CAPS header followed by line items and a total.
+- Extract one array item per service section found.
+- DO NOT assume specific service names - find whatever service sections exist on the bill.
+- Common patterns to look for:
+  - Section headers in all caps (e.g., "WATER SERVICE", "IRRIGATION SERVICE", "FIRELINE SERVICE", "STORM & SURFACE WATER SERVICE", "WASTEWATER SERVICE")
+  - Each section has line items with charges
+  - Each section ends with a "Total [Service Name]" line
+- Services may appear on different pages of the bill.
+
+charges_level_data.services[].service_name:
+- The exact name of the service section header as it appears on the bill.
+- Look for the section header in all caps that precedes the line items.
+- Extract exactly as written (including all caps, ampersands, etc.).
+- Examples:
+  - "WATER SERVICE"
+  - "IRRIGATION SERVICE"
+  - "FIRELINE SERVICE"
+  - "STORM & SURFACE WATER SERVICE"
+  - "WASTEWATER SERVICE"
+- DO NOT modify or normalize the name - copy it exactly.
+
+charges_level_data.services[].line_item_charges:
+- A list of all individual charge line items within this service section.
+- Start extracting from the line immediately after the service header.
+- Stop extracting when you reach the "Total [Service Name]" line.
+- Extract one array item per line item charge found.
+- Line items typically include:
+  - Usage-based charges (often with tier information in parentheses)
+  - Base or fixed charges (often with meter size or equipment size)
+  - Tax charges
+- DO NOT include the total line in this list.
+
+charges_level_data.services[].line_item_charges[].line_item_charge_name:
+- The descriptive text for the charge.
+- Remove ALL parentheses and any text within them from the charge name.
+- Extract only the main descriptive text before any parentheses.
+- Examples:
+  - "Tier 1 (0+ ccf)" → "Tier 1"
+  - "Water Base Charge - 4 Inch Meter" → "Water Base Charge - 4 Inch Meter"
+  - "Fireline Size 6\"" → "Fireline Size 6\""
+  - "Storm & Surface Water Charges" → "Storm & Surface Water Charges"
+  - "Wastewater Base Charge" → "Wastewater Base Charge"
+  - "Water Taxes" → "Water Taxes"
+
+charges_level_data.services[].line_item_charges[].line_item_charge_amount:
+- The charge amount for that line item.
+- Look at the amount shown on the right side after the "$" symbol.
+- Return the numeric value only (no $ sign, no commas).
+- Examples:
+  - "$5,333.34" → 5333.34
+  - "$948.91" → 948.91
+  - "$13,439.65" → 13439.65
+
+charges_level_data.services[].service_total:
+- The total amount for this specific service section.
+- Look for the line that says "Total [Service Name]" at the bottom of the service section.
+- This line appears after all the line item charges.
+- Return the numeric value only (no $ sign, no commas).
+- Examples:
+  - "Total Water Service  $  7,054.80" → 7054.80
+  - "Total Irrigation Service  $  3,499.19" → 3499.19
+  - "Total Wastewater Service  $  14,176.90" → 14176.90
+
+charges_level_data.current_service_charges:
+- The grand total of ALL service charges combined.
+- Look for "CURRENT SERVICE CHARGES" in the summary box at top right of page 1.
+- This is a single total that should equal the sum of all service_total values from all services.
+- Return the numeric value only (no $ sign, no commas).
+- Example: "$25,432.89" → 25432.89
+
+========================================
+D. miscellaneous_level_data (MiscellaneousLevelData)
+========================================
+
+miscellaneous_level_data.other_charges_and_adjustments:
+- Any other charges or adjustments not covered in the main service categories.
+- Look for "Other Charges & Adjustments" in the summary box at top right.
+- Return the numeric value only, or null if shown as "$0.00" or not present.
+- Example: If shown as "$0.00" → null
+
+miscellaneous_level_data.service_period_text:
+- The full text describing the service period.
+- Look for "Service from MM/DD/YYYY to MM/DD/YYYY (XX days) at:" at the top of page 1.
+- Extract the complete text.
+- Example: "Service from 07/10/2025 to 09/10/2025 (63 days) at:"
+
+miscellaneous_level_data.conversion_note:
+- Any notes about unit conversions.
+- Look for text like "1 ccf (hundred cubic feet) = 748 gallons of water".
+- Extract exactly as written if present.
+- Return null if not present.

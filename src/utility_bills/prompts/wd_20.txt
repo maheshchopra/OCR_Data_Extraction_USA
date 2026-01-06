@@ -1,0 +1,239 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date or read date (look for "Read Date" in the "METER READ & USAGE INFORMATION" section).
+- This is the date when the meter was read for the current billing period.
+
+statement_level_data.previous_balance:
+- The prior balance amount (look for "Previous Balance" in the "ACCOUNT SUMMARY" section on the right side).
+- This is typically the first line in the account summary.
+
+statement_level_data.payments_applied:
+- Total payments/credits applied during the period (look for "Payments" in the "ACCOUNT SUMMARY" section).
+- The date and "Thank You" text may appear after the amount (e.g., "7-28-25 Thank You -225.06").
+- If shown as negative (like -225.06), output as negative number (e.g., -225.06).
+
+statement_level_data.payment_date:
+- Date of the payment if shown.
+- Look in the "ACCOUNT SUMMARY" section next to "Payments" (e.g., "7-28-25 Thank You" means payment date is 7-28-25).
+- Extract the date portion only.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed as a line item).
+- For King County Water District 20 bills, this is typically not shown unless there's a past due amount, return null.
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+
+statement_level_data.balance:
+- The current balance (if explicitly labeled "Balance", distinct from other totals).
+- For these bills, this is typically not shown separately, return null.
+
+statement_level_data.current_billing:
+- The current period charges before taxes and fees.
+- Look for the sum of Fixed Charges and Water usage charges before "TAXABLE CHARGES".
+- This may not be explicitly labeled as a subtotal, so it should be calculated from individual charges if needed.
+- Return null if not explicitly shown as a subtotal.
+
+statement_level_data.total_amount_due:
+- The amount due now (look for "TOTAL AMOUNT DUE" in the "ACCOUNT SUMMARY" section).
+- This is typically the last line in bold in the account summary.
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due (look for "Payment Due Date:" in the "ACCOUNT STATEMENT" section at the top right).
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated.
+- For King County Water District 20 bills, this is typically not shown on the bill, return null.
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date.
+- If not present, return null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with a blank "Payment Amount:" field, that's just for the customer to fill in, return null.
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field, extract it.
+- For these bills, this is typically not shown, return null.
+
+statement_level_data.billing_period_start:
+- The start date of the billing period (look for "Billing Period:" in the "ACCOUNT STATEMENT" section).
+- Extract the first date from the range (e.g., "07/20/2025 - 09/20/2025" -> "07/20/2025").
+
+statement_level_data.billing_period_end:
+- The end date of the billing period (look for "Billing Period:" in the "ACCOUNT STATEMENT" section).
+- Extract the second date from the range (e.g., "07/20/2025 - 09/20/2025" -> "09/20/2025").
+
+statement_level_data.taxable_charges:
+- The subtotal of taxable charges (look for "TAXABLE CHARGES" in the "ACCOUNT SUMMARY" section).
+- This is the sum of water usage charges and fixed charges before taxes.
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill.
+- Look for "KING COUNTY WATER DISTRICT 20" at the top of the bill.
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill.
+- Look for URLs like "www.kcwd20.com" in the payment information section.
+- Extract exactly as written.
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number.
+- Look for phone numbers like "206-243-3990" in the "Emergency After Hours or Questions about your Bill?" section.
+
+account_level_data.provider_customer_service_email:
+- A customer service email address.
+- For King County Water District 20 bills, this is typically not shown, return null.
+
+account_level_data.provider_address:
+- The provider's mailing address.
+- Look for the address in the payment stub area (e.g., "KING COUNTY WATER DISTRICT 20, 12606 1ST AVE S, BURIEN WA 98168").
+
+account_level_data.provider_street_address:
+- The provider's physical street address at the top of the bill.
+- Look for addresses like "12606 1ST AVE S, BURIEN WA 98168" near the provider name.
+
+account_level_data.account_number:
+- The account number as printed (look for "Account Number:" in the "ACCOUNT STATEMENT" section at the top right).
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type from the bill's line item descriptions.
+- For King County Water District 20 bills, this is "Water".
+
+account_level_data.customer_name:
+- The billed customer name as printed (look for "Account Name:" in the "ACCOUNT STATEMENT" section).
+
+account_level_data.service_address:
+- The location receiving service (look for "Service Address:" in the "ACCOUNT STATEMENT" section).
+
+account_level_data.ccf_to_gallons_conversion:
+- The conversion factor for CCF to Gallons if shown.
+- Look in the "Conversion:" note below the usage history (e.g., "1 CCF = 100 cubic feet = 748 gallons").
+- Extract the number of gallons per CCF (e.g., 748).
+- If not present, return null.
+
+========================================
+C. meter_level_data (MeterLevelData)
+========================================
+
+meter_level_data.meter_number:
+- The meter identifier (look for "Meter #" in the "METER READ & USAGE INFORMATION" section).
+- Extract exactly as shown (e.g., "68426171").
+
+meter_level_data.read_date:
+- The date when the meter was read (look for "Read Date" in the "METER READ & USAGE INFORMATION" section).
+- Extract exactly as written (e.g., "09/05/2025").
+
+meter_level_data.current_reading:
+- The current meter reading (look for "Current" in the "METER READ & USAGE INFORMATION" section).
+- Return as a number (e.g., 5413).
+
+meter_level_data.prior_reading:
+- The prior meter reading (look for "Prior" in the "METER READ & USAGE INFORMATION" section).
+- Return as a number (e.g., 5384).
+
+meter_level_data.usage:
+- The usage amount for this billing period (look for "Usage" in the "METER READ & USAGE INFORMATION" section).
+- Return as a number (e.g., 2900).
+- This represents the difference between current and prior readings.
+
+meter_level_data.usage_unit:
+- The unit of measurement for usage.
+- Look at the "USAGE HISTORY" section header which shows the unit (e.g., "PER 100 CUBIC FT.").
+- Extract the unit description (e.g., "100 CUBIC FT" or "CCF").
+- If not explicitly shown, return "CCF" as default for water usage.
+
+meter_level_data.total_usage:
+- The total usage if separately shown (look for "Total Usage" in the meter information section).
+- This may be the same as usage for single-meter accounts.
+- Return as a number, or null if not separately shown.
+
+========================================
+D. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data.line_items:
+- A list of ALL line items from the "ACCOUNT SUMMARY" section (after the Previous Balance and Payments lines).
+- Extract EVERY charge line item as a separate entry in the line_items array.
+- Include all types of charges:
+  - Fixed charges (e.g., "Fixed Charge - RMULT--- First Unit", "Fixed Charge - MULT--- Additional Units")
+  - Water usage charges by tier (e.g., "Water 0 - 1000 ($3.06/CCF)", "Water 1100 - 3000 ($3.93/CCF)")
+  - Tax charges (e.g., "City of Burien Utility Tax - 10%")
+  - Non-taxable government services (e.g., "Streetlights", "Fire Service Cost Allocation")
+- DO NOT include summary lines like "TAXABLE CHARGES" or "TOTAL AMOUNT DUE"
+- DO NOT include "Previous Balance" or "Payments" (these go to statement_level_data)
+- If no line items exist, return an empty list [].
+
+charges_level_data.line_items[].description:
+- The description text for this charge.
+- Extract exactly as written, including tier information and rates if shown.
+- Examples:
+  - "Fixed Charge - RMULT--- First Unit"
+  - "Fixed Charge - MULT--- Additional Units"
+  - "Water 0 - 1000 ($3.06/CCF)"
+  - "Water 1100 - 3000 ($3.93/CCF)"
+  - "City of Burien Utility Tax - 10%"
+  - "Streetlights"
+  - "Fire Service Cost Allocation"
+- This field is always present for every row.
+
+charges_level_data.line_items[].amount:
+- The monetary amount for this charge (the rightmost number on the line).
+- Return numbers only (no $ sign, no commas).
+- Examples: 26.90, 56.52, 30.60, 74.67, 0.00, 25.70, 69.62
+
+charges_level_data.line_items[].rate:
+- The rate if shown in the description (e.g., "$3.06/CCF" or "$3.93/CCF").
+- Extract the rate portion from the description if present.
+- Examples: "$3.06/CCF", "$3.93/CCF"
+- If no rate is shown in the description, return null.
+
+charges_level_data.line_items[].tier_range:
+- The usage tier range if shown in the description (e.g., "0 - 1000" or "1100 - 3000").
+- Extract only for water usage charges that show tier ranges.
+- Examples: "0 - 1000", "1100 - 3000"
+- If no tier range is shown, return null.
+
+charges_level_data.line_items[].charge_type:
+- Categorize the type of charge. You MAY derive this from the description.
+- Possible values:
+  - "fixed_charge" - for fixed charges
+  - "usage_charge" - for water usage charges
+  - "tax" - for tax charges
+  - "government_service" - for non-taxable government services
+- Use the description to determine the appropriate type.
+
+charges_level_data.taxable_charges:
+- The subtotal of taxable charges (look for "TAXABLE CHARGES" line in the account summary).
+- This is typically shown between the water charges and tax charges.
+- Return the numeric amount only (no $ sign, no commas).
+
+charges_level_data.total_charges:
+- The total of all charges for this bill.
+- Look for "TOTAL AMOUNT DUE" in the account summary.
+- Return the numeric amount only (no $ sign, no commas).
+- This should equal the sum of all line_items[].amount values plus any previous balance minus payments.

@@ -1,0 +1,139 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date found in the "Bill Details" section under "BILLING DATE".
+
+statement_level_data.previous_balance:
+- The prior balance amount from the "Bill Summary" section (labeled "Previous Balance").
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period from the "Bill Summary" section (labeled "Payments Received"). If the bill shows credits as negative amounts, output a negative number.
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown. For Redmond bills, this is typically not shown, so return null.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed). Typically not shown on Redmond bills, so return null.
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown). Typically not shown on Redmond bills, so return null.
+
+statement_level_data.balance:
+- The current balance (if explicitly labeled "Balance", distinct from "Total Amount Due"). For Redmond bills, this is typically not shown separately, so return null.
+
+statement_level_data.current_billing:
+- The current period charges from the "Current Charges" section (labeled "Total Current Charges").
+
+statement_level_data.total_amount_due:
+- The amount due now from the "Bill Summary" section (labeled "Total Amount Due").
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due from the "Bill Details" section (labeled "DUE DATE").
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated. If not present, return null.
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date. If not present, return null.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed/Payment Amount" field, extract that number; otherwise null.
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field in a payment stub/policy section, extract it; otherwise null.
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill (Look for "City of Redmond" at the top of the bill in the "Agency Information" section).
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill.
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number from the "Agency Information" section.
+
+account_level_data.provider_customer_service_email:
+- A customer service email address if shown anywhere on the bill.
+
+account_level_data.provider_address:
+- The provider's mailing address from the "Agency Information" section (e.g., "PO Box 97010, Redmond, WA 98073").
+
+account_level_data.account_number:
+- The account number from the "Account Information" section (labeled "ACCOUNT NUMBER").
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type(s) from the bill's "Current Charges" section (look at the "Type" column for service descriptions like "Storm: Stormwater", "Water", "Sewer", etc.).
+- If the bill clearly includes multiple service types, return a concise combined value like "Stormwater and Sewer".
+- If only one service type is shown, return that type (e.g., "Stormwater").
+- If the bill provides no clue about service type(s), return null.
+
+account_level_data.customer_name:
+- The billed customer name from the "Account Information" section (labeled "NAME").
+
+account_level_data.service_address:
+- The location receiving service from the "Account Information" section (labeled "SERVICE ADDRESS"). Do not use the provider address.
+
+account_level_data.service_days:
+- The number of service days for this billing period from the "Bill Details" section.
+- Look for the service period label (e.g., "7/2/2025 to 8/5/2025 (35 days)").
+- Extract ONLY the numeric day count from within the parentheses (e.g., "35").
+- If the bill does not explicitly state the number of days, return null.
+
+account_level_data.multiplier_value:
+- The numeric conversion factor for CCF to Gallons or similar unit conversions.
+- Look for text like "1 CCF = 748 Gallons" (typically shown near usage information or in explanatory text).
+- Extract the numeric value that shows the conversion factor.
+- Return as a number (e.g., 748).
+- If no multiplier is shown, return null.
+
+========================================
+C. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data.current_charges:
+- A list of line items from the "Current Charges" section.
+- Each row in the "Current Charges" table (excluding the "Total Current Charges" row) should be extracted as a separate item.
+- Return one array item per charge line found.
+- If no charges are listed, return an empty list [].
+
+charges_level_data.current_charges[].charge_type:
+- The description/type of the charge from the "Type" column in the "Current Charges" section (e.g., "Storm: Stormwater").
+- Extract exactly as written on the bill.
+
+charges_level_data.current_charges[].charge_amount:
+- The amount for that charge from the "Amount" column.
+- Return numbers only (no $ sign, no commas).
+- If followed by "CR", treat as negative.
+
+========================================
+D. miscellaneous_level_data (MiscellaneousLevelData)
+========================================
+
+charges_level_data.adjustments_and_additional_charges:
+- The total amount shown in the "Bill Summary" section under "Adjustments / Additional Charges".
+- Return the numeric amount only (no $ sign, no commas).
+- If followed by "CR", treat as negative.
+- This is a single total value, not a list of individual items.
+- If not present on the bill, return null.
