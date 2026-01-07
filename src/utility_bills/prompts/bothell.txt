@@ -1,0 +1,188 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date ("Statement Date", "Bill Date", etc.).
+
+statement_level_data.previous_balance:
+- The prior balance amount if explicitly present (e.g., "Amount from Previous Bill", "Previous Balance").
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period (e.g., "Payments", "Payment Received").
+- If the bill shows this as a positive number that reduces the balance, output it as written.
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown.
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed).
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+
+statement_level_data.balance:
+- The current balance (if explicitly labeled "Balance", distinct from "Total Amount Due").
+
+statement_level_data.current_billing:
+- The current period charges (e.g., "Total Current Charges", "Current Charges").
+
+statement_level_data.total_amount_due:
+- The amount due now (often "Amount Due", "Total Amount Due").
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due ("Due Date", "Pay by", etc.).
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated. Return as a number (no % sign).
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date (e.g., "If payment is not received on or before the due date, a late charge will be assessed").
+- Extract the complete late fee policy text if present.
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with an "Amount Enclosed" field, extract that field label presence but return null for the value (since it's blank).
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field, extract it; otherwise null.
+
+statement_level_data.penalties_adjustments:
+- Any penalties or adjustments shown (e.g., "Penalties/Adjustments" row in the summary table).
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill (e.g., "City of Bothell").
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill (e.g., "www.bothellwa.gov/utilitybilling").
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number (e.g., "(425) 806-6881").
+
+account_level_data.provider_customer_service_email:
+- A customer service email address.
+
+account_level_data.provider_address:
+- The provider's address (e.g., "18415 101st Ave NE, Bothell, WA 98011-3455").
+- Use the City Hall or provider office address, not the service address.
+
+account_level_data.account_number:
+- The account number as printed (e.g., "Account-Customer ID", "Account Number").
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type from the bill's service descriptions.
+- Look for service indicators in the line items (e.g., "WATER", "SEWER").
+- If multiple services are present, return a combined value like "Water and Sewer".
+- If the bill provides no clue about service type, return null.
+
+account_level_data.customer_name:
+- The billed customer name as printed (e.g., "THE BILLING ASSOCIATES GROUP").
+
+account_level_data.service_address:
+- The location receiving service (e.g., "11119 WOODINVILLE DR").
+- Do NOT use the provider's address or customer mailing address.
+
+account_level_data.service_days:
+- The number of service days for this billing period, if explicitly shown.
+- If the bill does not explicitly state the number of days, return null.
+
+account_level_data.multiplier_value:
+- The numeric conversion factor for CCF to Gallons.
+- Look for text like "1 CCF (100 Cubic Feet) = 748 gallons".
+- Extract the numeric value: 748
+- Return as a number (e.g., 748).
+- If no multiplier is shown, return null.
+
+account_level_data.billing_period:
+- The service period covered by this bill (e.g., "07/01/2025 - 08/31/2025").
+- Look for labels like "Billing Period", "Service Period".
+- Return exactly as written on the bill.
+
+========================================
+C. meter_level_data (MeterLevelData)
+========================================
+
+meter_level_data:
+- A list of service blocks from the service table.
+- Look at the SERVICE column and identify distinct service types (e.g., "WATER MULTI-FAMILY", "SEWER MULTI-FAMILY").
+- Group line items by their primary service (water-related charges together, sewer-related charges together).
+- Each primary service (water, sewer) should be a separate entry in the array.
+- Return one array item per primary service found.
+- If no service information exists, return an empty list [].
+
+meter_level_data[].service_name:
+- The primary service type (e.g., "Water Service", "Sewer Service").
+- Derive from the main service line item name (e.g., "2\" WATER MULTI-FAMILY" -> "Water Service", "SEWER MULTI-FAMILY" -> "Sewer Service").
+- Do NOT include the specific descriptor like "2\"" or "MULTI-FAMILY" in service_name.
+
+meter_level_data[].meter_number:
+- The meter number for this service if shown in the METER NO. column.
+
+meter_level_data[].current_read_date:
+- The date of the current meter reading from the CURRENT READ DATE column.
+
+meter_level_data[].previous_reading:
+- The previous meter reading value from the PREVIOUS READ column.
+
+meter_level_data[].current_reading:
+- The current meter reading value from the CURRENT READ column.
+
+meter_level_data[].usage:
+- The usage amount from the USAGE column.
+
+meter_level_data[].usage_unit_of_measurement:
+- The unit of measurement for usage.
+- For water services, this is typically "CCF" (hundred cubic feet) based on context.
+- If not explicitly clear, return null.
+
+meter_level_data[].current_service_amount:
+- The total charge amount for this service including all related line items and taxes.
+- Sum all line_item_charge_amounts for this service (including taxes).
+- This should match the portion of TOTAL CURRENT CHARGES attributable to this service.
+
+meter_level_data[].line_item_charges:
+- A list of all line item charges associated with this service.
+- For water service, include: the main water charge, per-unit charges, and water tax.
+- For sewer service, include: the main sewer charge and sewer tax.
+- Return one array item per line item found for this service.
+
+meter_level_data[].line_item_charges[].line_item_charge_name:
+- The name/label of the line item (e.g., "2\" WATER MULTI-FAMILY", "PER UNIT CHARGE MULTI-FAMILY", "WATER TAX MULTI-FAMILY (6%)", "SEWER MULTI-FAMILY", "SEWER TAX MULTI-FAMILY (6%)").
+- Extract exactly as written in the SERVICE column.
+
+meter_level_data[].line_item_charges[].line_item_charge_amount:
+- The charge amount for that line item from the CURRENT CHARGES column.
+- Return numbers only (no $, no commas).
+
+meter_level_data[].line_item_charges[].is_tax:
+- Boolean: true if this line item is a tax (contains "TAX" in the name), false otherwise.
+
+meter_level_data[].line_item_charges[].tax_percentage:
+- If this is a tax line item and includes a percentage (e.g., "(6%)"), extract just the number: 6
+- Return as a number without the % sign.
+- If not a tax or no percentage shown, return null.
+
+meter_level_data[].line_item_charges[].units:
+- If the charge shows a number of units in the USAGE column (e.g., "38" units for per-unit charge), extract that number.
+- For meter readings, this would be the usage value.
+- If no units/usage are shown for this specific line item, return null.

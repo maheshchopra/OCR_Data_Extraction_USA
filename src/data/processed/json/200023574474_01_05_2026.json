@@ -1,0 +1,232 @@
+{
+    "statement_level_data": {
+        "bill_date": "December 22, 2025",
+        "previous_balance": 9187.18,
+        "total_previous_charges": 9187.18,
+        "payments_applied": null,
+        "payment_date": null,
+        "late_fee_applied": null,
+        "late_fee_date": null,
+        "balance": null,
+        "current_billing": 9784.9,
+        "total_amount_due": 18972.08,
+        "total_amount_due_date": "January 13, 2026",
+        "late_fee_by_duedate_percentage": 1.0,
+        "late_fee_by_duedate": "A late payment fee of 1% per month will apply to past due charges, if any, and amounts unpaid more than 10 business days after the statement due date. Amounts will be considered delinquent if payment is not received on or before the due date.",
+        "payment_amount": null,
+        "latefee_amount": null,
+        "total_amount_validation": {
+            "total_previous_charges": 9187.18,
+            "current_billing": 9784.9,
+            "calculated_total": 18972.08,
+            "total_amount_due": 18972.08,
+            "difference": 0.0,
+            "is_match": true
+        }
+    },
+    "account_level_data": {
+        "provider": "Puget Sound Energy",
+        "provider_website": "pse.com",
+        "provider_customer_service_phone": "1-888-225-5773",
+        "provider_customer_service_email": "customercare@pse.com",
+        "provider_address": "P.O. BOX 91269, Bellevue, WA 98009-9269",
+        "account_number": "200023574474",
+        "account_type": "Electric and Natural Gas",
+        "customer_name": "PALAZZO CONDOMINIUMS HOA",
+        "service_address": "1100 106TH AVE NE, Bellevue",
+        "service_days": 29
+    },
+    "electric_meter_level_data": [
+        {
+            "meter_number": "P148399836",
+            "rate_schedule": "Commercial 25",
+            "service_from_date": "11/20",
+            "service_to_date": "12/19",
+            "previous_reading": 25826.0,
+            "current_reading": 26149.0,
+            "multiplier": 120.0,
+            "usage": 38760.0,
+            "usage_unit_of_measurement": "kWh",
+            "meter_read_type": "Actual Read"
+        },
+        {
+            "meter_number": "P148399836",
+            "rate_schedule": "Commercial 25",
+            "service_from_date": null,
+            "service_to_date": "12/19",
+            "previous_reading": null,
+            "current_reading": null,
+            "multiplier": 120.0,
+            "usage": 77.76,
+            "usage_unit_of_measurement": "kW",
+            "meter_read_type": "Actual Read"
+        }
+    ],
+    "gas_meter_level_data": [
+        {
+            "meter_number": "1289270",
+            "rate_schedule": "Commercial 31",
+            "service_from_date": "11/20",
+            "service_to_date": "12/19",
+            "previous_reading": 97635.0,
+            "current_reading": 99879.0,
+            "turnup": 2244.0,
+            "pressure": 2.0,
+            "temp": 60.0,
+            "fpv": 1.0,
+            "btu_factor": 1.10531,
+            "ccf": 2244.898,
+            "usage": 2481.309,
+            "usage_unit_of_measurement": "Therms",
+            "meter_read_type": "Actual Read"
+        }
+    ],
+    "electric_charges_level_data": {
+        "line_item_charges": [
+            {
+                "line_item_charge_name": "Basic Charge",
+                "line_item_charge_amount": 70.14,
+                "rate": "$70.14 per month",
+                "usage": null,
+                "usage_unit_of_measurement": null
+            },
+            {
+                "line_item_charge_name": "Tier 1",
+                "line_item_charge_amount": 2707.82,
+                "rate": "0.135391",
+                "usage": 20000.0,
+                "usage_unit_of_measurement": "kWh"
+            },
+            {
+                "line_item_charge_name": "Tier 2",
+                "line_item_charge_amount": 2051.86,
+                "rate": "0.109374",
+                "usage": 18760.0,
+                "usage_unit_of_measurement": "kWh"
+            },
+            {
+                "line_item_charge_name": "Electric Cons. Program Charge",
+                "line_item_charge_amount": 281.48,
+                "rate": "0.007262",
+                "usage": 38760.0,
+                "usage_unit_of_measurement": "kWh"
+            },
+            {
+                "line_item_charge_name": "Power Cost Adjustment",
+                "line_item_charge_amount": 263.65,
+                "rate": "0.006802",
+                "usage": 38760.0,
+                "usage_unit_of_measurement": "kWh"
+            },
+            {
+                "line_item_charge_name": "Electric Demand Charge",
+                "line_item_charge_amount": 94.0,
+                "rate": "1.880000",
+                "usage": 50.0,
+                "usage_unit_of_measurement": "kW"
+            },
+            {
+                "line_item_charge_name": "Electric Demand Charge",
+                "line_item_charge_amount": 417.51,
+                "rate": "15.040000",
+                "usage": 27.76,
+                "usage_unit_of_measurement": "kW"
+            },
+            {
+                "line_item_charge_name": "State Utility Tax",
+                "line_item_charge_amount": null,
+                "rate": "3.873%",
+                "usage": null,
+                "usage_unit_of_measurement": null
+            },
+            {
+                "line_item_charge_name": "Effect of Bellevue City Tax",
+                "line_item_charge_amount": 324.76,
+                "rate": "5.517%",
+                "usage": 5886.46,
+                "usage_unit_of_measurement": null
+            }
+        ],
+        "current_electric_charges": 6211.22,
+        "line_item_charges_validation": {
+            "sum_line_item_charges": 6211.22,
+            "current_charges": 6211.22,
+            "difference": 0.0,
+            "is_match": true
+        }
+    },
+    "gas_charges_level_data": {
+        "line_item_charges": [
+            {
+                "line_item_charge_name": "Basic Charge",
+                "line_item_charge_amount": 50.56,
+                "rate": "$50.56 per month",
+                "usage": null,
+                "usage_unit_of_measurement": null
+            },
+            {
+                "line_item_charge_name": "Delivery Charge",
+                "line_item_charge_amount": 2265.9,
+                "rate": "0.913190",
+                "usage": 2481.309,
+                "usage_unit_of_measurement": "Therms"
+            },
+            {
+                "line_item_charge_name": "Gas Cost",
+                "line_item_charge_amount": 1055.33,
+                "rate": "0.425310",
+                "usage": 2481.309,
+                "usage_unit_of_measurement": "Therms"
+            },
+            {
+                "line_item_charge_name": "Gas Cons. Program Charge",
+                "line_item_charge_amount": 106.6,
+                "rate": "0.042960",
+                "usage": 2481.309,
+                "usage_unit_of_measurement": "Therms"
+            },
+            {
+                "line_item_charge_name": "Merger Credit",
+                "line_item_charge_amount": 0.0,
+                "rate": "0.000000",
+                "usage": 2481.309,
+                "usage_unit_of_measurement": "Therms"
+            },
+            {
+                "line_item_charge_name": "State Carbon Reduction Credit",
+                "line_item_charge_amount": -27.48,
+                "rate": "-79.690000",
+                "usage": 1.0,
+                "usage_unit_of_measurement": null
+            },
+            {
+                "line_item_charge_name": "State Carbon Reduction Credit",
+                "line_item_charge_amount": -64.05,
+                "rate": "-97.760000",
+                "usage": 1.0,
+                "usage_unit_of_measurement": null
+            },
+            {
+                "line_item_charge_name": "Effect of Bellevue City Tax",
+                "line_item_charge_amount": 186.82,
+                "rate": "5.516%",
+                "usage": 3386.86,
+                "usage_unit_of_measurement": null
+            },
+            {
+                "line_item_charge_name": "State Utility Tax",
+                "line_item_charge_amount": null,
+                "rate": "3.852%",
+                "usage": null,
+                "usage_unit_of_measurement": null
+            }
+        ],
+        "current_natural_gas_charges": 3573.68,
+        "line_item_charges_validation": {
+            "sum_line_item_charges": 3573.68,
+            "current_charges": 3573.68,
+            "difference": 0.0,
+            "is_match": true
+        }
+    }
+}

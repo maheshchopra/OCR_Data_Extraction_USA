@@ -1,0 +1,165 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- If a value shows as negative like -2,258.71, preserve the negative sign.
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The billing date ("BILLING DATE").
+
+statement_level_data.previous_balance:
+- Any prior balance amount if shown separately from last payment.
+
+statement_level_data.payments_applied:
+- Last payment amount (e.g., "LAST PAYMENT: 06/04/2025").
+- If shown as negative like -2,258.71, preserve the negative sign.
+
+statement_level_data.payment_date:
+- Date of last payment (e.g., "06/04/2025" from "LAST PAYMENT: 06/04/2025").
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed).
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+
+statement_level_data.balance:
+- Any balance carried forward (if explicitly labeled "Balance").
+
+statement_level_data.current_billing:
+- The current period charges (e.g., "CURRENT CHARGES DUE 07/07/2025").
+
+statement_level_data.total_amount_due:
+- The amount due now (e.g., "TOTAL AMOUNT DUE").
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due ("DUE DATE").
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated. Return as a number (no % sign).
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule (e.g., "FAILURE TO RECEIVE BILL DOES NOT WAIVE PAST DUE PENALTY").
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub with "AMOUNT ENCLOSED" field, return null for the value (since it's blank).
+
+statement_level_data.latefee_amount:
+- If the bill has a distinct "Late Fee Amount" field, extract it; otherwise null.
+
+statement_level_data.service_period:
+- The service period covered by this bill (e.g., "04/22/2025 - 05/21/2025").
+- Look for "SERVICE PERIOD" in the account information section.
+
+statement_level_data.cycle:
+- The billing cycle identifier if shown (e.g., "1C").
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill (e.g., "City of Frisco" or "CITY OF FRISCO").
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill (e.g., "www.friscotexas.gov").
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number (e.g., "972-292-5575").
+
+account_level_data.provider_customer_service_email:
+- A customer service email address (e.g., "utilitybilling@friscotexas.gov").
+
+account_level_data.provider_address:
+- The provider's address (e.g., "P.O. BOX 2730, FRISCO, TEXAS 75034").
+
+account_level_data.account_number:
+- The account number as printed (e.g., "ACCOUNT").
+
+account_level_data.account_type (EXCEPTION: you MAY derive this):
+- Determine the service type from the bill's service descriptions.
+- Look for service indicators in the Current Charges section (e.g., "WATER", "SEWER").
+- If multiple services are present, return a combined value like "Water and Sewer".
+
+account_level_data.customer_name:
+- The billed customer name as printed (e.g., "STARWOOD VILLAGE").
+
+account_level_data.service_address:
+- The location receiving service (e.g., "6363 DALLAS PARKWAY BLDG 2").
+- Look for "SERVICE ADDRESS" in the account information section.
+
+account_level_data.service_days:
+- The number of service days for this billing period, if explicitly shown.
+
+account_level_data.multiplier_value:
+- Any numeric conversion factor if shown (e.g., for unit conversions like "100's Gal").
+- If the water usage history shows "100's Gal", the multiplier is 100.
+
+========================================
+C. meter_level_data (MeterLevelData)
+========================================
+
+meter_level_data:
+- A list of meter entries for this bill.
+- Look in the "METER READINGS" section for meter information.
+- Return one array item per meter found.
+- If no meter information exists, return an empty list [].
+
+meter_level_data[].meter_number:
+- The meter number/identifier.
+
+meter_level_data[].previous_reading:
+- The previous meter reading value.
+
+meter_level_data[].current_reading:
+- The current meter reading value.
+
+meter_level_data[].usage:
+- The usage amount (difference between current and previous readings).
+
+meter_level_data[].usage_unit_of_measurement:
+- The unit of measurement for usage.
+- Based on context (e.g., if "100's Gal" is mentioned in water usage history, the unit is likely gallons in hundreds).
+- Return "Gal" or appropriate unit if determinable, otherwise null.
+
+========================================
+D. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data.service_charges:
+- A list of all service-related charges shown in the "CURRENT CHARGES" section.
+- Extract EACH line item that appears under "CURRENT CHARGES".
+- Examples may include charges like "WATER", "SEWER", or any other service charges shown.
+- Do NOT include the "CURRENT CHARGES DUE" line (that goes in current_charges_total).
+- Return one array item per charge found.
+- If no individual charges are shown, return an empty list [].
+
+charges_level_data.service_charges[].charge_name:
+- The name/label of the charge exactly as written (e.g., "WATER", "SEWER").
+- Extract the text that appears on the left side of the charge line.
+
+charges_level_data.service_charges[].charge_amount:
+- The charge amount for that line item (the number on the right).
+- Return numbers only (no $, no commas).
+
+charges_level_data.current_charges_total:
+- The total of all current charges (labeled as "CURRENT CHARGES DUE" with a date).
+- This should equal the sum of all service_charges amounts.
+- Return the numeric amount only.
+- If not shown, return null.

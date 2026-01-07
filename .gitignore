@@ -27,5 +27,4 @@ Thumbs.db
 *.log
 
 # ---- Project generated data ----
-src/data/processed/
 src/data/**/__pycache__/
