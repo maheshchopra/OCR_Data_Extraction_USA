@@ -1,0 +1,211 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached utility bill.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Do NOT infer, calculate, or substitute values that are not explicitly shown.
+- Do NOT copy values from other fields when a field is missing - return null instead.
+- If a line item charge has missing or blank values in any column, return null for those specific fields.
+- Dates: return exactly as written on the bill (do not reformat).
+- Monetary values: return numbers only (no $). If followed by "CR", treat as negative (prefix a minus sign). Remove commas.
+  Example: 6,023.14 CR -> -6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- Extract data for the current billing period only.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The bill/statement date ("Statement date", "Summary of charges as of", etc.).
+- Look for the date in the header section, often appearing as "Summary of charges as of [DATE]".
+
+statement_level_data.previous_balance:
+- The prior balance amount if explicitly present (e.g., "Previous balance:", "Prior Balance").
+- This appears in the summary section at the top of the bill.
+
+statement_level_data.payments_applied:
+- Payments/credits applied during the period (e.g., "Payment", "Payment - THANK YOU").
+- Look for lines like "December 18, 2025 Payment - THANK YOU: $2,313.23 CR".
+- If the bill shows credits as negative amounts or with "CR" suffix, output a negative number.
+
+statement_level_data.payment_date:
+- Date of last payment, if explicitly shown.
+- Look for the date next to the payment line (e.g., "December 18, 2025 Payment").
+
+statement_level_data.late_fee_applied:
+- Late fee amount applied this period (only if explicitly listed).
+
+statement_level_data.late_fee_date:
+- Date associated with the late fee (if explicitly shown).
+
+statement_level_data.balance:
+- The current balance (if explicitly labeled "Balance:", distinct from "Total Amount Due").
+- This appears after payments are applied in the summary section.
+
+statement_level_data.current_billing:
+- The current period charges (e.g., "Current billing:", "CURRENT BILLING").
+- This is the total of all current electric service charges.
+- Look at the bottom of the detailed billing section for "CURRENT BILLING: [amount]".
+
+statement_level_data.total_amount_due:
+- The amount due now (often "TOTAL AMOUNT DUE").
+- Look for the bold/prominent line stating the total amount.
+
+statement_level_data.total_amount_due_date:
+- Due date for the total amount due ("DUE DATE", "TOTAL AMOUNT DUE ON [DATE]").
+- Look for text like "TOTAL AMOUNT DUE ON January 20, 2026" or "DUE DATE: January 20, 2026".
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Late fee percentage if explicitly stated (e.g., "1% per month", "Late Payment Charge").
+- Look in the informational section or footer for late payment policies.
+- Return as a number like 1.0 (no % sign).
+
+statement_level_data.late_fee_by_duedate:
+- Any textual late fee rule tied to due date.
+- Look for text like "A late payment charge of 1% will be applied to accounts that are more than 15 days past due."
+
+statement_level_data.payment_amount:
+- If the bill has a payment stub or autopay notice, extract any specific payment amount mentioned.
+- Look for text like "Your account has Automatic Bank Payment. $[amount] will be deducted..."
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- The company/agency issuing the bill.
+- Look for "Seattle City Light" or "CITY OF SEATTLE" at the top of the bill.
+
+account_level_data.provider_website:
+- A website/URL printed anywhere on the bill.
+- Look for URLs like "myutilities.seattle.gov" or "seattle.gov/city-light".
+
+account_level_data.provider_customer_service_phone:
+- A customer service phone number.
+- May appear as multiple numbers (e.g., "(206) 684-3000 or (800) 862-1181").
+- Return exactly as written, including multiple numbers if present.
+
+account_level_data.provider_customer_service_email:
+- A customer service email address.
+
+account_level_data.provider_address:
+- The provider's mailing address for payments.
+- Look for addresses like "City of Seattle, P.O. Box 35178, Seattle, WA 98124-5178".
+- Do NOT use the service address or customer address.
+
+account_level_data.account_number:
+- The account number as printed (labels like "Account Number").
+- This is typically a prominent number near the top of the bill.
+
+account_level_data.account_type:
+- Determine the service type from the bill.
+- For Seattle City Light, this should be "Electric" or "Electricity".
+- This is an EXCEPTION where you MAY derive the type from context.
+
+account_level_data.customer_name:
+- The billed customer name as printed.
+- This appears near the account number at the top of the bill.
+
+account_level_data.service_address:
+- The location receiving service.
+- This is the primary service address shown near the account number and customer name at the top of the bill.
+- Include the full address as written (street, suite, city, state, zip).
+- Do NOT use individual electric service addresses from the detailed billing section.
+
+account_level_data.service_days:
+- The number of service days for this billing period, if explicitly shown.
+- Calculate from "Service From" and "Service Through" dates if needed.
+- Return ONLY the numeric day count.
+- If not explicitly stated or cannot be clearly calculated, return null.
+
+========================================
+C. meter_level_data (MeterLevelData)
+========================================
+
+meter_level_data:
+- A list of meter/service blocks from the "DETAILED BILLING INFORMATION" section.
+- Each block is identified by an electric service address header (e.g., "Electric Service Address: 622 RAINIER AVE S STE B260").
+- This bill format has MULTIPLE meter reading rows for the SAME meter number, where each meter has separate rows for different service categories (KWH, KW, KVRH), and each service category row has its own readings (Previous Reading, Current Reading, Multiplier, Consumption/Units).
+- Each address block contains: (1) A table section with multiple rows showing different service categories for one or more meter numbers, (2) A "Your Net Meter kWh Statement" section (if present), (3) A charges section with line items, and (4) A total line like "Total for: [address] [amount]".
+- You MUST create ONE entry in meter_level_data for EACH electric service address found. Do NOT create separate entries for each service category row - group all rows under the same address into ONE meter_level_data entry.
+- Return one array item per address block found under "DETAILED BILLING INFORMATION".
+- If no detailed billing blocks exist, return an empty list [].
+
+meter_level_data[].service_name:
+- Always "Electric Service" for Seattle City Light bills.
+
+meter_level_data[].current_service_amount:
+- The total line for that address, formatted as "Total for: [address] [amount]".
+- Extract the numeric amount on the right (numbers only: no $, no commas).
+- Example: "Total for: 622 RAINIER AVE S STE B260 $46.00" -> 46.00
+
+meter_level_data[].line_item_charges:
+- A list of the line item charges shown under that address block.
+- Common line items include "Base Service Charge" (fixed charge per meter), "Small General Energy" (energy usage charge based on KWH consumption), and "Power Factor Penalty" (penalty charge based on KVRH consumption and power factor).
+- Return one array item per line item charge found in that address block.
+- Each line item charge must be matched with the correct meter reading row based on what it measures: For "Base Service Charge" and "Small General Energy" use the KWH service category row for that meter; for "Power Factor Penalty" use the KVRH service category row for that meter.
+- If a line item shows a consumption value, match it to the service category row that has that same consumption value.
+- Extract EVERY line item charge row exactly as it appears.
+- If any field in the line item charges table is blank, empty, or missing (e.g., no amount shown, no unit charge, etc.), return null for that specific field. Do NOT copy consumption values or other fields into missing fields. Example: "Power Factor Penalty" with consumption "19.2" but no amount shown means line_item_charge_amount should be null.
+
+meter_level_data[].line_item_charges[].line_item_charge_name:
+- The name/label of the line item charge.
+- Examples: "Base Service Charge", "Small General Energy", "Power Factor Penalty".
+
+meter_level_data[].line_item_charges[].line_item_charge_amount:
+- The final charge amount for that line item (rightmost number in the charges section under the "Amount" column).
+- Example: "Base Service Charge" with "Rate Code ESMCM, Amount: $21.76" -> 21.76
+- If the Amount column is blank, empty, or shows no value for this line item, return null. Do NOT substitute or calculate a value - only extract what is explicitly shown. Do NOT use the consumption value as the amount.
+
+meter_level_data[].line_item_charges[].rate:
+- If the row includes a unit charge, extract it from the "Unit Charge" column value (e.g., "0.1241").
+- Return as string exactly as shown (e.g., "0.1241").
+- If the Unit Charge column is blank, empty, or shows no value for this line item, return null. Do NOT copy or infer from other similar line items.
+
+meter_level_data[].line_item_charges[].service_from_date:
+- The "Service From" date from the meter reading row that corresponds to this line item.
+- Match by service category (KWH for energy charges, KVRH for power factor penalties).
+
+meter_level_data[].line_item_charges[].service_through_date:
+- The "Service Through" date from the meter reading row that corresponds to this line item.
+- Match by service category (KWH for energy charges, KVRH for power factor penalties).
+
+meter_level_data[].line_item_charges[].usage:
+- The "Consumption/Units" value from the meter reading row that corresponds to this line item.
+- For "Small General Energy" use the KWH consumption value; for "Power Factor Penalty" use the KVRH consumption value.
+- Match the consumption value shown in the line item to the correct service category row.
+
+meter_level_data[].line_item_charges[].usage_unit_of_measurement:
+- For line items based on KWH readings: "kWh".
+- For line items based on KVRH readings: "kVRh".
+- Match based on which service category row this line item uses.
+
+meter_level_data[].line_item_charges[].previous_reading:
+- The "Previous Reading" from the meter reading row that corresponds to this line item.
+- Match by service category.
+
+meter_level_data[].line_item_charges[].current_reading:
+- The "Current Reading" from the meter reading row that corresponds to this line item.
+- Match by service category.
+
+meter_level_data[].line_item_charges[].multiplier:
+- The "Multiplier" from the meter reading row that corresponds to this line item.
+- Match by service category.
+- If meter reading data is not available for this line item, return null.
+
+meter_level_data[].line_item_charges[].meter_number:
+- The meter number from the meter reading table (appears in the leftmost column).
+- If meter reading data is not available for this line item, return null.
+
+meter_level_data[].line_item_charges[].service_category:
+- The service category from the meter reading row that corresponds to this line item.
+- Will be "KWH", "KW", or "KVRH" depending on which row the line item references.
+- Match based on which measurement type this line item uses.
+- To match a line item to the correct meter reading row: If the line item shows a consumption value in its description, find the meter reading row with matching consumption. "Base Service Charge" and "Small General Energy" use KWH service category row; "Power Factor Penalty" uses KVRH service category row.

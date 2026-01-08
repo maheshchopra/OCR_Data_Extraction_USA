@@ -28,6 +28,7 @@ from provider_functions import (
     rubatino,
     sammamish,
     scl,
+    scl_2,
     skagit,
     spu,
     sssd,
@@ -61,6 +62,7 @@ from pydantic_models import (
     RubatinoBillExtract,
     SammamishPlateauWaterBillExtract,
     SeattleCityLightBillExtract,
+    SeattleCityLightCommercialBillExtract,
     SkagitPUDBillExtract,
     SPUBillExtract,
     SSSDBillExtract,
@@ -78,6 +80,7 @@ PROVIDER_PROMPTS: dict[str, str] = {
     "puget sound energy - electric": "pse_electric.txt",
     "puget sound energy - gas and electric": "pse_gas_and_electric.txt",
     "seattle city light": "scl.txt",
+    "seattle city light - commercial": "scl_2.txt",
     "waste management of washington": "wmw.txt",
     "sammamish plateau water": "sammamish.txt",
     "kent": "kent.txt",
@@ -140,6 +143,7 @@ PROVIDER_POSTPROCESSORS: Dict[str, Callable[[dict], dict]] = {
     "snohomish county pud": skagit.postprocess_skagit,
     "city of frisco": frisco.postprocess_frisco,
     "city of ocean shores": ocean_shores.postprocess_ocean_shores,
+    "seattle city light - commercial": scl_2.postprocess_seattle_city_light_commercial,
     # add more providers here later
 }
 
@@ -175,6 +179,7 @@ PROVIDER_VALIDATION_CHECKERS: Dict[str, Callable[[dict], bool]] = {
     "snohomish county pud": skagit.check_validation_passed,
     "city of frisco": frisco.check_validation_passed,
     "city of ocean shores": ocean_shores.check_validation_passed,
+    "seattle city light - commercial": scl_2.check_validation_passed,
     # add more providers here later
 }
 
@@ -211,6 +216,7 @@ PROVIDER_MODELS = {
     "snohomish county pud": SkagitPUDBillExtract,
     "city of frisco": FriscoBillExtract,
     "city of ocean shores": OceanShoresBillExtract,
+    "seattle city light - commercial": SeattleCityLightCommercialBillExtract,
     # add more providers here later
 }
 
@@ -239,6 +245,10 @@ def detect_provider_from_file_id(file_id: str) -> str:
                             f"{allowed_display}\n\n"
                             "Look at the bill carefully:\n"
                             "- For Puget Sound Energy bills, check if it's for Natural Gas, Electric service or both together\n"
+                            "- For Seattle City Light bills, check the detailed billing section:\n"
+                            "  * If you see 'Power Factor Penalty', 'Small General Energy', service categories 'KVRH' or 'KW', "
+                            "or totals formatted as 'Total for: [address]', answer: seattle city light - commercial\n"
+                            "  * Otherwise, answer: seattle city light\n"
                             "- Choose the specific option that matches BOTH the provider and service type\n"
                             "- scroll to the VERY BOTTOM of the page and look for a URL/website address\n"
                             "If you find a URL containing 'rubatino.onlineportal.us.com', answer: rubatino refuse removal\n"

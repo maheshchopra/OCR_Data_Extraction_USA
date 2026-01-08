@@ -25,6 +25,7 @@ from . import (
     rubatino,
     sammamish,
     scl,
+    scl_2,
     skagit,
     spu,
     sssd,
@@ -64,4 +65,5 @@ __all__ = [
     "auburn",
     "skagit",
     "ocean_shores",
+    "scl_2",
 ]

@@ -25,6 +25,7 @@ from .republic import RepublicServicesBillExtract
 from .rubatino import RubatinoBillExtract
 from .sammamish import SammamishPlateauWaterBillExtract
 from .scl import SeattleCityLightBillExtract
+from .scl_2 import SeattleCityLightCommercialBillExtract
 from .skagit import SkagitPUDBillExtract
 from .spu import SPUBillExtract
 from .sssd import SSSDBillExtract
@@ -64,4 +65,5 @@ __all__ = [
     "SkagitPUDBillExtract",
     "FriscoBillExtract",
     "OceanShoresBillExtract",
+    "SeattleCityLightCommercialBillExtract",
 ]
