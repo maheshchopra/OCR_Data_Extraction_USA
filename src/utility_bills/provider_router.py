@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Any, Callable, Dict, Union
+import base64
 
 from openai import OpenAI
 from provider_functions import (
@@ -280,6 +281,88 @@ def detect_provider_from_file_id(file_id: str) -> str:
         )
 
     # return normalized since the dict keys are lowercase
+    return normalized
+
+
+def encode_png_to_base64(file_path: str | Path) -> str:
+    """
+    Encode a PNG file to base64 string.
+
+    Args:
+        file_path: Path to the PNG file.
+
+    Returns:
+        Base64 encoded string of the PNG image.
+    """
+    with open(file_path, "rb") as f:
+        return base64.b64encode(f.read()).decode("utf-8")
+
+
+def detect_provider_from_png(png_path: str | Path, client: OpenAI | None = None) -> str:
+    """
+    Ask the LLM to read the bill PNG image and return the provider name.
+
+    Args:
+        png_path: Path to the PNG file.
+        client: OpenAI client instance. If None, creates a new one.
+
+    Returns:
+        The normalized provider name.
+    """
+    if client is None:
+        client = OpenAI()
+
+    allowed_providers = list(PROVIDER_PROMPTS.keys())
+    allowed_display = ", ".join(f"'{name}'" for name in allowed_providers)
+
+    base64_image = encode_png_to_base64(png_path)
+
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/png;base64,{base64_image}",
+                        },
+                    },
+                    {
+                        "type": "text",
+                        "text": (
+                            "You are identifying the utility provider that issued this bill.\n\n"
+                            "You MUST answer with EXACTLY ONE name from the following list, "
+                            "and nothing else (no extra words, punctuation, or explanation):\n"
+                            f"{allowed_display}\n\n"
+                            "Look at the bill carefully:\n"
+                            "- For Puget Sound Energy bills, check if it's for Natural Gas, Electric service or both together\n"
+                            "- For Seattle City Light bills, check the detailed billing section:\n"
+                            "  * If you see 'Power Factor Penalty', 'Small General Energy', service categories 'KVRH' or 'KW', "
+                            "or totals formatted as 'Total for: [address]', answer: seattle city light - commercial\n"
+                            "  * Otherwise, answer: seattle city light\n"
+                            "- Choose the specific option that matches BOTH the provider and service type\n"
+                            "- scroll to the VERY BOTTOM of the page and look for a URL/website address\n"
+                            "If you find a URL containing 'rubatino.onlineportal.us.com', answer: rubatino refuse removal\n"
+                            "Reply with only that exact name."
+                        ),
+                    },
+                ],
+            }
+        ],
+        max_tokens=100,
+    )
+
+    provider_name = response.choices[0].message.content.strip()
+    normalized = provider_name.lower()
+
+    if normalized not in PROVIDER_PROMPTS:
+        raise ValueError(
+            f"Model returned unknown provider '{provider_name}'. "
+            f"Expected one of: {list(PROVIDER_PROMPTS.keys())}"
+        )
+
     return normalized
 
 

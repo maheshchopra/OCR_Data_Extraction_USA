@@ -115,17 +115,19 @@ C. meter_level_data (MeterLevelData)
 ========================================
 
 meter_level_data:
-- A list of meter/service blocks from the "DETAILED BILLING INFORMATION" section.
-- Each block starts with a header that may be in one of two formats:
-  - Format 1: "<service_name> Address: <address>" (examples: "Water Service Address: 316 1ST AVE S", "Sewer Service Address: 318 1ST AVE S", "Solid Waste Service Address: 318 1ST AVE S")
+- A list of service blocks from the "DETAILED BILLING INFORMATION" section.
+- Each service header may be in one of two formats:
+  - Format 1: "<service_name> Address: <address>" (examples: "Water Service Address: 316 1ST AVE S")
   - Format 2: Just "<service_name>" (examples: "Water Service", "Sewer Service", "Solid Waste Service")
-- Each block includes:
-  - A table with "Service From", "Service Through", "<UNIT> Usage", "Previous Reading", "Current Reading"
-  - Lines below the table like "Meter Number: ..." and "Service Category: ..."
-- You MUST extract EVERY service block you find, even if multiple blocks have the same service name.
-- For example, if there are two "Water Service" blocks (whether they have addresses or not), you MUST create separate entries in meter_level_data for BOTH of them.
-- Do NOT merge, combine, or skip duplicate service names - each service block with different meter data, different addresses, or different line items must be a separate entry.
-- Return one array item per block found under "DETAILED BILLING INFORMATION".
+- IMPORTANT: Group all line items by service_name (e.g., "Water Service", "Sewer Service", "Solid Waste Service").
+- If the bill has multiple meters under the same service (for example, two different meter numbers under "Water Service"), 
+  you MUST combine all their line items into a SINGLE entry for that service.
+- Do NOT create separate entries for different meters under the same service - combine them.
+- Only create separate entries when the service names are different (e.g., one entry for "Water Service", 
+  one entry for "Sewer Service", one entry for "Solid Waste Service").
+- Example: If there are two meters under "Water Service" (meter PRE-P0029155-1 and meter HER-09015946-1), 
+  create ONE "Water Service" entry containing ALL line items from both meters.
+- Return one array item per unique service name found under "DETAILED BILLING INFORMATION".
 - If no detailed billing blocks exist, return an empty list [].
 
 meter_level_data[].service_name:
@@ -174,6 +176,14 @@ meter_level_data[].line_item_charges:
 - When choosing between multiple contexts above a charge, prefer the context whose "Meter Number:" / "Service Category:" line is closest to the charge.
 - Extract EVERY line item charge row exactly as it appears, even if multiple rows have the same line_item_charge_name (do NOT deduplicate, merge, or combine repeated names).
 - line_item_charges MUST be a JSON array (list). Do NOT output line items as a JSON object keyed by name (that would overwrite duplicates).
+- CRITICAL: If you see multiple "Base service charge" rows with different amounts, you MUST extract ALL of them as separate array items.
+- Example: If a meter has these charges:
+  - Base service charge 211.70
+  - Base service charge 39.17
+  - Winter Commercial 458.88 CCF @ $5.98 per CCF 2,744.10
+  You MUST create THREE separate line_item_charges array items (do not skip the second base service charge).
+- The same rule applies to ANY repeated charge name - extract each occurrence as a separate array item.
+- When multiple line items have the same name but different amounts, they are NOT duplicates - they are separate charges that must all be extracted.
 - A line item charge "belongs" to the most recent meter/table context above it, and continues to belong to that context until the next meter/table context date row starts (a new row beginning with a date like "Nov 05, 2025").
 - Do NOT skip a meter/table context just because usage is 0.00 or readings are unchanged; it can still have charges like "Base service charge".
 - Example (must extract BOTH base service charges as separate items):

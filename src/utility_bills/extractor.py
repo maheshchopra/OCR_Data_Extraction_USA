@@ -1,3 +1,4 @@
+import base64
 import json
 import shutil
 from pathlib import Path
@@ -6,7 +7,9 @@ from logging_setup import setup_logging
 from openai import OpenAI
 from provider_router import (
     check_validation_for_provider,
+    encode_png_to_base64,
     detect_provider_from_file_id,
+    detect_provider_from_png,
     get_model_for_provider,
     get_prompt_path_for_provider,
     postprocess_for_provider,
@@ -123,6 +126,87 @@ class Extractor:
             text_format=model_class,
         )
         return response.output_parsed.model_dump()
+
+    def extract_json_from_png(
+        self,
+        png_path: str | Path,
+        prompt: str,
+        model_class,
+    ) -> dict:
+        """
+        Extract structured JSON data from a PNG file using OpenAI's vision API.
+
+        This method uses GPT-4o with vision to parse the PNG image and extract
+        utility bill information according to the provided Pydantic model schema.
+
+        Args:
+            png_path: Path to the PNG file.
+            prompt: The prompt text instructing the LLM on what to extract.
+            model_class: The Pydantic model class to use for structured output validation.
+            client: OpenAI client instance. If None, creates a new one.
+
+        Returns:
+            A dictionary containing the extracted utility bill data, conforming to
+            the provided model schema.
+
+        Raises:
+            openai.APIError: If the API call fails.
+            ValidationError: If the extracted data doesn't match the Pydantic schema.
+        """
+
+        base64_image = encode_png_to_base64(png_path)
+
+        # Get the JSON schema from the Pydantic model
+        json_schema = model_class.model_json_schema()
+
+        # Create a prompt that includes the schema
+        full_prompt = f"""{prompt}
+
+        You must return a valid JSON object that matches this schema:
+        {json.dumps(json_schema, indent=2)}
+
+        Return ONLY valid JSON, no markdown formatting, no code blocks, just the raw JSON object."""
+
+        response = self.client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/png;base64,{base64_image}",
+                            },
+                        },
+                        {
+                            "type": "text",
+                            "text": full_prompt,
+                        },
+                    ],
+                }
+            ],
+            response_format={"type": "json_object"},
+            max_tokens=4000,
+        )
+
+        # Parse the JSON response
+        json_text = response.choices[0].message.content.strip()
+
+        # Remove markdown code blocks if present
+        if json_text.startswith("```json"):
+            json_text = json_text[7:]
+        if json_text.startswith("```"):
+            json_text = json_text[3:]
+        if json_text.endswith("```"):
+            json_text = json_text[:-3]
+
+        json_text = json_text.strip()
+        extracted_dict = json.loads(json_text)
+
+        # Validate against Pydantic model
+        validated = model_class(**extracted_dict)
+        return validated.model_dump()
 
     def process_inbox_pdfs(self, project_root: str | Path) -> list[dict]:
         """
@@ -261,9 +345,164 @@ class Extractor:
         self.logger.info("All PDFs processed.")
         return results
 
+    def process_inbox_pngs(
+        self,
+        project_root: str | Path,
+    ) -> list[dict]:
+        """
+        Process all PNG files in the inbox directory.
+        This function processes each PNG file found in <project_root>/src/data/inbox:
+        Detects the utility provider using vision model
+        Selects the appropriate prompt
+        Extracts structured JSON data using the LLM
+        Saves the JSON to <project_root>/src/data/processed/json/
+        Moves the processed PNG to <project_root>/src/data/processed/png/
+        Each file is processed independently, and errors for one file don't stop
+        processing of other files. All operations are logged.
+        Args:
+        project_root: Path to the project root directory containing the
+        src/data/inbox and src/data/processed directories.
+        client: OpenAI client instance. If None, creates a new one.
+        logger: Logger instance for logging. If None, no logging is performed.
+        Returns:
+        A list of dictionaries, one per processed PNG. Each dictionary contains:
+        "png": Path to the original PNG file
+        "ok": Boolean indicating success (True) or failure (False)
+        "json_path": Path to saved JSON file (only if ok=True)
+        "moved_png_path": Path where PNG was moved (only if ok=True)
+        "validation_passed": Boolean indicating validation result (only if ok=True)
+        "error": Error message string (only if ok=False)
+        Note:
+        The processed/json and processed/png directories are created automatically
+        if they don't exist. PNGs are processed in sorted order by filename.
+        """
+
+        project_root = Path(project_root)
+        inbox_dir = project_root / "src" / "data" / "inbox"
+        processed_json_dir = project_root / "src" / "data" / "processed" / "json"
+        processed_png_dir = project_root / "src" / "data" / "processed" / "png"
+        unprocessed_json_dir = project_root / "src" / "data" / "unprocessed" / "json"
+        unprocessed_png_dir = project_root / "src" / "data" / "unprocessed" / "png"
+
+        processed_json_dir.mkdir(parents=True, exist_ok=True)
+        processed_png_dir.mkdir(parents=True, exist_ok=True)
+        unprocessed_json_dir.mkdir(parents=True, exist_ok=True)
+        unprocessed_png_dir.mkdir(parents=True, exist_ok=True)
+
+        png_paths = sorted(inbox_dir.glob("*.png"))
+
+        if self.logger:
+            self.logger.info(
+                f"Found {len(png_paths)} PNG(s) in inbox. Starting extraction"
+            )
+
+        results: list[dict] = []
+
+        for png_path in png_paths:
+
+            self.logger.info(f"Processing PNG: {png_path.name}")
+
+            file_result = {"png": str(png_path), "ok": False}
+
+            try:
+
+                self.logger.info("Detecting the provider from PNG image")
+
+                # Detect provider
+                provider_name = detect_provider_from_png(png_path, self.client)
+
+                self.logger.info(f"Detected provider: {provider_name}")
+
+                # Get its prompt
+                prompt_path = get_prompt_path_for_provider(project_root, provider_name)
+
+                self.logger.info(f"Using prompt: {prompt_path.name}")
+
+                # Load prompt
+                prompt_text = Path(prompt_path).read_text(encoding="utf-8")
+
+                self.logger.info("Calling LLM to extract the JSON")
+
+                # Get provider-specific model
+                model_class = get_model_for_provider(provider_name)
+                if model_class is None:
+                    raise ValueError(
+                        f"No Pydantic model registered for provider: {provider_name}"
+                    )
+
+                # Extract JSON
+                extracted = self.extract_json_from_png(
+                    png_path, prompt_text, model_class, self.client
+                )
+                extracted = postprocess_for_provider(provider_name, extracted)
+
+                # Check validation results using provider-specific checker
+                validation_passed = check_validation_for_provider(
+                    provider_name, extracted
+                )
+
+                self.logger.info(
+                    f"Validation {'passed' if validation_passed else 'failed'} for {png_path.name}"
+                )
+
+                # Determine destination folders based on validation
+                if validation_passed:
+                    json_dir = processed_json_dir
+                    png_dir = processed_png_dir
+                    folder_type = "processed"
+                else:
+                    json_dir = unprocessed_json_dir
+                    png_dir = unprocessed_png_dir
+                    folder_type = "unprocessed"
+
+                # Save JSON
+                json_path = json_dir / f"{png_path.stem}.json"
+                json_path.write_text(
+                    json.dumps(
+                        extracted, indent=4, ensure_ascii=False, sort_keys=False
+                    ),
+                    encoding="utf-8",
+                )
+
+                self.logger.debug(f"Saved JSON to {json_path}")
+
+                png_dest = png_dir / png_path.name
+                shutil.move(png_path, png_dest)
+
+                self.logger.debug(f"Moved PNG to {png_dest} ({folder_type})")
+
+                file_result.update(
+                    {
+                        "ok": True,
+                        "json_path": str(json_path),
+                        "moved_png_path": str(png_dest),
+                        "validation_passed": validation_passed,
+                    }
+                )
+
+                self.logger.info(f"Finished: {png_path.name} -> {folder_type}")
+
+            except Exception as e:
+
+                self.logger.error(
+                    f"Error processing {png_path.name}: {repr(e)}", exc_info=True
+                )
+                file_result["error"] = repr(e)
+
+            results.append(file_result)
+
+        self.logger.info("All PNGs processed.")
+
+        return results
+
 
 if __name__ == "__main__":
     project_root = Path(__file__).resolve().parents[2]
     extractor = Extractor()
-    results = extractor.process_inbox_pdfs(project_root)
-    print(json.dumps(results, indent=2))
+
+    pdf_results = extractor.process_inbox_pdfs(project_root)
+    png_results = extractor.process_inbox_pngs(project_root)
+
+    all_results = {"pdfs": pdf_results, "pngs": png_results}
+
+    print(json.dumps(all_results, indent=2))
