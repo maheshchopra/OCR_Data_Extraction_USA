@@ -4,12 +4,13 @@ import shutil
 from pathlib import Path
 
 from logging_setup import setup_logging
+from mapper_functions.universal_transformer import transform_single_bill
 from openai import OpenAI
 from provider_router import (
     check_validation_for_provider,
-    encode_png_to_base64,
     detect_provider_from_file_id,
     detect_provider_from_png,
+    encode_png_to_base64,
     get_model_for_provider,
     get_prompt_path_for_provider,
     postprocess_for_provider,
@@ -125,7 +126,9 @@ class Extractor:
             ],
             text_format=model_class,
         )
-        return response.output_parsed.model_dump()
+        return response.output_parsed.model_dump(
+            exclude_none=False, exclude_unset=False
+        )
 
     def extract_json_from_png(
         self,
@@ -206,7 +209,7 @@ class Extractor:
 
         # Validate against Pydantic model
         validated = model_class(**extracted_dict)
-        return validated.model_dump()
+        return validated.model_dump(exclude_none=False, exclude_unset=False)
 
     def process_inbox_pdfs(self, project_root: str | Path) -> list[dict]:
         """
@@ -291,6 +294,12 @@ class Extractor:
                 )
                 extracted = postprocess_for_provider(provider_name, extracted)
 
+                # Add provider metadata to the extracted data
+                extracted_with_metadata = {
+                    "provider_name": provider_name,  # Add provider here
+                    **extracted,  # All the existing extracted data
+                }
+
                 # Check validation results using provider-specific checker
                 validation_passed = check_validation_for_provider(
                     provider_name, extracted
@@ -313,7 +322,10 @@ class Extractor:
                 json_path = json_dir / f"{pdf_path.stem}.json"
                 json_path.write_text(
                     json.dumps(
-                        extracted, indent=4, ensure_ascii=False, sort_keys=False
+                        extracted_with_metadata,
+                        indent=4,
+                        ensure_ascii=False,
+                        sort_keys=False,
                     ),
                     encoding="utf-8",
                 )
@@ -323,12 +335,40 @@ class Extractor:
                 shutil.move(pdf_path, pdf_dest)
                 self.logger.debug(f"Moved PDF to {pdf_dest} ({folder_type})")
 
+                standard_json_path = None
+                if validation_passed:
+                    try:
+                        self.logger.info("Transforming to standard format...")
+                        json_results_dir = (
+                            project_root / "src" / "data" / "json_results"
+                        )
+                        json_results_dir.mkdir(parents=True, exist_ok=True)
+
+                        standard_json_path = json_results_dir / f"{pdf_path.stem}.json"
+
+                        # Transform using the universal transformer
+                        transform_single_bill(
+                            str(json_path), str(standard_json_path), self.client
+                        )
+
+                        self.logger.info(
+                            f" Standard JSON saved to {standard_json_path}"
+                        )
+                    except Exception as transform_error:
+                        self.logger.error(
+                            f"Error transforming to standard format: {repr(transform_error)}"
+                        )
+                        standard_json_path = None
+
                 file_result.update(
                     {
                         "ok": True,
                         "json_path": str(json_path),
                         "moved_pdf_path": str(pdf_dest),
                         "validation_passed": validation_passed,
+                        "standard_json_path": (
+                            str(standard_json_path) if standard_json_path else None
+                        ),
                     }
                 )
 
@@ -432,9 +472,15 @@ class Extractor:
 
                 # Extract JSON
                 extracted = self.extract_json_from_png(
-                    png_path, prompt_text, model_class, self.client
+                    png_path, prompt_text, model_class
                 )
                 extracted = postprocess_for_provider(provider_name, extracted)
+
+                # Add provider metadata to the extracted data
+                extracted_with_metadata = {
+                    "provider_name": provider_name,  # Add provider here
+                    **extracted,  # All the existing extracted data
+                }
 
                 # Check validation results using provider-specific checker
                 validation_passed = check_validation_for_provider(
@@ -459,7 +505,10 @@ class Extractor:
                 json_path = json_dir / f"{png_path.stem}.json"
                 json_path.write_text(
                     json.dumps(
-                        extracted, indent=4, ensure_ascii=False, sort_keys=False
+                        extracted_with_metadata,
+                        indent=4,
+                        ensure_ascii=False,
+                        sort_keys=False,
                     ),
                     encoding="utf-8",
                 )
@@ -471,12 +520,40 @@ class Extractor:
 
                 self.logger.debug(f"Moved PNG to {png_dest} ({folder_type})")
 
+                standard_json_path = None
+                if validation_passed:
+                    try:
+                        self.logger.info("Transforming to standard format...")
+                        json_results_dir = (
+                            project_root / "src" / "data" / "json_results"
+                        )
+                        json_results_dir.mkdir(parents=True, exist_ok=True)
+
+                        standard_json_path = json_results_dir / f"{png_path.stem}.json"
+
+                        # Transform using the universal transformer
+                        transform_single_bill(
+                            str(json_path), str(standard_json_path), self.client
+                        )
+
+                        self.logger.info(
+                            f" Standard JSON saved to {standard_json_path}"
+                        )
+                    except Exception as transform_error:
+                        self.logger.error(
+                            f"Error transforming to standard format: {repr(transform_error)}"
+                        )
+                        standard_json_path = None
+
                 file_result.update(
                     {
                         "ok": True,
                         "json_path": str(json_path),
                         "moved_png_path": str(png_dest),
                         "validation_passed": validation_passed,
+                        "standard_json_path": (
+                            str(standard_json_path) if standard_json_path else None
+                        ),
                     }
                 )
 

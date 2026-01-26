@@ -36,17 +36,43 @@ statement_level_data.total_previous_charges:
 - Return the numeric value only (no $ sign, no commas).
 
 statement_level_data.payments_applied:
-- Payments/credits applied during the period (if shown in the Account Summary section).
+- The TOTAL of all payments/credits applied during the period.
+- This is the net sum shown in the Account Summary section.
 - If the bill shows credits as negative amounts, output a negative number.
+- Example: If two payments of -$749.50 and -$1,100.00 were made, this would be -1849.50
 
-statement_level_data.payment_date:
-- Date of last payment, if explicitly shown in the Account Summary.
+statement_level_data.payments:
+- A LIST of all individual payment entries shown in the "Your Account Summary" section under "Previous Charges:".
+- Look for lines like "Payment received [date] - Thank you!" followed by an amount.
+- Each payment entry should capture:
+  - payment_date: The date the payment was received (e.g., "1/2/2026")
+  - payment_amount: The payment amount (typically negative, e.g., -749.50)
+  - payment_details: Any additional text like "Thank you!" (optional)
+- Extract ALL payment entries shown on the bill, not just the most recent one.
+- If there are multiple payments with different dates, create one entry per payment.
+- Examples:
+  - "Payment received 1/2/2026 - Thank you!" with amount showing -$749.50 →
+    {"payment_date": "1/2/2026", "payment_amount": -749.50, "payment_details": "Thank you!"}
+  - "Payment received 1/6/2026 - Thank you!" with amount showing -$1,100.00 →
+    {"payment_date": "1/6/2026", "payment_amount": -1100.00, "payment_details": "Thank you!"}
+- If no individual payment entries are shown, return an empty list [].
 
 statement_level_data.late_fee_applied:
 - Late fee amount applied this period (only if explicitly listed in the charges).
 
 statement_level_data.late_fee_date:
 - Date associated with the late fee (if explicitly shown).
+
+statement_level_data.grace_period_days:
+- The number of business days before a late fee is applied after the due date.
+- Look for text like "amounts unpaid more than X business days after the statement due date" in the late fee description.
+- Extract ONLY the numeric value (e.g., if it says "10 business days", return 10).
+- Examples:
+  - "more than 10 business days" → 10
+  - "after 15 business days" → 15
+  - "within 5 days" → 5
+- This is typically found in the same section as late_fee_by_duedate.
+- If no specific grace period is mentioned, return null.
 
 statement_level_data.balance:
 - The current balance (if explicitly labeled "Balance", distinct from "Total Amount Due").

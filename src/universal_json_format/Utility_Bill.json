@@ -1,0 +1,502 @@
+{
+    "schema_version": "1.0",
+    "currency": "USD",
+    "statement_level_data": {
+        "provider":"Seattle Public Utilities",
+        "provider_website": [
+            {
+            "type":"Pay bill Online",
+            "link":"seattle.gov/utilities"
+            },
+            {
+            "type":"Questions? Visit us on the web at",
+            "link":"seattle.gov/utilities"
+            }
+        ],
+        "provider_customer_service_phone":[
+            {
+                "type":"call",
+                "phone":"206-684-3000",
+                "time":"Monday to Friday from 7:30 am to 6 pm, or TTY 7-1-1"
+            },
+            {
+                "type":"out of area calls only",
+                "phone":"1-800-862-1181",
+                "time":""
+            },
+            {
+                "type":"Downtown Customer Service Center",
+                "phone":"(206) 684-3000",
+                "time":""
+            }
+        ],
+        "provider_customer_service_email":[
+            {
+                "type":"",
+                "email": "SPUCustomerService@seattle.gov"
+            }
+        ],
+        "provider_address": [
+            {
+                "type":"mail to",
+                "address_line1":"CITY OF SEATTLE",
+                "address_line2":"PO BOX 35177",
+                "city_state_zip":"SEATTLE WA 98124-5177"
+            }
+        ],
+        "account_number": "6712450000",
+        "invoice_number": "671140419262",
+        "customer_number":"",
+        "customer_name": [
+            {
+                "type":"Property Owner",
+                "name":"LOTS II LLC"
+            }
+        ],
+        "service_address": "1620 BROADWAY SVC HSE",
+        "service_city_state_zip": "",
+        "billing_address": "1620 BROADWAY STE 200",
+        "billing_city_state_zip": "SEATTLE WA 98122-2564",
+        "bill_date": "2026-01-06",
+        "previous_balance": 10696.47,
+        "payments_applied": [
+            {
+            "payment_details":"",
+            "payment_date": "2025-12-11",
+            "payment_amount": -10696.47
+            }
+        ],
+        "total_payments_applied":-10696.47,
+        "payments_cutoff_date":"2026-01-06",
+        "late_fees_applied": [
+            {
+            "late_fee_details":"",
+            "late_fee_date": "",
+            "late_fee_amount": 0.00
+            }
+        ],
+        "total_late_fees_applied":0.00,
+        "adjustments_applied": [
+            {
+            "adjustment_details":"",
+            "adjustment_date": "",
+            "adjustment_amount": 0.00
+            }
+        ],
+        "total_adjustments_applied":0.00,
+        "balance_forward": 0.00,
+        "current_charges": 12750.82,
+        "total_amount_due": 12750.82,
+        "total_amount_due_date": "2026-01-27",
+        "late_fee_by_duedate_percentage": 1.0,
+        "late_fee_by_duedate_amount": 5.00,
+        "late_fee_by_duedate_details": "Late fee is $5 or 1% of balance, whichever is greater",
+        "grace_period_days":15,
+        "autopayment": true,
+        "notes":"For every $10.00 of a customer's bill, approximately $1.60 goes to taxes."
+    },
+    "service_level_data":[
+        {
+            "service_name":"Water Service",
+            "service_provider":"Seattle Public Utilities",
+            "service_type":"WATER",
+            "service_address": "1620 BROADWAY SVC HSE",
+            "service_from_date":"2025-12-02",
+            "service_to_date":"2026-01-05",
+            "service_days":34,
+            "service_notes":"15.5% of water bills are paid to city taxes and 1.5% to state taxes.",
+            "meter_level_data": [
+                {
+                    "meter_id":"M1",
+                    "meter_number":"SEN-69851638-1",
+                    "meter_size":"",
+                    "meter_category":"WTR1",
+                    "meter_information":"",
+                    "meter_reading":[
+                        {
+                            "service_from_date": "2025-12-02",
+                            "service_to_date": "2026-01-05",
+                            "previous_reading": 81240.00,
+                            "current_reading": 81624.00,
+                            "previous_reading_type":"Actual",
+                            "current_reading_type":"Actual",
+                            "usages": [
+                            {
+                                "multiplier": 1,
+                                "usage": 384.00,
+                                "uom": "CCF",
+                                "factor":null
+                            }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "meter_id":"M2",
+                    "meter_number":"PMM-68446926-1",
+                    "meter_size":"",
+                    "meter_category":"WTR1",
+                    "meter_information":"",
+                    "meter_reading":[
+                        {
+                            "service_from_date": "2025-12-02",
+                            "service_to_date": "2026-01-05",
+                            "previous_reading": 4574.00,
+                            "current_reading": 4574.00,
+                            "previous_reading_type":"Actual",
+                            "current_reading_type":"Actual",
+                            "usages": [
+                            {
+                                "multiplier": 1,
+                                "usage": 0.00,
+                                "uom": "CCF",
+                                "factor":null
+                            }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "meter_id":"M3",
+                    "meter_number":"MAS-90000578-1",
+                    "meter_size":"",
+                    "meter_category":"WTR1",
+                    "meter_information":"",
+                    "meter_reading":[
+                        {
+                            "service_from_date": "2025-12-02",
+                            "service_to_date": "2026-01-05",
+                            "previous_reading": 30.00,
+                            "current_reading": 30.00,
+                            "previous_reading_type":"Actual",
+                            "current_reading_type":"Actual",
+                            "usages": [
+                            {
+                                "multiplier": 1,
+                                "usage": 0.00,
+                                "uom": "CCF",
+                                "factor":null
+                            }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "charge_groups":[
+                {
+                    "group_name": "Water Service",
+                    "line_item_charges":
+                    [
+                        {
+                        "line_item_charge_name": "Base service charge",
+                        "line_item_charge_amount": 211.70,
+                        "line_item_charge_notes": null,
+                        "rate": null,
+                        "rate_type":null,
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": null,
+                        "usage_unit_of_measurement": null,
+                        "applies_to_meters":["M1"]
+                        },
+                        {
+                        "line_item_charge_name": "Base service charge",
+                        "line_item_charge_amount": 39.17,
+                        "line_item_charge_notes": null,
+                        "rate": null,
+                        "rate_type":null,
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": null,
+                        "usage_unit_of_measurement": null,
+                        "applies_to_meters":["M1"]
+                        },
+                        {
+                        "line_item_charge_name": "Winter Commercial",
+                        "line_item_charge_amount": 1958.63,
+                        "rate": 5.98,
+                        "rate_type":"per CCF",
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": 327.53,
+                        "usage_unit_of_measurement": "CCF",
+                        "applies_to_meters":["M1"]
+                        },
+                        {
+                        "line_item_charge_name": "Winter Commercial",
+                        "line_item_charge_amount": 342.21,
+                        "rate": 6.06,
+                        "rate_type":"per CCF",
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": 327.53,
+                        "usage_unit_of_measurement": "CCF",
+                        "applies_to_meters":["M1"]
+                        },
+                        {
+                        "line_item_charge_name": "Base service charge",
+                        "line_item_charge_amount": 40.02,
+                        "line_item_charge_notes": null,
+                        "rate": null,
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": null,
+                        "usage_unit_of_measurement": null,
+                        "applies_to_meters":["M2"]
+                        },
+                        {
+                        "line_item_charge_name": "Base service charge",
+                        "line_item_charge_amount": 7.39,
+                        "line_item_charge_notes": null,
+                        "rate": null,
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": null,
+                        "usage_unit_of_measurement": null,
+                        "applies_to_meters":["M2"]
+                        },
+                        {
+                        "line_item_charge_name": "Base service charge",
+                        "line_item_charge_amount": 70.57,
+                        "line_item_charge_notes": null,
+                        "rate": null,
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": null,
+                        "usage_unit_of_measurement": null,
+                        "applies_to_meters":["M3"]
+                        },
+                        {
+                        "line_item_charge_name": "Base service charge",
+                        "line_item_charge_amount": 12.17,
+                        "line_item_charge_notes": null,
+                        "rate": null,
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": null,
+                        "usage_unit_of_measurement": null,
+                        "applies_to_meters":["M3"]
+                        }
+                    ],
+                    "group_subtotal": 2681.86
+                }
+            ],
+            "taxes": [
+            {
+                "tax_name": "Seattle City Tax",
+                "tax_authority": "City of Seattle",
+                "rate": 0.00000,
+                "taxable_amount": 0,
+                "tax_amount": 0
+            }
+            ],
+            "service_charges":2681.86
+        },
+        {
+            "service_name":"Sewer Service",
+            "service_provider":"Seattle Public Utilities",
+            "service_type":"SEWER",
+            "service_address": "1620 BROADWAY SVC HSE",
+            "service_from_date":"2025-12-02",
+            "service_to_date":"2026-01-05",
+            "service_days":34,
+            "service_notes":"62.0% of sewer revenue is paid to King County Metro for sewage treatment.12.0% of sewer bills are paid to city taxes and 1.2% to state taxes.",
+            "meter_level_data": [],
+            "charge_groups":[
+                {
+                    "group_name": "Sewer Service",
+                    "line_item_charges":[
+                        {
+                        "line_item_charge_name": "Commercial Service",
+                        "line_item_charge_amount": 6291.85,
+                        "line_item_charge_notes": null,
+                        "rate": 19.21,
+                        "rate_type":"per CCF",
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": 327.53,
+                        "usage_unit_of_measurement": "CCF",
+                        "applies_to_meters":[]
+                        },
+                        {
+                        "line_item_charge_name": "Commercial Service",
+                        "line_item_charge_amount": 1139.56,
+                        "line_item_charge_notes": null,
+                        "rate": 20.18,
+                        "rate_type":"per CCF",
+                        "service_from_date": null,
+                        "service_to_date": null,
+                        "usage": 56.47,
+                        "usage_unit_of_measurement": "CCF",
+                        "applies_to_meters":[]
+                        }
+                    ],
+                    "group_subtotal": 7431.41
+                }
+            ],
+            "taxes": [
+            {
+                "tax_name": "Seattle City Tax",
+                "tax_authority": "City of Seattle",
+                "rate": 0.000,
+                "taxable_amount": 0,
+                "tax_amount": 0
+            }
+            ],
+            "service_charges":7431.41
+        },
+        {
+            "service_name":"Solid Waste Service",
+            "service_provider":"Seattle Public Utilities",
+            "service_type":"SOLID_WASTE",
+            "service_address": "1620 BROADWAY SVC HSE",
+            "service_from_date":"2025-12-01",
+            "service_to_date":"2025-12-31",
+            "service_days":31,
+            "service_notes":"11.9% of solid waste bills are paid to city taxes and 4.0% to state taxes.",
+            "meter_level_data": [],
+            "charge_groups":[
+                {
+                "group_name": "Solid Waste Service",
+                "line_item_charges":[
+                    {
+                    "line_item_charge_name": "5-Recycle 90 Gal 2X Weekly",
+                    "line_item_charge_amount": 0.00,
+                    "line_item_charge_notes": null,
+                    "rate": null,
+                    "service_date": null,
+                    "service_from_date": null,
+                    "service_to_date": null,
+                    "usage": null,
+                    "usage_unit_of_measurement": null,
+                    "applies_to_meters":[]
+                    },
+                    {
+                    "line_item_charge_name": "2-Garbage Dumpster 3 Yd 2X Weekly",
+                    "line_item_charge_amount": 2125.16,
+                    "line_item_charge_notes": null,
+                    "rate": null,
+                    "service_date": null,
+                    "service_from_date": null,
+                    "service_to_date": null,
+                    "usage": null,
+                    "usage_unit_of_measurement": null,
+                    "applies_to_meters":[]
+                    },
+                    {
+                    "line_item_charge_name": "Dumpster Base Charge",
+                    "line_item_charge_amount": 49.50,
+                    "line_item_charge_notes": null,
+                    "rate": null,
+                    "service_date": null,
+                    "service_from_date": null,
+                    "service_to_date": null,
+                    "usage": null,
+                    "usage_unit_of_measurement": null,
+                    "applies_to_meters":[]
+                    },
+                    {
+                    "line_item_charge_name": "4-Recycle Dumpster 2 Yd 2X Weekly",
+                    "line_item_charge_amount": 0.00,
+                    "line_item_charge_notes": null,
+                    "rate": null,
+                    "service_date": null,
+                    "service_from_date": null,
+                    "service_to_date": null,
+                    "usage": null,
+                    "usage_unit_of_measurement": null,
+                    "applies_to_meters":[]
+                    },
+                    {
+                    "line_item_charge_name": "Recycle Secure Building Fee",
+                    "line_item_charge_amount": 60.19,
+                    "line_item_charge_notes": null,
+                    "rate": null,
+                    "service_date": null,
+                    "service_from_date": null,
+                    "service_to_date": null,
+                    "usage": null,
+                    "usage_unit_of_measurement": null,
+                    "applies_to_meters":[]
+                    }
+                ],
+                "group_subtotal": 2234.85
+                }
+            ],
+            "taxes": [
+            {
+                "tax_name": "Seattle City Tax",
+                "tax_authority": "City of Seattle",
+                "rate": 0.000,
+                "taxable_amount": 0,
+                "tax_amount": 0
+            }
+            ],
+            "service_charges":2234.85
+        },
+        {
+            "service_name":"Adjustments",
+            "service_provider":"Seattle Public Utilities",
+            "service_type":"ADJUSTMENT",
+            "service_address": "1620 BROADWAY SVC HSE",
+            "service_from_date":null,
+            "service_to_date":null,
+            "service_days":null,
+            "service_notes":null,
+            "meter_level_data": [],
+            "charge_groups":[
+            {
+            "line_item_charges":[
+                {
+                "line_item_charge_name": "Extra Garbage",
+                "line_item_charge_amount": 251.10,
+                "line_item_charge_notes": null,
+                "rate": null,
+                "service_date": "2025-12-19",
+                "service_from_date": null,
+                "service_to_date": null,
+                "usage": null,
+                "usage_unit_of_measurement": null,
+                "applies_to_meters":[]
+                },
+                {
+                "line_item_charge_name": "Garbage Dumpster Lock Replacement",
+                "line_item_charge_amount": 37.90,
+                "line_item_charge_notes": null,
+                "rate": null,
+                "service_date": "2025-12-17",
+                "service_from_date": null,
+                "service_to_date": null,
+                "usage": null,
+                "usage_unit_of_measurement": null,
+                "applies_to_meters":[]
+                },
+                {
+                "line_item_charge_name": "Garbage Dumpster Lock Installation",
+                "line_item_charge_amount": 113.70,
+                "line_item_charge_notes": null,
+                "rate": null,
+                "service_date": "2026-01-02",
+                "service_from_date": null,
+                "service_to_date": null,
+                "usage": null,
+                "usage_unit_of_measurement": null,
+                "applies_to_meters":[]
+                }
+                ],
+                "group_subtotal": 402.70
+                }
+            ],
+            "taxes": [
+            {
+                "tax_name": "Seattle City Tax",
+                "tax_authority": "City of Seattle",
+                "rate": 0.0000,
+                "taxable_amount": 0,
+                "tax_amount": 0
+            }
+            ],
+            "service_charges":402.70
+        }
+    ]
+}

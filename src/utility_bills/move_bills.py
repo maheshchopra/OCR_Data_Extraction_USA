@@ -7,14 +7,19 @@ from logging_setup import setup_logging
 logger = setup_logging(__name__)
 
 
-def copy_pdfs_to_inbox(source_folder, inbox_folder):
+def copy_files_to_inbox(source_folder, inbox_folder, file_extensions=None):
     """
-    Recursively find all PDFs in source_folder and move them to inbox_folder.
+    Recursively find all files with specified extensions in source_folder and copy them to inbox_folder.
 
     Args:
-        source_folder: Path to the folder containing PDFs (may have subfolders)
-        inbox_folder: Path to the inbox folder where PDFs should be moved
+        source_folder: Path to the folder containing files (may have subfolders)
+        inbox_folder: Path to the inbox folder where files should be copied
+        file_extensions: List of file extensions to search for (e.g., ['.pdf', '.png'])
+                        If None, defaults to ['.pdf', '.png']
     """
+
+    if file_extensions is None:
+        file_extensions = [".pdf", ".png"]
 
     source_path = Path(source_folder)
     inbox_path = Path(inbox_folder)
@@ -27,52 +32,61 @@ def copy_pdfs_to_inbox(source_folder, inbox_folder):
         logger.error(f"Source folder does not exist: {source_folder}")
         return
 
-    # Find all PDF files recursively
-    pdf_files = list(source_path.rglob("*.pdf"))
+    # Find all files with specified extensions recursively
+    all_files = []
+    for ext in file_extensions:
+        # Use rglob to find files recursively with the specified extension
+        files = list(source_path.rglob(f"*{ext}"))
+        all_files.extend(files)
+        logger.info(f"Found {len(files)} {ext.upper()} file(s)")
 
-    if not pdf_files:
-        logger.info(f"No PDF files found in {source_folder}")
+    if not all_files:
+        logger.info(
+            f"No files found with extensions {file_extensions} in {source_folder}"
+        )
         return
 
-    logger.info(f"Found {len(pdf_files)} PDF file(s)")
+    logger.info(f"Found {len(all_files)} total file(s) to process")
 
-    # Move each PDF to inbox
+    # Copy each file to inbox
     copy_count = 0
-    for pdf_file in pdf_files:
+    for file_path in all_files:
         try:
-            destination = inbox_path / pdf_file.name
+            destination = inbox_path / file_path.name
 
             # Handle duplicate filenames
             if destination.exists():
-                logger.warning(f"File already exists in inbox: {pdf_file.name}")
+                logger.warning(f"File already exists in inbox: {file_path.name}")
                 # Add a counter to make the filename unique
                 counter = 1
                 while destination.exists():
-                    stem = pdf_file.stem
-                    destination = inbox_path / f"{stem}_{counter}.pdf"
+                    stem = file_path.stem
+                    suffix = file_path.suffix
+                    destination = inbox_path / f"{stem}_{counter}{suffix}"
                     counter += 1
                 logger.info(f"Renaming to: {destination.name}")
 
-            shutil.copy2(str(pdf_file), str(destination))
-            logger.info(f"Copied: {pdf_file.name} -> {destination}")
+            shutil.copy2(str(file_path), str(destination))
+            logger.info(f"Copied: {file_path.name} -> {destination}")
             copy_count += 1
 
         except Exception as e:
-            logger.error(f"Failed to move {pdf_file.name}: {e}")
+            logger.error(f"Failed to copy {file_path.name}: {e}")
 
-    logger.info(f"Successfully moved {copy_count} out of {len(pdf_files)} PDF files")
+    logger.info(f"Successfully copied {copy_count} out of {len(all_files)} file(s)")
 
 
 def main():
     # Define paths relative to the project structure
     base_dir = Path(__file__).parent.parent
-    source_folder = r"C:\Users\tejas\Downloads\2026-01-07"
+    source_folder = r"C:\Users\tejas\Downloads\New Folder"
     inbox_folder = base_dir / "data" / "inbox"
 
     logger.info(f"Source folder: {source_folder}")
     logger.info(f"Inbox folder: {inbox_folder}")
 
-    copy_pdfs_to_inbox(source_folder, inbox_folder)
+    # Copy both PDFs and PNGs
+    copy_files_to_inbox(source_folder, inbox_folder, file_extensions=[".pdf", ".png"])
 
 
 if __name__ == "__main__":

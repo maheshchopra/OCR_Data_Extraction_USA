@@ -1,0 +1,154 @@
+You are an information extraction system.
+
+Goal: Extract the following JSON fields from the attached King County account summary screenshot.
+Output: Return ONLY a single JSON object matching the schema exactly (same keys). No extra keys, no commentary.
+
+Global rules:
+- Use ONLY information present in the document.
+- If a field is not present, return null.
+- Do not guess missing values (EXCEPTION: account_type, see field rule below).
+- Dates: return exactly as written on the screenshot (do not reformat).
+- Monetary values: return numbers only (no $). Remove commas.
+  Example: $6,023.14 -> 6023.14
+- Phone numbers/emails/websites: return exactly as written (no normalization).
+- This is an account summary page, not a detailed invoice.
+
+Field-by-field instructions (what to look for):
+
+========================================
+A. statement_level_data (StatementLevelData)
+========================================
+
+statement_level_data.bill_date:
+- The most recent invoice date (look for "Most Recent Invoice Date:" in the Account Summary section).
+- Extract exactly as written (e.g., "01/01/2026").
+
+statement_level_data.previous_balance:
+- Look for "Remaining Balance" in the Account Summary section.
+- This represents the outstanding balance on the account.
+- Extract the numeric value only (no $ sign, no commas).
+
+statement_level_data.payments_applied:
+- Not typically shown on account summary pages, return null.
+
+statement_level_data.payment_date:
+- Not typically shown on account summary pages, return null.
+
+statement_level_data.late_fee_applied:
+- Not typically shown on account summary pages, return null.
+
+statement_level_data.late_fee_date:
+- Not typically shown on account summary pages, return null.
+
+statement_level_data.balance:
+- Use the "Past Due Balance" value from the Account Summary section.
+- Extract the numeric value only (no $ sign, no commas).
+- If $0.00, return 0.0 (not null).
+
+statement_level_data.current_billing:
+- Look for "Last Invoice Amount" in the Account Summary section.
+- This is the amount from the most recent billing period.
+- Extract the numeric value only (no $ sign, no commas).
+
+statement_level_data.total_amount_due:
+- Look for "Amount Due" with the due date (e.g., "Amount Due 01/31/2026").
+- This is the amount currently due for payment.
+- Extract the numeric value only (no $ sign, no commas).
+- If $0.00, return 0.0 (not null).
+
+statement_level_data.total_amount_due_date:
+- The due date shown next to "Amount Due" (e.g., "Amount Due 01/31/2026" -> extract "01/31/2026").
+- Extract exactly as written.
+
+statement_level_data.late_fee_by_duedate_percentage:
+- Not typically shown on account summary pages, return null.
+
+statement_level_data.late_fee_by_duedate:
+- Not typically shown on account summary pages, return null.
+
+statement_level_data.payment_amount:
+- Not applicable for account summary pages, return null.
+
+statement_level_data.latefee_amount:
+- Not applicable for account summary pages, return null.
+
+statement_level_data.discount_early_payoff:
+- Look for "Discounted Early Payoff Amount" in the payment options section.
+- This is the discounted amount if the customer pays off the entire balance early.
+- Extract the numeric value only (no $ sign, no commas).
+- If not present, return null.
+
+statement_level_data.billing_period:
+- Look for "Billing Period:" in the Account Summary section.
+- Extract exactly as written (e.g., "10/01/2025 TO 12/31/2025").
+
+========================================
+B. account_level_data (AccountLevelData)
+========================================
+
+account_level_data.provider:
+- Extract "King County" or the full provider name if shown at the top.
+- Use "King County" as the default value.
+
+account_level_data.provider_website:
+- Website URL if shown anywhere on the page.
+- If not present, return null.
+
+account_level_data.provider_customer_service_phone:
+- Customer service phone number if shown.
+- If not present, return null.
+
+account_level_data.provider_customer_service_email:
+- Customer service email if shown.
+- If not present, return null.
+
+account_level_data.provider_address:
+- Provider's address if shown.
+- If not present, return null.
+
+account_level_data.account_number:
+- The account number shown at the top (labeled "Account #").
+- Extract exactly as written (e.g., "583051").
+
+account_level_data.invoice_number:
+- The most recent invoice number (labeled "Most Recent Invoice #").
+- Extract exactly as written (e.g., "60754809").
+
+account_level_data.account_type (you MAY derive this):
+- For King County account summaries, this is typically "Wastewater Treatment" or "Sewage Treatment".
+- You may infer from context or return "Wastewater Treatment" as default.
+
+account_level_data.customer_name:
+- Customer/account holder name if shown.
+- If not present, return null.
+
+account_level_data.service_address:
+- The service address shown (labeled "Address" in the Account Summary section).
+- Extract exactly as written (e.g., "500 3RD AVE W, SEATTLE, WA 98119").
+
+account_level_data.site_number:
+- The site number shown at the top (labeled "Site #").
+- Extract exactly as written (e.g., "629193").
+
+account_level_data.service_location_district:
+- District number if shown.
+- If not present, return null.
+
+========================================
+C. charges_level_data (ChargesLevelData)
+========================================
+
+charges_level_data.charges:
+- For account summary pages, there are typically no detailed line item charges shown.
+- The summary only shows totals like "Last Invoice Amount" and "Amount Due".
+- Return an empty list [] since individual charge line items are not displayed.
+
+If charges were displayed (which is not typical for account summaries), you would extract:
+
+charges_level_data.charges[].charge_name:
+- The name/description of the charge.
+- Extract exactly as written.
+
+charges_level_data.charges[].charge_amount:
+- The monetary amount for that charge.
+- Return numbers only (no $ sign, no commas).

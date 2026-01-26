@@ -1,6 +1,6 @@
+import base64
 from pathlib import Path
 from typing import Any, Callable, Dict, Union
-import base64
 
 from openai import OpenAI
 from provider_functions import (
@@ -15,6 +15,7 @@ from provider_functions import (
     frisco,
     kent,
     king_county,
+    king_county_summary,
     lacey,
     lynnwood,
     ocean_shores,
@@ -35,6 +36,7 @@ from provider_functions import (
     sssd,
     valley_view,
     wd_20,
+    wd_49,
     wmw,
 )
 from pydantic_models import (
@@ -49,6 +51,7 @@ from pydantic_models import (
     FriscoBillExtract,
     KentBillExtract,
     KingCountyBillExtract,
+    KingCountySummaryBillExtract,
     LaceyBillExtract,
     LynnwoodBillExtract,
     OceanShoresBillExtract,
@@ -69,6 +72,7 @@ from pydantic_models import (
     SSSDBillExtract,
     ValleyViewBillExtract,
     WaterDistrict20BillExtract,
+    WaterDistrict49BillExtract,
     WMBillExtract,
 )
 
@@ -89,6 +93,7 @@ PROVIDER_PROMPTS: dict[str, str] = {
     "republic services": "republic.txt",
     "redmond city washington": "redmond.txt",
     "king county wastewater treatment division": "king_county.txt",
+    "king county account summary": "king_county_summary.txt",
     "city of bellevue": "bellevue.txt",
     "city of lynnwood": "lynnwood.txt",
     "rubatino refuse removal": "rubatino.txt",
@@ -108,6 +113,7 @@ PROVIDER_PROMPTS: dict[str, str] = {
     "snohomish county pud": "skagit.txt",
     "city of frisco": "frisco.txt",
     "city of ocean shores": "ocean_shores.txt",
+    "king county water district 49": "wd_49.txt",
     # add more providers here as I support them
 }
 
@@ -125,6 +131,7 @@ PROVIDER_POSTPROCESSORS: Dict[str, Callable[[dict], dict]] = {
     "republic services": republic.postprocess_republic_services,
     "redmond city washington": redmond.postprocess_redmond,
     "king county wastewater treatment division": king_county.postprocess_king_county,
+    "king county account summary": king_county_summary.postprocess_king_county_summary,
     "city of bellevue": bellevue.postprocess_bellevue,
     "city of lynnwood": lynnwood.postprocess_lynnwood,
     "rubatino refuse removal": rubatino.postprocess_rubatino,
@@ -145,6 +152,7 @@ PROVIDER_POSTPROCESSORS: Dict[str, Callable[[dict], dict]] = {
     "city of frisco": frisco.postprocess_frisco,
     "city of ocean shores": ocean_shores.postprocess_ocean_shores,
     "seattle city light - commercial": scl_2.postprocess_seattle_city_light_commercial,
+    "king county water district 49": wd_49.postprocess_water_district_49,
     # add more providers here later
 }
 
@@ -161,6 +169,7 @@ PROVIDER_VALIDATION_CHECKERS: Dict[str, Callable[[dict], bool]] = {
     "everett public works": everett.check_validation_passed,
     "republic services": republic.check_validation_passed,
     "king county wastewater treatment division": king_county.check_validation_passed,
+    "king county account summary": king_county_summary.check_validation_passed,
     "city of bellevue": bellevue.check_validation_passed,
     "city of lynnwood": lynnwood.check_validation_passed,
     "rubatino refuse removal": rubatino.check_validation_passed,
@@ -181,6 +190,7 @@ PROVIDER_VALIDATION_CHECKERS: Dict[str, Callable[[dict], bool]] = {
     "city of frisco": frisco.check_validation_passed,
     "city of ocean shores": ocean_shores.check_validation_passed,
     "seattle city light - commercial": scl_2.check_validation_passed,
+    "king county water district 49": wd_49.check_validation_passed,
     # add more providers here later
 }
 
@@ -198,6 +208,7 @@ PROVIDER_MODELS = {
     "republic services": RepublicServicesBillExtract,
     "redmond city washington": RedmondBillExtract,
     "king county wastewater treatment division": KingCountyBillExtract,
+    "king county account summary": KingCountySummaryBillExtract,
     "city of bellevue": BellevueBillExtract,
     "city of lynnwood": LynnwoodBillExtract,
     "rubatino refuse removal": RubatinoBillExtract,
@@ -218,6 +229,7 @@ PROVIDER_MODELS = {
     "city of frisco": FriscoBillExtract,
     "city of ocean shores": OceanShoresBillExtract,
     "seattle city light - commercial": SeattleCityLightCommercialBillExtract,
+    "king county water district 49": WaterDistrict49BillExtract,
     # add more providers here later
 }
 
@@ -250,6 +262,16 @@ def detect_provider_from_file_id(file_id: str) -> str:
                             "  * If you see 'Power Factor Penalty', 'Small General Energy', service categories 'KVRH' or 'KW', "
                             "or totals formatted as 'Total for: [address]', answer: seattle city light - commercial\n"
                             "  * Otherwise, answer: seattle city light\n"
+                            "- For King County bills:\n"
+                            "  * If you see 'Account Summary' as a heading with an information icon (i in a circle) next to it, "
+                            "AND the page shows fields like 'Most Recent Invoice #', 'Most Recent Invoice Date', 'Remaining Balance', "
+                            "and 'Choose a Payment Amount' section, answer: king county account summary\n"
+                            "  * If you see a detailed invoice with 'DESCRIPTION' section, '*Past Due', 'Current Billing', "
+                            "'Discount Early Payoff', or 'BILLING PERIOD' table, answer: king county wastewater treatment division\n"
+                            "- For King County Water District bills:\n"
+                            "  * Look for 'King County Water District No. 49' or 'KING COUNTY Water District No.49' in the header/logo area\n"
+                            "  * If found, answer: king county water district 49\n"
+                            "  * If you see 'KING COUNTY WATER DISTRICT 20', answer: king county water district 20\n"
                             "- Choose the specific option that matches BOTH the provider and service type\n"
                             "- scroll to the VERY BOTTOM of the page and look for a URL/website address\n"
                             "If you find a URL containing 'rubatino.onlineportal.us.com', answer: rubatino refuse removal\n"
@@ -342,6 +364,16 @@ def detect_provider_from_png(png_path: str | Path, client: OpenAI | None = None)
                             "  * If you see 'Power Factor Penalty', 'Small General Energy', service categories 'KVRH' or 'KW', "
                             "or totals formatted as 'Total for: [address]', answer: seattle city light - commercial\n"
                             "  * Otherwise, answer: seattle city light\n"
+                            "- For King County bills:\n"
+                            "  * If you see 'Account Summary' as a heading with an information icon (i in a circle) next to it, "
+                            "AND the page shows fields like 'Most Recent Invoice #', 'Most Recent Invoice Date', 'Remaining Balance', "
+                            "and 'Choose a Payment Amount' section, answer: king county account summary\n"
+                            "  * If you see a detailed invoice with 'DESCRIPTION' section, '*Past Due', 'Current Billing', "
+                            "'Discount Early Payoff', or 'BILLING PERIOD' table, answer: king county wastewater treatment division\n"
+                            "- For King County Water District bills:\n"
+                            "  * Look for 'King County Water District No. 49' or 'KING COUNTY Water District No.49' in the header/logo area\n"
+                            "  * If found, answer: king county water district 49\n"
+                            "  * If you see 'KING COUNTY WATER DISTRICT 20', answer: king county water district 20\n"
                             "- Choose the specific option that matches BOTH the provider and service type\n"
                             "- scroll to the VERY BOTTOM of the page and look for a URL/website address\n"
                             "If you find a URL containing 'rubatino.onlineportal.us.com', answer: rubatino refuse removal\n"

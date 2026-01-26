@@ -1,0 +1,50 @@
+SPECIAL INSTRUCTIONS FOR TAX HANDLING:
+
+Taxes MUST be placed in the "taxes" array within service_level_data, NOT in charge_groups.
+
+How to identify taxes:
+- Line item charges with "Tax" in the name (e.g., "Effect of Seattle City Tax", "State Utility Tax")
+- Line item charges with percentage rates (e.g., "6.714%", "3.852%")
+- Common tax names: City Tax, State Tax, Utility Tax, Sales Tax, etc.
+
+When you find a tax in the source data:
+1. DO NOT add it to charge_groups
+2. DO NOT create a charge_group with group_name "Taxes"
+3. Instead, add it to the "taxes" array using the Tax model structure
+
+Tax model structure:
+{
+  "tax_name": "string",           // e.g., "Seattle City Tax"
+  "tax_authority": "string",      // e.g., "City of Seattle" or "Washington State"
+  "rate": float,                  // e.g., 6.714 (percentage as decimal, no % sign)
+  "taxable_amount": float,        // The amount being taxed (if shown)
+  "tax_amount": float            // The actual tax amount charged
+}
+
+Examples:
+
+Source: "Effect of Seattle City Tax" with rate "6.714%" and charge amount $124.92
+→ Add to taxes array:
+{
+  "tax_name": "Seattle City Tax",
+  "tax_authority": "City of Seattle",
+  "rate": 6.714,
+  "taxable_amount": null,  // if not explicitly shown
+  "tax_amount": 124.92
+}
+
+Source: "State Utility Tax" with rate "3.852%" and no charge amount shown
+→ Add to taxes array:
+{
+  "tax_name": "State Utility Tax",
+  "tax_authority": "Washington State",
+  "rate": 3.852,
+  "taxable_amount": null,
+  "tax_amount": null
+}
+
+CRITICAL RULES:
+- If a line item contains "Tax" in its name, it goes in "taxes", NOT in "charge_groups"
+- The "taxes" array should contain ALL tax entries from the bill
+- charge_groups should contain charges and credits but NEVER taxes
+- Extract tax authority from context (city name, state name, etc.) or set to ""

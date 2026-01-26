@@ -11,6 +11,7 @@ from . import (
     everett,
     kent,
     king_county,
+    king_county_summary,
     lacey,
     lynnwood,
     ocean_shores,
@@ -31,6 +32,7 @@ from . import (
     sssd,
     valley_view,
     wd_20,
+    wd_49,
     wmw,
 )
 
@@ -47,6 +49,7 @@ __all__ = [
     "republic",
     "redmond",
     "king_county",
+    "king_county_summary",
     "bellevue",
     "lynnwood",
     "rubatino",
@@ -66,4 +69,5 @@ __all__ = [
     "skagit",
     "ocean_shores",
     "scl_2",
+    "wd_49",
 ]

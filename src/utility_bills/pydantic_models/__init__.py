@@ -11,6 +11,7 @@ from .everett import EverettBillExtract
 from .frisco import FriscoBillExtract
 from .kent import KentBillExtract
 from .king_county import KingCountyBillExtract
+from .king_county_summary import KingCountySummaryBillExtract
 from .lacey import LaceyBillExtract
 from .lynnwood import LynnwoodBillExtract
 from .ocean_shores import OceanShoresBillExtract
@@ -31,6 +32,7 @@ from .spu import SPUBillExtract
 from .sssd import SSSDBillExtract
 from .valley_view import ValleyViewBillExtract
 from .wd_20 import WaterDistrict20BillExtract
+from .wd_49 import WaterDistrict49BillExtract
 from .wmw import WMBillExtract
 
 __all__ = [
@@ -46,6 +48,7 @@ __all__ = [
     "RepublicServicesBillExtract",
     "RedmondBillExtract",
     "KingCountyBillExtract",
+    "KingCountySummaryBillExtract",
     "BellevueBillExtract",
     "LynnwoodBillExtract",
     "RubatinoBillExtract",
@@ -66,4 +69,5 @@ __all__ = [
     "FriscoBillExtract",
     "OceanShoresBillExtract",
     "SeattleCityLightCommercialBillExtract",
+    "WaterDistrict49BillExtract",
 ]
